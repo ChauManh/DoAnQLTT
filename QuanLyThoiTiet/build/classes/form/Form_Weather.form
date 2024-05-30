@@ -58,8 +58,8 @@
   <SubComponents>
     <Container class="swing.PanelBorder" name="panelWeatherDetail">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new Color(0, 194, 255, 120)" type="code"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="cc" red="99" type="rgb"/>
         </Property>
       </Properties>
 
@@ -71,11 +71,11 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="mainPanel" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="btnHomNay" min="-2" pref="99" max="-2" attributes="0"/>
+                          <Component id="btnHienTai" min="-2" pref="99" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                          <Component id="myButton2" min="-2" pref="99" max="-2" attributes="0"/>
+                          <Component id="btnTheoGio" min="-2" pref="99" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="myButton3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnHangNgay" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -88,9 +88,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnHomNay" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="myButton2" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="myButton3" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="btnHienTai" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="btnTheoGio" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="btnHangNgay" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="mainPanel" max="32767" attributes="0"/>
@@ -100,39 +100,42 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="swing.MyButton" name="btnHomNay">
+        <Component class="swing.MyButton" name="btnHienTai">
           <Properties>
-            <Property name="text" type="java.lang.String" value="H&#xd4;M NAY"/>
+            <Property name="text" type="java.lang.String" value="HI&#x1ec6;N T&#x1ea0;I"/>
             <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="cc" type="rgb"/>
             </Property>
             <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="cc" red="33" type="rgb"/>
+              <Color blue="ff" green="cc" red="0" type="rgb"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHomNayActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHienTaiActionPerformed"/>
           </Events>
         </Component>
-        <Component class="swing.MyButton" name="myButton2">
+        <Component class="swing.MyButton" name="btnTheoGio">
           <Properties>
             <Property name="text" type="java.lang.String" value="THEO GI&#x1edc;"/>
             <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="cc" type="rgb"/>
             </Property>
             <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="cc" red="33" type="rgb"/>
+              <Color blue="ff" green="cc" red="0" type="rgb"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTheoGioActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="swing.MyButton" name="myButton3">
+        <Component class="swing.MyButton" name="btnHangNgay">
           <Properties>
             <Property name="text" type="java.lang.String" value="H&#xc0;NG NG&#xc0;Y"/>
             <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="cc" type="rgb"/>
             </Property>
             <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="cc" red="33" type="rgb"/>
+              <Color blue="ff" green="cc" red="0" type="rgb"/>
             </Property>
           </Properties>
         </Component>
@@ -141,14 +144,14 @@
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
 
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
         </Container>
       </SubComponents>
     </Container>
     <Container class="swing.PanelBorder" name="panelWeatherSummary">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new Color(0, 194, 255, 120)" type="code"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="cc" red="99" type="rgb"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -159,8 +162,8 @@
     </Container>
     <Container class="swing.PanelBorder" name="panelAlert">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new Color(0, 194, 255, 120)" type="code"/>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="cc" red="99" type="rgb"/>
         </Property>
       </Properties>
 

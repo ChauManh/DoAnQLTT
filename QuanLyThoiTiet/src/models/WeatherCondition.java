@@ -11,6 +11,9 @@ public class WeatherCondition {
         this.weather_description = weather_description;
     }
 
+    public WeatherCondition() {
+    }
+
     public int getWeather_condition_id() {
         return weather_condition_id;
     }

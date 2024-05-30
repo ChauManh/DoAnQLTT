@@ -44,26 +44,32 @@ public class MenuItem extends javax.swing.JPanel {
         lbIcon = new javax.swing.JLabel();
         lbName = new javax.swing.JLabel();
 
-        lbIcon.setForeground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        lbName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbName.setText("Menu Name");
+        lbIcon.setBackground(new java.awt.Color(255, 255, 255));
+        lbIcon.setForeground(new java.awt.Color(255, 255, 255));
+        lbIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lbName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbName.setForeground(new java.awt.Color(255, 255, 255));
+        lbName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbName.setText("Name");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(lbIcon)
+                .addGap(10, 10, 10)
+                .addComponent(lbIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lbName)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lbName, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+            .addComponent(lbIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+            .addComponent(lbName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

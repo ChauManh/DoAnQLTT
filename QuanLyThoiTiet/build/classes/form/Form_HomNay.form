@@ -93,32 +93,26 @@
                                           <Component id="textHumidity" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="textHumidity1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="textUV" min="-2" max="-2" attributes="0"/>
+                                          <Component id="textVisibility" min="-2" max="-2" attributes="0"/>
+                                          <Component id="textWind" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="textVisibility3" min="-2" max="-2" attributes="0"/>
                                   <Component id="textVisibility6" min="-2" max="-2" attributes="0"/>
                                   <Component id="textVisibility8" min="-2" max="-2" attributes="0"/>
                                   <Component id="textVisibility4" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="textHumidity1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="textUV" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="textWind" min="-2" max="-2" attributes="0"/>
-                                  <Component id="textVisibility" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="textVisibility3" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="textVisibility1" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -187,17 +181,17 @@
                       <Component id="textVisibility4" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="10" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="textVisibility" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textVisibility3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textVisibility1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="textWind" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="textVisibility1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textVisibility3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

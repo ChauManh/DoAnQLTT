@@ -1,5 +1,10 @@
 package dao;
 
+import database.JDBCUtil;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import models.WeatherCondition;
 
@@ -30,8 +35,27 @@ public class WeatherConditionDAO implements DAOInterface<WeatherCondition> {
     }
 
     @Override
-    public WeatherCondition selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public WeatherCondition selectById(String id) {
+        WeatherCondition weatherCondition = null;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM weathercondition WHERE weather_condition_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                weatherCondition = new WeatherCondition();
+                weatherCondition.setWeather_condition_id(Integer.parseInt(id));
+                weatherCondition.setMain(rs.getString("main"));
+                weatherCondition.setWeather_description(rs.getString("weather_description"));
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return weatherCondition;
     }
 
     @Override
@@ -39,4 +63,7 @@ public class WeatherConditionDAO implements DAOInterface<WeatherCondition> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public static String getDescription(int id){
+        return WeatherConditionDAO.getInstance().selectById(String.valueOf(id)).getWeather_description();
+    }
 }
