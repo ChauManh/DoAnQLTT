@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import models.CurrentWeather;
+import models.DailyForecast;
 import models.HourlyForecast;
 import org.json.simple.JSONArray;
 
@@ -90,7 +91,7 @@ public class WeatherAPI {
             hourlyForecast.setHumidity(Integer.parseInt(hourlyData.get("humidity").toString()));
             hourlyForecast.setClouds(Integer.parseInt(hourlyData.get("clouds").toString()));
             hourlyForecast.setUv(Float.parseFloat(hourlyData.get("uvi").toString()));
-            hourlyForecast.setVisibility(Integer.parseInt(hourlyData.get("visibility").toString()));
+            hourlyForecast.setVisibility(Integer.parseInt(hourlyData.get("visibility").toString())/1000);
             hourlyForecast.setWind_speed(Float.parseFloat(hourlyData.get("wind_speed").toString()));
 
             JSONArray weatherArray = (JSONArray) hourlyData.get("weather");
@@ -101,5 +102,51 @@ public class WeatherAPI {
             hourlyForecasts.add(hourlyForecast);
         }
         return hourlyForecasts;
+    }
+    
+    public static List<DailyForecast> getDailyForecast(double latitude, double longitude, int city_id) {
+        List<DailyForecast> dailyForecasts = new ArrayList<>();
+        JSONObject weatherDataFromAPI = WeatherAPI.getWeatherData(latitude, longitude);
+        JSONArray dailyArray = (JSONArray) weatherDataFromAPI.get("daily");
+
+        for (Object dailyObj : dailyArray) {
+            JSONObject dailyData = (JSONObject) dailyObj;
+            DailyForecast dailyForecast = new DailyForecast();
+
+            dailyForecast.setCity_id(city_id);
+            dailyForecast.setDf_date(Long.parseLong(dailyData.get("dt").toString()));
+            dailyForecast.setSunrise(Long.parseLong(dailyData.get("sunrise").toString()));
+            dailyForecast.setSunset(Long.parseLong(dailyData.get("sunset").toString()));
+            dailyForecast.setMoonrise(Long.parseLong(dailyData.get("moonrise").toString()));
+            dailyForecast.setMoonset(Long.parseLong(dailyData.get("moonset").toString()));
+            
+            JSONObject tempObject = (JSONObject) dailyData.get("temp");
+            dailyForecast.setTemperature_day(Float.parseFloat(tempObject.get("day").toString()) - 273.15f);
+            dailyForecast.setTemperature_min(Float.parseFloat(tempObject.get("min").toString()) - 273.15f);
+            dailyForecast.setTemperature_max(Float.parseFloat(tempObject.get("max").toString()) - 273.15f);
+            dailyForecast.setTemperature_night(Float.parseFloat(tempObject.get("night").toString()) - 273.15f);
+            dailyForecast.setTemperature_night(Float.parseFloat(tempObject.get("eve").toString()) - 273.15f);
+            dailyForecast.setTemperature_morn(Float.parseFloat(tempObject.get("morn").toString()) - 273.15f);
+            
+            JSONObject feelsLikeObject = (JSONObject) dailyData.get("feels_like");
+            dailyForecast.setFeels_like_day(Float.parseFloat(feelsLikeObject.get("day").toString()) - 273.15f);
+            dailyForecast.setFeels_like_night(Float.parseFloat(feelsLikeObject.get("night").toString()) - 273.15f);
+            dailyForecast.setFeels_like_eve(Float.parseFloat(feelsLikeObject.get("eve").toString()) - 273.15f);
+            dailyForecast.setFeels_like_morn(Float.parseFloat(feelsLikeObject.get("morn").toString()) - 273.15f);
+            
+            dailyForecast.setPressure(Integer.parseInt(dailyData.get("pressure").toString()));
+            dailyForecast.setHumidity(Integer.parseInt(dailyData.get("humidity").toString()));
+            dailyForecast.setWind_speed(Float.parseFloat(dailyData.get("wind_speed").toString()));
+            dailyForecast.setClouds(Integer.parseInt(dailyData.get("clouds").toString()));
+            dailyForecast.setPop(Float.parseFloat(dailyData.get("pop").toString()));
+            dailyForecast.setUv(Float.parseFloat(dailyData.get("uvi").toString()));
+
+            JSONArray weatherArray = (JSONArray) dailyData.get("weather");
+            JSONObject weatherObject = (JSONObject) weatherArray.get(0);
+            dailyForecast.setWeather_condition_id(Integer.parseInt(weatherObject.get("id").toString()));
+
+            dailyForecasts.add(dailyForecast);
+        }
+        return dailyForecasts;
     }
 }

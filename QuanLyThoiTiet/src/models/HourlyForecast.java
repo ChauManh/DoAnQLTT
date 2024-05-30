@@ -13,11 +13,15 @@ public class HourlyForecast {
     private int clouds;
     private float uv;
     private int visibility;
+    private float wind_speed; // Thêm thuộc tính này vì nó được sử dụng trong đoạn mã Java được cung cấp
     private float pop;
     private int aqi;
-    private float wind_speed;
 
-    public HourlyForecast(int hourly_forecast_id, int weather_condition_id, long city_id, long hf_timestamp, String icon, float temperature, float feels_like, int pressure, int humidity, int clouds, float uv, int visibility, float pop, int aqi, float wind_speed) {
+    public HourlyForecast(){
+        
+    }
+    
+    public HourlyForecast(int hourly_forecast_id, int weather_condition_id, long city_id, long hf_timestamp, String icon, float temperature, float feels_like, int pressure, int humidity, int clouds, float uv, int visibility, float wind_speed, float pop, int aqi) {
         this.hourly_forecast_id = hourly_forecast_id;
         this.weather_condition_id = weather_condition_id;
         this.city_id = city_id;
@@ -30,12 +34,9 @@ public class HourlyForecast {
         this.clouds = clouds;
         this.uv = uv;
         this.visibility = visibility;
+        this.wind_speed = wind_speed;
         this.pop = pop;
         this.aqi = aqi;
-        this.wind_speed = wind_speed;
-    }
-
-    public HourlyForecast() {
     }
 
     public int getHourly_forecast_id() {
@@ -134,6 +135,14 @@ public class HourlyForecast {
         this.visibility = visibility;
     }
 
+    public float getWind_speed() {
+        return wind_speed;
+    }
+
+    public void setWind_speed(float wind_speed) {
+        this.wind_speed = wind_speed;
+    }
+
     public float getPop() {
         return pop;
     }
@@ -149,15 +158,4 @@ public class HourlyForecast {
     public void setAqi(int aqi) {
         this.aqi = aqi;
     }
-
-    public float getWind_speed() {
-        return wind_speed;
-    }
-
-    public void setWind_speed(float wind_speed) {
-        this.wind_speed = wind_speed;
-    }
-    
-    
-    
 }

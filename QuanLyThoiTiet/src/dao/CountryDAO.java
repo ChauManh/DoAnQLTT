@@ -1,17 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
-import java.util.ArrayList;
 import models.Country;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import database.JDBCUtil;
 
-/**
- *
- * @author PC-HP
- */
 public class CountryDAO implements DAOInterface<Country> {
+
+    private Connection connection = JDBCUtil.getConnection();
 
     public static CountryDAO getInstance() {
         return new CountryDAO();
@@ -19,32 +18,85 @@ public class CountryDAO implements DAOInterface<Country> {
 
     @Override
     public int insert(Country t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = -1;
+        try {
+            String sql = "INSERT INTO Country (county_id, county_name) VALUES (?, ?)";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setString(1, t.getCountry_id());
+            pre.setString(2, t.getCountry_name());
+            result = pre.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
     public int update(Country t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = -1;
+        try {
+            String sql = "UPDATE Country SET county_name = ? WHERE county_id = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setString(1, t.getCountry_name());
+            pre.setString(2, t.getCountry_id());
+            result = pre.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
     public int delete(Country t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int result = -1;
+        try {
+            String sql = "DELETE FROM Country WHERE county_id = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setString(1, t.getCountry_id());
+            result = pre.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
     public ArrayList<Country> selectAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Country> dsCountry = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Country";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            ResultSet result = pre.executeQuery();
+            while (result.next()) {
+                Country country = new Country(
+                    result.getString("county_id"),
+                    result.getString("county_name")
+                );
+                dsCountry.add(country);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dsCountry;
     }
 
     @Override
     public Country selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Country country = null;
+        try {
+            String sql = "SELECT * FROM Country WHERE county_id = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setString(1, t);
+            ResultSet result = pre.executeQuery();
+            if (result.next()) {
+                country = new Country(
+                    result.getString("county_id"),
+                    result.getString("county_name")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return country;
     }
-
-    @Override
-    public ArrayList<Country> selectByCondition(String condition) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 }

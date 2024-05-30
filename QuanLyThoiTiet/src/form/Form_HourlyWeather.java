@@ -1,13 +1,17 @@
 package form;
 
 import models.HourlyForecast;
+import service.ServiceConvertIcon;
 import service.ServiceGetCurrentTime;
+import service.UnixConvertTime;
 
 public class Form_HourlyWeather extends javax.swing.JPanel {
-//HourlyForecast hF
-    public Form_HourlyWeather() {
+    
+    
+    public Form_HourlyWeather(HourlyForecast hF) {
         initComponents();
         setVisible(true);
+        setInfo(hF);
     }
 
     @SuppressWarnings("unchecked")
@@ -91,7 +95,7 @@ public class Form_HourlyWeather extends javax.swing.JPanel {
 
         textPressure.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         textPressure.setForeground(new java.awt.Color(255, 255, 255));
-        textPressure.setText("37,45");
+        textPressure.setText("1000");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -149,7 +153,7 @@ public class Form_HourlyWeather extends javax.swing.JPanel {
 
         textWind.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         textWind.setForeground(new java.awt.Color(255, 255, 255));
-        textWind.setText("10");
+        textWind.setText("2.27");
 
         textCloud7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         textCloud7.setForeground(new java.awt.Color(255, 255, 255));
@@ -207,12 +211,12 @@ public class Form_HourlyWeather extends javax.swing.JPanel {
                             .addComponent(textWind))
                         .addGap(3, 3, 3)
                         .addComponent(textCloud7)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(textGio)
                         .addGap(0, 0, 0)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textTemp)
@@ -224,9 +228,9 @@ public class Form_HourlyWeather extends javax.swing.JPanel {
                         .addComponent(textFeelLike)
                         .addGap(3, 3, 3)
                         .addComponent(jLabel4)
-                        .addGap(35, 35, 35)
-                        .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,8 +242,7 @@ public class Form_HourlyWeather extends javax.swing.JPanel {
                             .addComponent(jLabel1)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(textTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -251,7 +254,11 @@ public class Form_HourlyWeather extends javax.swing.JPanel {
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textGio)
-                            .addComponent(jLabel3))))
+                            .addComponent(jLabel3)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -293,19 +300,19 @@ public class Form_HourlyWeather extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setInfo(String city, float temp, String description ,int visibility, float wind, float feelLike, int Humidity, int Clound, float UV){
-//        Float temperature = Math.round(temp * 100.0f) / 100.0f;
-//        Float tempFeelLike = Math.round(feelLike * 100.0f) / 100.0f;
-//        textCity.setText(city);
-//        textTemp.setText(temperature+"");
-//        textDescription.setText(description);
-//        textVisibility.setText(visibility+"");
-//        textWind.setText(wind+"");
-//        textFeelLike.setText(tempFeelLike+"");
-//        textHumidity.setText(Humidity+"");
-//        textClound.setText(Clound+"");
-//        textUV.setText(UV+"");
-//        textDate.setText(ServiceGetCurrentTime.getDate());
+    public void setInfo(HourlyForecast hF){
+        Float temp= Math.round(hF.getTemperature() * 100.0f) / 100.0f;
+        Float tempFeelLike = Math.round(hF.getFeels_like() * 100.0f) / 100.0f;
+        textGio.setText(UnixConvertTime.toHour(hF.getHf_timestamp())+"");
+        icon.setIcon(ServiceConvertIcon.toIcon(hF.getIcon()));
+        textTemp.setText(temp+"");
+        textFeelLike.setText(tempFeelLike+"");
+        textPressure.setText(hF.getPressure()+"");
+        textHumidity.setText(hF.getHumidity()+"");
+        textCloud.setText(hF.getClouds()+"");
+        textVisibility.setText(hF.getVisibility()+"");
+        textWind.setText(hF.getWind_speed()+"");
+        textUV.setText(hF.getUv()+"");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

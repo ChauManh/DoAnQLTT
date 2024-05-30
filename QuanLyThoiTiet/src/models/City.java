@@ -15,6 +15,8 @@ public class City {
         this.longitude = longitude;
     }
 
+    
+    
     public City(){
     }
     
@@ -62,6 +64,7 @@ public class City {
     public String toString() {
         return "City{" + "city_id=" + city_id + ", city_name=" + city_name + ", county_id=" + county_id + ", latitude=" + latitude + ", longitude=" + longitude + '}';
     }
-        
+
+
     
 }

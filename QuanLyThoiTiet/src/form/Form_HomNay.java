@@ -1,5 +1,6 @@
 package form;
 
+import javax.swing.Icon;
 import service.ServiceGetCurrentTime;
 
 public class Form_HomNay extends javax.swing.JPanel {
@@ -221,7 +222,7 @@ public class Form_HomNay extends javax.swing.JPanel {
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
                                 .addComponent(textFeelLike, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(16, 16, 16)
                                 .addComponent(textVisibility5))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,8 +253,8 @@ public class Form_HomNay extends javax.swing.JPanel {
                                     .addComponent(textVisibility3)
                                     .addComponent(textVisibility6)
                                     .addComponent(textVisibility8)
-                                    .addComponent(textVisibility4)
-                                    .addComponent(textVisibility1))))))
+                                    .addComponent(textVisibility1)
+                                    .addComponent(textVisibility4))))))
                 .addContainerGap(103, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -266,16 +267,15 @@ public class Form_HomNay extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textCity)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textDate)
-                            .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(textTemp))
+                        .addComponent(textDate))
+                    .addComponent(textTemp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(icon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textDescription)
                 .addGap(18, 18, 18)
@@ -293,15 +293,11 @@ public class Form_HomNay extends javax.swing.JPanel {
                     .addComponent(jlHumidity)
                     .addComponent(textHumidity)
                     .addComponent(textVisibility6))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlCloud)
-                            .addComponent(textClound)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(textVisibility4)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlCloud)
+                    .addComponent(textClound)
+                    .addComponent(textVisibility4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -322,7 +318,7 @@ public class Form_HomNay extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setInfo(String city, float temp, String description ,int visibility, float wind, float feelLike, int Humidity, int Clound, float UV){
+    public void setInfo(String city, Icon icon, float temp, String description ,int visibility, float wind, float feelLike, int pressure, int Humidity, int Clound, float UV){
         Float temperature = Math.round(temp * 100.0f) / 100.0f;
         Float tempFeelLike = Math.round(feelLike * 100.0f) / 100.0f;
         textCity.setText(city);
@@ -331,9 +327,11 @@ public class Form_HomNay extends javax.swing.JPanel {
         textVisibility.setText(visibility+"");
         textWind.setText(wind+"");
         textFeelLike.setText(tempFeelLike+"");
+        textPressure.setText(pressure+"");
         textHumidity.setText(Humidity+"");
         textClound.setText(Clound+"");
         textUV.setText(UV+"");
+        this.icon.setIcon(icon);
         textDate.setText(ServiceGetCurrentTime.getDate());
         textTime.setText(ServiceGetCurrentTime.getTime());
     }

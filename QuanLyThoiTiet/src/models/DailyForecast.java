@@ -4,7 +4,7 @@ public class DailyForecast {
     private int daily_forecast_id;
     private int weather_condition_id;
     private long city_id;
-    private String df_date;
+    private long df_date;
     private String icon;
     private long sunrise;
     private long sunset;
@@ -29,7 +29,11 @@ public class DailyForecast {
     private float pop;
     private int aqi;
 
-    public DailyForecast(int daily_forecast_id, int weather_condition_id, long city_id, String df_date, String icon, long sunrise, long sunset, long moonrise, long moonset, String summary, float temperature_max, float temperature_min, float temperature_morn, float temperature_day, float temperature_eve, float temperature_night, float feels_like_morn, float feels_like_day, float feels_like_eve, float feels_like_night, int pressure, int humidity, float wind_speed, int clouds, float uv, float pop, int aqi) {
+    public DailyForecast(){
+        
+    }
+    
+    public DailyForecast(int daily_forecast_id, int weather_condition_id, long city_id, long df_date, String icon, long sunrise, long sunset, long moonrise, long moonset, String summary, float temperature_max, float temperature_min, float temperature_morn, float temperature_day, float temperature_eve, float temperature_night, float feels_like_morn, float feels_like_day, float feels_like_eve, float feels_like_night, int pressure, int humidity, float wind_speed, int clouds, float uv, float pop, int aqi) {
         this.daily_forecast_id = daily_forecast_id;
         this.weather_condition_id = weather_condition_id;
         this.city_id = city_id;
@@ -83,11 +87,11 @@ public class DailyForecast {
         this.city_id = city_id;
     }
 
-    public String getDf_date() {
+    public long getDf_date() {
         return df_date;
     }
 
-    public void setDf_date(String df_date) {
+    public void setDf_date(long df_date) {
         this.df_date = df_date;
     }
 

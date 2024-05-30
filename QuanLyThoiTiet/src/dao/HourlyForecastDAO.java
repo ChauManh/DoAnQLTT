@@ -1,82 +1,221 @@
 package dao;
 
-import database.JDBCUtil;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import models.HourlyForecast;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import database.JDBCUtil;
+
 
 public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
 
+    Connection connection = JDBCUtil.getConnection();
+    
     public static HourlyForecastDAO getInstance() {
         return new HourlyForecastDAO();
     }
 
     @Override
-    public int insert(HourlyForecast t) {
+    public int insert(HourlyForecast hf) {
         try {
-            Connection con = JDBCUtil.getConnection();
             String sql = "INSERT INTO HourlyForecast (hourly_forecast_id, weather_condition_id, city_id, hf_timestamp, icon, temperature, feels_like, pressure, humidity, clouds, uv, visibility, wind_speed, pop, aqi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pre = con.prepareStatement(sql);
-            pre.setInt(1, t.getHourly_forecast_id());
-            pre.setInt(2, t.getWeather_condition_id());
-            pre.setLong(3, t.getCity_id());
-            pre.setLong(4, t.getHf_timestamp());
-            pre.setString(5, t.getIcon());
-            pre.setFloat(6, t.getTemperature());
-            pre.setFloat(7, t.getFeels_like());
-            pre.setInt(8, t.getPressure());
-            pre.setInt(9, t.getHumidity());
-            pre.setInt(10, t.getClouds());
-            pre.setFloat(11, t.getUv());
-            pre.setInt(12, t.getVisibility());
-            pre.setFloat(13, t.getWind_speed());
-            pre.setFloat(14, t.getPop());
-            pre.setInt(15, t.getAqi());
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, hf.getHourly_forecast_id());
+            pre.setInt(2, hf.getWeather_condition_id());
+            pre.setLong(3, hf.getCity_id());
+            pre.setLong(4, hf.getHf_timestamp());
+            pre.setString(5, hf.getIcon());
+            pre.setFloat(6, hf.getTemperature());
+            pre.setFloat(7, hf.getFeels_like());
+            pre.setInt(8, hf.getPressure());
+            pre.setInt(9, hf.getHumidity());
+            pre.setInt(10, hf.getClouds());
+            pre.setFloat(11, hf.getUv());
+            pre.setInt(12, hf.getVisibility());
+            pre.setFloat(13, hf.getWind_speed());
+            pre.setFloat(14, hf.getPop());
+            pre.setInt(15, hf.getAqi());
             return pre.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return -1;
-    }
-
-    public int xoaHourlyForecast(int hourlyForecastId) {
-        try {
-            Connection con = JDBCUtil.getConnection();
-            String sql = "DELETE FROM HourlyForecast WHERE hourly_forecast_id = ?";
-            PreparedStatement pre = con.prepareStatement(sql);
-            pre.setInt(1, hourlyForecastId);
-            return pre.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
+    }  
 
     @Override
-    public int update(HourlyForecast t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int update(HourlyForecast hf) {
+        try {
+            String sql = "UPDATE HourlyForecast SET weather_condition_id = ?, city_id = ?, hf_timestamp = ?, icon = ?, temperature = ?, feels_like = ?, pressure = ?, humidity = ?, clouds = ?, uv = ?, visibility = ?, wind_speed = ?, pop = ?, aqi = ? WHERE hourly_forecast_id = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, hf.getHourly_forecast_id());
+            pre.setInt(2, hf.getWeather_condition_id());
+            pre.setLong(3, hf.getCity_id());
+            pre.setLong(4, hf.getHf_timestamp());
+            pre.setString(5, hf.getIcon());
+            pre.setFloat(6, hf.getTemperature());
+            pre.setFloat(7, hf.getFeels_like());
+            pre.setInt(8, hf.getPressure());
+            pre.setInt(9, hf.getHumidity());
+            pre.setInt(10, hf.getClouds());
+            pre.setFloat(11, hf.getUv());
+            pre.setInt(12, hf.getVisibility());
+            pre.setFloat(13, hf.getWind_speed());
+            pre.setFloat(14, hf.getPop());
+            pre.setInt(15, hf.getAqi());
+            return pre.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
+    
 
     @Override
     public int delete(HourlyForecast t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            String sql = "DELETE FROM HourlyForecast WHERE hourly_forecast_id = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, t.getHourly_forecast_id());
+            return pre.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
     public ArrayList<HourlyForecast> selectAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<HourlyForecast> dsHourlyForecast = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM HourlyForecast";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            ResultSet result = pre.executeQuery();
+            while (result.next()) {
+                HourlyForecast hf = new HourlyForecast();
+                hf.setHourly_forecast_id(result.getInt("hourly_forecast_id"));
+                hf.setWeather_condition_id(result.getInt("weather_condition_id"));
+                hf.setCity_id(result.getLong("city_id"));
+                hf.setHf_timestamp(result.getLong("hf_timestamp"));
+                hf.setIcon(result.getString("icon"));
+                hf.setTemperature(result.getFloat("temperature"));
+                hf.setFeels_like(result.getFloat("feels_like"));
+                hf.setPressure(result.getInt("pressure"));
+                hf.setHumidity(result.getInt("humidity"));
+                hf.setClouds(result.getInt("clouds"));
+                hf.setUv(result.getFloat("uv"));
+                hf.setVisibility(result.getInt("visibility"));
+                hf.setWind_speed(result.getFloat("wind_speed"));
+                hf.setPop(result.getFloat("pop"));
+                hf.setAqi(result.getInt("aqi"));
+                dsHourlyForecast.add(hf);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dsHourlyForecast;
     }
 
     @Override
     public HourlyForecast selectById(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        HourlyForecast hf = null;
+        try {
+            String sql = "SELECT * FROM HourlyForecast WHERE hourly_forecast_id = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setString(1, t);
+            ResultSet result = pre.executeQuery();
+            if (result.next()) {
+                hf = new HourlyForecast();
+                hf.setHourly_forecast_id(result.getInt("hourly_forecast_id"));
+                hf.setWeather_condition_id(result.getInt("weather_condition_id"));
+                hf.setCity_id(result.getLong("city_id"));
+                hf.setHf_timestamp(result.getLong("hf_timestamp"));
+                hf.setIcon(result.getString("icon"));
+                hf.setTemperature(result.getFloat("temperature"));
+                hf.setFeels_like(result.getFloat("feels_like"));
+                hf.setPressure(result.getInt("pressure"));
+                hf.setHumidity(result.getInt("humidity"));
+                hf.setClouds(result.getInt("clouds"));
+                hf.setUv(result.getFloat("uv"));
+                hf.setVisibility(result.getInt("visibility"));
+                hf.setWind_speed(result.getFloat("wind_speed"));
+                hf.setPop(result.getFloat("pop"));
+                hf.setAqi(result.getInt("aqi"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hf;
+    }
+    
+    public double getAverageTemperatureNextXHours(long cityID, int X) {
+        double avgTemperature = -1;
+        try {
+            String sql = "{CALL AverageTemperatureNextXHours(?, ?)}";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setLong(1, cityID);
+            pre.setInt(2, X);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                avgTemperature = rs.getDouble("AvgTemperature");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return avgTemperature;
     }
 
-    @Override
-    public ArrayList<HourlyForecast> selectByCondition(String condition) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public double getAverageRainProbabilityNextXHours(long cityID, int X) {
+        double avgRainProbability = -1;
+        try {
+            String sql = "{CALL AverageRainProbabilityNextXHours(?, ?)}";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setLong(1, cityID);
+            pre.setInt(2, X);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                avgRainProbability = rs.getDouble("AvgRainProbability");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return avgRainProbability;
     }
 
+    public double getAverageAQINextXHours(long cityID, int X) {
+        double avgAQI = -1;
+        try {
+            String sql = "{CALL AverageAQINextXHours(?, ?)}";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setLong(1, cityID);
+            pre.setInt(2, X);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                avgAQI = rs.getDouble("AvgAQI");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return avgAQI;
+    }
+
+    public double getAverageHumidityNextXHours(long cityID, int X) {
+        double avgHumidity = -1;
+        try {
+            String sql = "{CALL AverageHumidityNextXHours(?, ?)}";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setLong(1, cityID);
+            pre.setInt(2, X);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                avgHumidity = rs.getDouble("AvgHumidity");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return avgHumidity;
+    }
 }

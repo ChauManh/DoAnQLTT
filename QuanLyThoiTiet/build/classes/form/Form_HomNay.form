@@ -72,7 +72,7 @@
                               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="textFeelLike" min="-2" pref="42" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                               <Component id="textVisibility5" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -107,13 +107,13 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                              <EmptySpace min="16" pref="16" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="textVisibility3" min="-2" max="-2" attributes="0"/>
                                   <Component id="textVisibility6" min="-2" max="-2" attributes="0"/>
                                   <Component id="textVisibility8" min="-2" max="-2" attributes="0"/>
-                                  <Component id="textVisibility4" min="-2" max="-2" attributes="0"/>
                                   <Component id="textVisibility1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textVisibility4" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -134,19 +134,17 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="textCity" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="textDate" min="-2" max="-2" attributes="0"/>
-                          <Component id="icon" min="-2" pref="40" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="textDate" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="textTemp" min="-2" max="-2" attributes="0"/>
+                  <Component id="textTemp" alignment="1" max="32767" attributes="0"/>
+                  <Component id="icon" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="textDescription" min="-2" max="-2" attributes="0"/>
@@ -168,18 +166,11 @@
                   <Component id="textHumidity" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="textVisibility6" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jlCloud" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="textClound" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Component id="textVisibility4" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jlCloud" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textClound" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textVisibility4" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

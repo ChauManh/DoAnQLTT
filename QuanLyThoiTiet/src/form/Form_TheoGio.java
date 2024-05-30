@@ -6,13 +6,13 @@ import models.HourlyForecast;
 public class Form_TheoGio extends javax.swing.JPanel {
 
     private Form_HourlyWeather fHourlyWeather;
-    List<HourlyForecast> hourlyForecasts;
-    public Form_TheoGio() {
+    public Form_TheoGio(List<HourlyForecast> arrayHourlyForecast){
         initComponents();
-//        fHourlyWeather = new Form_HourlyWeather();
-//        gridLayoutPanel.add(fHourlyWeather);
-//        gridLayoutPanel.add(fHourlyWeather);
-//        gridLayoutPanel.add(fHourlyWeather);
+        int limit = Math.min(arrayHourlyForecast.size(), 4);
+        for (int i = 1; i < limit; i++) {
+        HourlyForecast hF = arrayHourlyForecast.get(i);
+        gridLayoutPanel.add(new Form_HourlyWeather(hF));
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -22,9 +22,6 @@ public class Form_TheoGio extends javax.swing.JPanel {
         btnLeft = new swing.MyButton();
         btnRight = new swing.MyButton();
         gridLayoutPanel = new javax.swing.JPanel();
-        form_HourlyWeather1 = new form.Form_HourlyWeather();
-        form_HourlyWeather2 = new form.Form_HourlyWeather();
-        form_HourlyWeather3 = new form.Form_HourlyWeather();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setOpaque(false);
@@ -48,10 +45,7 @@ public class Form_TheoGio extends javax.swing.JPanel {
         });
 
         gridLayoutPanel.setOpaque(false);
-        gridLayoutPanel.setLayout(new java.awt.GridLayout(3, 1, 10, 10));
-        gridLayoutPanel.add(form_HourlyWeather1);
-        gridLayoutPanel.add(form_HourlyWeather2);
-        gridLayoutPanel.add(form_HourlyWeather3);
+        gridLayoutPanel.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -60,7 +54,7 @@ public class Form_TheoGio extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(btnLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gridLayoutPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(gridLayoutPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRight, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -88,9 +82,6 @@ public class Form_TheoGio extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.MyButton btnLeft;
     private swing.MyButton btnRight;
-    private form.Form_HourlyWeather form_HourlyWeather1;
-    private form.Form_HourlyWeather form_HourlyWeather2;
-    private form.Form_HourlyWeather form_HourlyWeather3;
     private javax.swing.JPanel gridLayoutPanel;
     // End of variables declaration//GEN-END:variables
 }

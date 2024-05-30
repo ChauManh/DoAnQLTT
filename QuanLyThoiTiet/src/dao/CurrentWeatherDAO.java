@@ -175,39 +175,36 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
         }
         return currentWeather;
     }
-
-    @Override
-    public ArrayList<CurrentWeather> selectByCondition(String condition) {
-        ArrayList<CurrentWeather> ketQua = new ArrayList<>();
+    
+    public void updateWeather(
+        long userId, 
+        float temperature, 
+        float feelsLike, 
+        int pressure, 
+        int humidity, 
+        int clouds, 
+        float uv, 
+        int visibility, 
+        float windSpeed, 
+        int aqi
+    ) {
         try {
-            Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM current_weather WHERE " + condition;
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-               CurrentWeather currentWeather = new CurrentWeather();
-                currentWeather.setCurrenWeatherId(rs.getInt("current_weather_id"));
-                currentWeather.setCityId(rs.getInt("city_id"));
-                currentWeather.setWeatherCondition(rs.getInt("weather_condition_id"));
-                currentWeather.setCurTimestamp(rs.getInt("cur_Timestamp"));
-                currentWeather.setIcon(rs.getString("icon"));
-                currentWeather.setTemperature(rs.getFloat("temperature"));
-                currentWeather.setFeels_like(rs.getFloat("feels_like"));
-                currentWeather.setPressure(rs.getInt("pressure"));
-                currentWeather.setHumidity(rs.getInt("humidity"));
-                currentWeather.setClouds(rs.getInt("clouds"));
-                currentWeather.setUv(rs.getFloat("uv"));
-                currentWeather.setVisibility(rs.getInt("visibility"));
-                currentWeather.setWindSpeed(rs.getFloat("wind_speed"));
-                currentWeather.setAqi(rs.getInt("aqi"));
-
-                ketQua.add(currentWeather);
-            }
-            JDBCUtil.closeConnection(con);
+            String sql = "{CALL UpdateWeather(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+            Connection connection = JDBCUtil.getConnection();
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setLong(1, userId);
+            pre.setFloat(2, temperature);
+            pre.setFloat(3, feelsLike);
+            pre.setInt(4, pressure);
+            pre.setInt(5, humidity);
+            pre.setInt(6, clouds);
+            pre.setFloat(7, uv);
+            pre.setInt(8, visibility);
+            pre.setFloat(9, windSpeed);
+            pre.setInt(10, aqi);
+            pre.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return ketQua;
     }
 }

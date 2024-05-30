@@ -2,8 +2,10 @@ package form;
 
 import dao.CityDAO;
 import dao.CurrentWeatherDAO;
+import dao.HourlyForecastDAO;
 import dao.WeatherConditionDAO;
 import event.EventClick;
+import form.Form_TheoGio;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -19,6 +21,7 @@ import models.City;
 import models.CurrentWeather;
 import models.HourlyForecast;
 import org.json.simple.JSONObject;
+import service.ServiceConvertIcon;
 import service.WeatherAPI;
 
 public class Form_Weather extends javax.swing.JPanel {
@@ -26,6 +29,8 @@ public class Form_Weather extends javax.swing.JPanel {
     private Form_WeatherSummary fWeatherSummary;
     private Form_HomNay fHomNay;
     private Form_TheoGio fTheoGio;
+    private List<HourlyForecast> arrayHourlyForecast;
+    private boolean check;
 
     public Form_Weather() {
         initComponents();
@@ -33,19 +38,19 @@ public class Form_Weather extends javax.swing.JPanel {
 
         fWeatherSummary = new Form_WeatherSummary();
         fHomNay = new Form_HomNay();
-        fTheoGio = new Form_TheoGio();
-        
+
         setForm(panelWeatherSummary, fWeatherSummary);
-        setForm(mainPanel, new Form_HomNay());
         searchBar.btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String city_name = searchBar.txtSearch.getText();
                 if (city_name.equals("")) {
                 } else {
+                    boolean check = false;
                     City city = CityDAO.getInstance().selectById(city_name);
                     showFormHomNay(city);
-                    showFormTheoGio(city);
+                    arrayHourlyForecast = WeatherAPI.getHourlyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
+                    showFormTheoGio();
                 }
             }
         });
@@ -61,7 +66,6 @@ public class Form_Weather extends javax.swing.JPanel {
     public void showFormHomNay(City city) {
         CurrentWeather currentWeather = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
         if (currentWeather != null) {
-            boolean check = false;
             for (CurrentWeather cW : CurrentWeatherDAO.getInstance().selectAll()) {
                 if (cW.getCityId() == city.getCity_id()) {
                     check = true;
@@ -69,35 +73,24 @@ public class Form_Weather extends javax.swing.JPanel {
                 }
             }
             if (check) {
-                fHomNay.setInfo(city.getCity_name(), currentWeather.getTemperature(), WeatherConditionDAO.getDescription(currentWeather.getWeatherCondition()), currentWeather.getVisibility(), currentWeather.getWindSpeed(), currentWeather.getFeels_like(), currentWeather.getHumidity(), currentWeather.getClouds(), currentWeather.getUv());
+                fHomNay.setInfo(city.getCity_name(), ServiceConvertIcon.toIcon(currentWeather.getIcon()), currentWeather.getTemperature(), WeatherConditionDAO.getDescription(currentWeather.getWeatherCondition()), currentWeather.getVisibility(), currentWeather.getWindSpeed(), currentWeather.getFeels_like(), currentWeather.getPressure(), currentWeather.getHumidity(), currentWeather.getClouds(), currentWeather.getUv());
                 setForm(mainPanel, fHomNay);
             } else {
-                fHomNay.setInfo(city.getCity_name(), currentWeather.getTemperature(), "Very Hot", currentWeather.getVisibility(), currentWeather.getWindSpeed(), currentWeather.getFeels_like(), currentWeather.getHumidity(), currentWeather.getClouds(), currentWeather.getUv());
+                fHomNay.setInfo(city.getCity_name(), ServiceConvertIcon.toIcon(currentWeather.getIcon()), currentWeather.getTemperature(), WeatherConditionDAO.getDescription(currentWeather.getWeatherCondition()), currentWeather.getVisibility(), currentWeather.getWindSpeed(), currentWeather.getFeels_like(), currentWeather.getPressure(), currentWeather.getHumidity(), currentWeather.getClouds(), currentWeather.getUv());
                 setForm(mainPanel, fHomNay);
                 CurrentWeatherDAO.getInstance().insert(currentWeather);
             }
         }
     }
 
-    public void showFormTheoGio(City city) {
-        List<HourlyForecast> hourlyForecasts = WeatherAPI.getHourlyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
-        fTheoGio = new Form_TheoGio();
-//        for (HourlyForecast forecast : hourlyForecasts) {
-//            System.out.println("Timestamp: " + forecast.getHf_timestamp());
-//            System.out.println("Temperature: " + forecast.getTemperature());
-//            System.out.println("Feels Like: " + forecast.getFeels_like());
-//            System.out.println("Weather: " + forecast.getWeather_condition_id());
-//            System.out.println("Icon: " + forecast.getIcon());
-//            System.out.println("Pressure: " + forecast.getPressure());
-//            System.out.println("Humidity: " + forecast.getHumidity());
-//            System.out.println("Clouds: " + forecast.getClouds());
-//            System.out.println("Uv: " + forecast.getUv());
-//            System.out.println("Visibility: " + forecast.getVisibility());
-//            System.out.println("Wind Speed: " + forecast.getWind_speed());
-//            System.out.println("Pop: " + forecast.getPop());
-//            System.out.println("Aqi: " + forecast.getAqi());
-//            System.out.println("----------------------");
-//        }
+    public void showFormTheoGio() {
+        fTheoGio = new Form_TheoGio(arrayHourlyForecast);
+        if (!check) {
+            for (int i = 1; i <= arrayHourlyForecast.size(); i++) {
+                HourlyForecast hF = arrayHourlyForecast.get(i);
+                HourlyForecastDAO.getInstance().insert(hF);
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
