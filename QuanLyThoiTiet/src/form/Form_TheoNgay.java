@@ -3,20 +3,19 @@ package form;
 import event.NavigationListener;
 import java.util.List;
 import models.DailyForecast;
-import models.HourlyForecast;
 
-public class Form_TheoGio extends javax.swing.JPanel {
+public class Form_TheoNgay extends javax.swing.JPanel {
 
-    private Form_HourlyWeather fHourlyWeather;
+    private Form_DailyWeather fDailyWeather;
     private NavigationListener navigationListener;
 
-    public Form_TheoGio(List<HourlyForecast> arrayHourlyForecast, NavigationListener navigationListener) {
+    public Form_TheoNgay(List<DailyForecast> arrayDailyForecast, NavigationListener navigationListener) {
         initComponents();
         this.navigationListener = navigationListener;
-        int limit = Math.min(arrayHourlyForecast.size(), 4);
+        int limit = Math.min(arrayDailyForecast.size(), 4);
         for (int i = 1; i < limit; i++) {
-            HourlyForecast hF = arrayHourlyForecast.get(i);
-            gridLayoutPanel.add(new Form_HourlyWeather(hF));
+            DailyForecast dF = arrayDailyForecast.get(i);
+            gridLayoutPanel.add(new Form_DailyWeather(dF));
         }
     }   
 

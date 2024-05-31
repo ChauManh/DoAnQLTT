@@ -2,6 +2,7 @@ package form;
 
 import dao.CityDAO;
 import dao.CurrentWeatherDAO;
+import dao.DailyForecastDAO;
 import dao.HourlyForecastDAO;
 import dao.WeatherConditionDAO;
 import event.EventClick;
@@ -21,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import models.City;
 import models.CurrentWeather;
+import models.DailyForecast;
 import models.HourlyForecast;
 import org.json.simple.JSONObject;
 import service.ServiceConvertIcon;
@@ -33,6 +35,8 @@ public class Form_Weather extends javax.swing.JPanel {
     private Form_HomNay fHomNay;
     private List<HourlyForecast> arrayHourlyForecast;
     private List<Form_TheoGio> arrayFormTheoGio;
+    private List<DailyForecast> arrayDailyForecast;
+    private List<Form_TheoNgay> arrayFormTheoNgay;
     private boolean check;
     private int currentIndex = 0;
 
@@ -55,6 +59,8 @@ public class Form_Weather extends javax.swing.JPanel {
                     showFormHomNay(city);
                     arrayHourlyForecast = WeatherAPI.getHourlyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
                     InsertDataHourlyWeather();
+                    arrayDailyForecast = WeatherAPI.getDailyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
+                    InsertDataDailyWeather();
                 }
             }
         });
@@ -96,29 +102,40 @@ public class Form_Weather extends javax.swing.JPanel {
         }
     }
 
-    private void setUpFormTheoGio() {
-        arrayFormTheoGio = new ArrayList<>();
-        int size = gioConLai();
-
-        for (int i = 0; i < size; i += 3) {
-            // Tạo một sublist với tối đa 3 phần tử từ hourlyForecastList
-            List<HourlyForecast> subList = arrayHourlyForecast.subList(i, Math.min(i + 4, size));
-            // Tạo một đối tượng Form_TheoGio mới với subList
-            Form_TheoGio formTheoGio = new Form_TheoGio(subList, new NavigationListener() {
-                @Override
-                public void onNext() {
-                    nextFormTheoGio();
-                }
-
-                @Override
-                public void onPrevious() {
-                    previousFormTheoGio();
-                }
-            });
-            // Thêm formTheoGio vào arrayFormTheoGio
-            arrayFormTheoGio.add(formTheoGio);
+    private void InsertDataDailyWeather() {
+        if (!check) {
+            for (int i = 1; i < gioConLai(); i++) {
+                DailyForecast dF = arrayDailyForecast.get(i);
+                DailyForecastDAO.getInstance().insert(dF);
+            }
         }
+    }
 
+    private void setUpFormTheoGio() {
+        if (arrayHourlyForecast == null) {
+        } else {
+            arrayFormTheoGio = new ArrayList<>();
+            int size = gioConLai();
+
+            for (int i = 0; i < size; i += 3) {
+                // Tạo một sublist với tối đa 3 phần tử từ hourlyForecastList
+                List<HourlyForecast> subList = arrayHourlyForecast.subList(i, Math.min(i + 4, size));
+                // Tạo một đối tượng Form_TheoGio mới với subList
+                Form_TheoGio formTheoGio = new Form_TheoGio(subList, new NavigationListener() {
+                    @Override
+                    public void onNext() {
+                        nextFormTheoGio();
+                    }
+
+                    @Override
+                    public void onPrevious() {
+                        previousFormTheoGio();
+                    }
+                });
+                // Thêm formTheoGio vào arrayFormTheoGio
+                arrayFormTheoGio.add(formTheoGio);
+            }
+        }
     }
 
     private int gioConLai() {
@@ -287,14 +304,40 @@ public class Form_Weather extends javax.swing.JPanel {
 
     private void btnTheoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTheoGioActionPerformed
         setUpFormTheoGio();
-        if (!arrayFormTheoGio.isEmpty()) {
+        if (arrayFormTheoGio == null) {
+        } else {
             currentIndex = 0; // Reset chỉ số hiện tại
             setForm(mainPanel, arrayFormTheoGio.get(currentIndex));
         }
     }//GEN-LAST:event_btnTheoGioActionPerformed
 
     private void btnHangNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHangNgayActionPerformed
-
+        for (DailyForecast forecast : arrayDailyForecast) {
+            System.out.println("City ID: " + forecast.getCity_id());
+            System.out.println("Date: " + forecast.getDf_date());
+            System.out.println("Sunrise: " + forecast.getSunrise());
+            System.out.println("Sunset: " + forecast.getSunset());
+            System.out.println("Moonrise: " + forecast.getMoonrise());
+            System.out.println("Moonset: " + forecast.getMoonset());
+            System.out.println("Temperature (Day): " + forecast.getTemperature_day() + "°C");
+            System.out.println("Temperature (Min): " + forecast.getTemperature_min() + "°C");
+            System.out.println("Temperature (Max): " + forecast.getTemperature_max() + "°C");
+            System.out.println("Temperature (Night): " + forecast.getTemperature_night() + "°C");
+            System.out.println("Temperature (Eve): " + forecast.getTemperature_eve() + "°C");
+            System.out.println("Temperature (Morn): " + forecast.getTemperature_morn() + "°C");
+            System.out.println("Feels Like (Day): " + forecast.getFeels_like_day() + "°C");
+            System.out.println("Feels Like (Night): " + forecast.getFeels_like_night() + "°C");
+            System.out.println("Feels Like (Eve): " + forecast.getFeels_like_eve() + "°C");
+            System.out.println("Feels Like (Morn): " + forecast.getFeels_like_morn() + "°C");
+            System.out.println("Pressure: " + forecast.getPressure() + " hPa");
+            System.out.println("Humidity: " + forecast.getHumidity() + " %");
+            System.out.println("Wind Speed: " + forecast.getWind_speed() + " m/s");
+            System.out.println("Clouds: " + forecast.getClouds() + " %");
+            System.out.println("Precipitation Probability: " + forecast.getPop() + " %");
+            System.out.println("UV Index: " + forecast.getUv());
+            System.out.println("Weather Condition ID: " + forecast.getWeather_condition_id());
+            System.out.println("-----------------------------------------------------");
+        }
     }//GEN-LAST:event_btnHangNgayActionPerformed
 
 
