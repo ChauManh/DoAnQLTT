@@ -138,6 +138,9 @@
               <Color blue="ff" green="cc" red="0" type="rgb"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHangNgayActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="mainPanel">
           <Properties>

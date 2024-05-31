@@ -1,17 +1,21 @@
 package form;
 
+import event.NavigationListener;
 import java.util.List;
 import models.HourlyForecast;
 
 public class Form_TheoGio extends javax.swing.JPanel {
 
     private Form_HourlyWeather fHourlyWeather;
-    public Form_TheoGio(List<HourlyForecast> arrayHourlyForecast){
+    private NavigationListener navigationListener;
+
+    public Form_TheoGio(List<HourlyForecast> arrayHourlyForecast, NavigationListener navigationListener) {
         initComponents();
+        this.navigationListener = navigationListener;
         int limit = Math.min(arrayHourlyForecast.size(), 4);
         for (int i = 1; i < limit; i++) {
-        HourlyForecast hF = arrayHourlyForecast.get(i);
-        gridLayoutPanel.add(new Form_HourlyWeather(hF));
+            HourlyForecast hF = arrayHourlyForecast.get(i);
+            gridLayoutPanel.add(new Form_HourlyWeather(hF));
         }
     }
 
@@ -71,12 +75,15 @@ public class Form_TheoGio extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRightActionPerformed
-        // TODO add your handling code here:
+        if (navigationListener != null) {
+            navigationListener.onNext();
+        }
     }//GEN-LAST:event_btnRightActionPerformed
 
     private void btnLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeftActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLeftActionPerformed
+        if (navigationListener != null) {
+            navigationListener.onPrevious();
+        }    }//GEN-LAST:event_btnLeftActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

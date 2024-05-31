@@ -5,6 +5,7 @@ import dao.CurrentWeatherDAO;
 import dao.HourlyForecastDAO;
 import dao.WeatherConditionDAO;
 import event.EventClick;
+import event.NavigationListener;
 import form.Form_TheoGio;
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -12,6 +13,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -22,15 +24,17 @@ import models.CurrentWeather;
 import models.HourlyForecast;
 import org.json.simple.JSONObject;
 import service.ServiceConvertIcon;
+import service.UnixConvertTime;
 import service.WeatherAPI;
 
 public class Form_Weather extends javax.swing.JPanel {
 
     private Form_WeatherSummary fWeatherSummary;
     private Form_HomNay fHomNay;
-    private Form_TheoGio fTheoGio;
     private List<HourlyForecast> arrayHourlyForecast;
+    private List<Form_TheoGio> arrayFormTheoGio;
     private boolean check;
+    private int currentIndex = 0;
 
     public Form_Weather() {
         initComponents();
@@ -50,7 +54,7 @@ public class Form_Weather extends javax.swing.JPanel {
                     City city = CityDAO.getInstance().selectById(city_name);
                     showFormHomNay(city);
                     arrayHourlyForecast = WeatherAPI.getHourlyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
-                    showFormTheoGio();
+                    InsertDataHourlyWeather();
                 }
             }
         });
@@ -83,13 +87,55 @@ public class Form_Weather extends javax.swing.JPanel {
         }
     }
 
-    public void showFormTheoGio() {
-        fTheoGio = new Form_TheoGio(arrayHourlyForecast);
+    private void InsertDataHourlyWeather() {
         if (!check) {
-            for (int i = 1; i <= arrayHourlyForecast.size(); i++) {
+            for (int i = 1; i < gioConLai(); i++) {
                 HourlyForecast hF = arrayHourlyForecast.get(i);
                 HourlyForecastDAO.getInstance().insert(hF);
             }
+        }
+    }
+
+    private void setUpFormTheoGio() {
+        arrayFormTheoGio = new ArrayList<>();
+        int size = gioConLai();
+
+        for (int i = 0; i < size; i += 3) {
+            // Tạo một sublist với tối đa 3 phần tử từ hourlyForecastList
+            List<HourlyForecast> subList = arrayHourlyForecast.subList(i, Math.min(i + 4, size));
+            // Tạo một đối tượng Form_TheoGio mới với subList
+            Form_TheoGio formTheoGio = new Form_TheoGio(subList, new NavigationListener() {
+                @Override
+                public void onNext() {
+                    nextFormTheoGio();
+                }
+
+                @Override
+                public void onPrevious() {
+                    previousFormTheoGio();
+                }
+            });
+            // Thêm formTheoGio vào arrayFormTheoGio
+            arrayFormTheoGio.add(formTheoGio);
+        }
+
+    }
+
+    private int gioConLai() {
+        return 24 - UnixConvertTime.toHour(arrayHourlyForecast.get(0).getHf_timestamp());
+    }
+
+    private void nextFormTheoGio() {
+        if (currentIndex < arrayFormTheoGio.size() - 1) {
+            currentIndex++;
+            setForm(mainPanel, arrayFormTheoGio.get(currentIndex));
+        }
+    }
+
+    private void previousFormTheoGio() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            setForm(mainPanel, arrayFormTheoGio.get(currentIndex));
         }
     }
 
@@ -133,6 +179,11 @@ public class Form_Weather extends javax.swing.JPanel {
         btnHangNgay.setText("HÀNG NGÀY");
         btnHangNgay.setColorClick(new java.awt.Color(204, 255, 255));
         btnHangNgay.setColorOver(new java.awt.Color(0, 204, 255));
+        btnHangNgay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHangNgayActionPerformed(evt);
+            }
+        });
 
         mainPanel.setOpaque(false);
         mainPanel.setLayout(new java.awt.BorderLayout());
@@ -235,8 +286,16 @@ public class Form_Weather extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHienTaiActionPerformed
 
     private void btnTheoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTheoGioActionPerformed
-        setForm(mainPanel, fTheoGio);
+        setUpFormTheoGio();
+        if (!arrayFormTheoGio.isEmpty()) {
+            currentIndex = 0; // Reset chỉ số hiện tại
+            setForm(mainPanel, arrayFormTheoGio.get(currentIndex));
+        }
     }//GEN-LAST:event_btnTheoGioActionPerformed
+
+    private void btnHangNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHangNgayActionPerformed
+
+    }//GEN-LAST:event_btnHangNgayActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

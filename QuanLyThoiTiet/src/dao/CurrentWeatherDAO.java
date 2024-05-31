@@ -46,8 +46,6 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
             r.close();
             pst.close();
             ketQua = 1; // Số dòng bị thay đổi là 1 sau khi thêm dữ liệu thành công
-            System.out.println("Da thuc thi: " + sql);
-            System.out.println("Co " + ketQua + " dong bi thay doi.");
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
             e.printStackTrace();
