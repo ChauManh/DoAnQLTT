@@ -38,14 +38,14 @@ public class Form_Weather extends javax.swing.JPanel {
     private List<DailyForecast> arrayDailyForecast;
     private List<Form_TheoNgay> arrayFormTheoNgay;
     private boolean check;
-    private int currentIndex = 0;
+    private int currentHfIndex = 0;
+    private int currentDfIndex = 0;
 
     public Form_Weather() {
         initComponents();
         setVisible(true);
 
         fWeatherSummary = new Form_WeatherSummary();
-        fHomNay = new Form_HomNay();
 
         setForm(panelWeatherSummary, fWeatherSummary);
         searchBar.btnSearch.addActionListener(new ActionListener() {
@@ -74,7 +74,10 @@ public class Form_Weather extends javax.swing.JPanel {
     }
 
     public void showFormHomNay(City city) {
+        fHomNay = new Form_HomNay();
         CurrentWeather currentWeather = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
+        fHomNay.setInfo(city.getCity_name(), ServiceConvertIcon.toIcon(currentWeather.getIcon()), currentWeather.getTemperature(), WeatherConditionDAO.getDescription(currentWeather.getWeatherCondition()), currentWeather.getVisibility(), currentWeather.getWindSpeed(), currentWeather.getFeels_like(), currentWeather.getPressure(), currentWeather.getHumidity(), currentWeather.getClouds(), currentWeather.getUv());
+        setForm(mainPanel, fHomNay);
         if (currentWeather != null) {
             for (CurrentWeather cW : CurrentWeatherDAO.getInstance().selectAll()) {
                 if (cW.getCityId() == city.getCity_id()) {
@@ -82,12 +85,7 @@ public class Form_Weather extends javax.swing.JPanel {
                     break;
                 }
             }
-            if (check) {
-                fHomNay.setInfo(city.getCity_name(), ServiceConvertIcon.toIcon(currentWeather.getIcon()), currentWeather.getTemperature(), WeatherConditionDAO.getDescription(currentWeather.getWeatherCondition()), currentWeather.getVisibility(), currentWeather.getWindSpeed(), currentWeather.getFeels_like(), currentWeather.getPressure(), currentWeather.getHumidity(), currentWeather.getClouds(), currentWeather.getUv());
-                setForm(mainPanel, fHomNay);
-            } else {
-                fHomNay.setInfo(city.getCity_name(), ServiceConvertIcon.toIcon(currentWeather.getIcon()), currentWeather.getTemperature(), WeatherConditionDAO.getDescription(currentWeather.getWeatherCondition()), currentWeather.getVisibility(), currentWeather.getWindSpeed(), currentWeather.getFeels_like(), currentWeather.getPressure(), currentWeather.getHumidity(), currentWeather.getClouds(), currentWeather.getUv());
-                setForm(mainPanel, fHomNay);
+            if (!check) {
                 CurrentWeatherDAO.getInstance().insert(currentWeather);
             }
         }
@@ -104,7 +102,7 @@ public class Form_Weather extends javax.swing.JPanel {
 
     private void InsertDataDailyWeather() {
         if (!check) {
-            for (int i = 1; i < gioConLai(); i++) {
+            for (int i = 1; i < 7; i++) {
                 DailyForecast dF = arrayDailyForecast.get(i);
                 DailyForecastDAO.getInstance().insert(dF);
             }
@@ -138,21 +136,58 @@ public class Form_Weather extends javax.swing.JPanel {
         }
     }
 
+    private void setUpFormTheoNgay() {
+        if (arrayDailyForecast == null) {
+        } else {
+            arrayFormTheoNgay = new ArrayList<>();
+
+            for (int i = 0; i < 6; i += 3) {
+                List<DailyForecast> subList = arrayDailyForecast.subList(i, Math.min(i + 4, 7));
+                Form_TheoNgay formTheoNgay = new Form_TheoNgay(subList, new NavigationListener() {
+                    @Override
+                    public void onNext() {
+                        nextFormTheoNgay();
+                    }
+
+                    @Override
+                    public void onPrevious() {
+                        previousFormTheoNgay();
+                    }
+                });
+                arrayFormTheoNgay.add(formTheoNgay);
+            }
+        }
+    }
+
     private int gioConLai() {
         return 24 - UnixConvertTime.toHour(arrayHourlyForecast.get(0).getHf_timestamp());
     }
 
     private void nextFormTheoGio() {
-        if (currentIndex < arrayFormTheoGio.size() - 1) {
-            currentIndex++;
-            setForm(mainPanel, arrayFormTheoGio.get(currentIndex));
+        if (currentHfIndex < arrayFormTheoGio.size() - 1) {
+            currentHfIndex++;
+            setForm(mainPanel, arrayFormTheoGio.get(currentHfIndex));
         }
     }
 
     private void previousFormTheoGio() {
-        if (currentIndex > 0) {
-            currentIndex--;
-            setForm(mainPanel, arrayFormTheoGio.get(currentIndex));
+        if (currentHfIndex > 0) {
+            currentHfIndex--;
+            setForm(mainPanel, arrayFormTheoGio.get(currentHfIndex));
+        }
+    }
+
+    private void nextFormTheoNgay() {
+        if (currentDfIndex < arrayFormTheoNgay.size() - 1) {
+            currentDfIndex++;
+            setForm(mainPanel, arrayFormTheoNgay.get(currentDfIndex));
+        }
+    }
+
+    private void previousFormTheoNgay() {
+        if (currentDfIndex > 0) {
+            currentDfIndex--;
+            setForm(mainPanel, arrayFormTheoNgay.get(currentDfIndex));
         }
     }
 
@@ -171,31 +206,36 @@ public class Form_Weather extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         searchBar = new component.SearchBar();
 
+        setBackground(new java.awt.Color(153, 204, 255));
         setOpaque(false);
 
         panelWeatherDetail.setBackground(new java.awt.Color(153, 204, 255));
+        panelWeatherDetail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        btnHienTai.setText("HIỆN TẠI");
+        btnHienTai.setText("CURRENT");
         btnHienTai.setColorClick(new java.awt.Color(204, 255, 255));
         btnHienTai.setColorOver(new java.awt.Color(0, 204, 255));
+        btnHienTai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnHienTai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHienTaiActionPerformed(evt);
             }
         });
 
-        btnTheoGio.setText("THEO GIỜ");
+        btnTheoGio.setText("HOURLY");
         btnTheoGio.setColorClick(new java.awt.Color(204, 255, 255));
         btnTheoGio.setColorOver(new java.awt.Color(0, 204, 255));
+        btnTheoGio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnTheoGio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTheoGioActionPerformed(evt);
             }
         });
 
-        btnHangNgay.setText("HÀNG NGÀY");
+        btnHangNgay.setText("DAILY");
         btnHangNgay.setColorClick(new java.awt.Color(204, 255, 255));
         btnHangNgay.setColorOver(new java.awt.Color(0, 204, 255));
+        btnHangNgay.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnHangNgay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHangNgayActionPerformed(evt);
@@ -218,7 +258,7 @@ public class Form_Weather extends javax.swing.JPanel {
                         .addGap(12, 12, 12)
                         .addComponent(btnTheoGio, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnHangNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnHangNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -236,9 +276,11 @@ public class Form_Weather extends javax.swing.JPanel {
         );
 
         panelWeatherSummary.setBackground(new java.awt.Color(153, 204, 255));
+        panelWeatherSummary.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         panelWeatherSummary.setLayout(new java.awt.BorderLayout());
 
         panelAlert.setBackground(new java.awt.Color(153, 204, 255));
+        panelAlert.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -263,7 +305,7 @@ public class Form_Weather extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel3)
-                .addGap(0, 181, Short.MAX_VALUE))
+                .addGap(0, 179, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -274,7 +316,7 @@ public class Form_Weather extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelWeatherDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchBar, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE))
+                    .addComponent(searchBar, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelWeatherSummary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -299,45 +341,52 @@ public class Form_Weather extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnHienTaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHienTaiActionPerformed
-        setForm(mainPanel, fHomNay);
+        if (fHomNay != null)
+            setForm(mainPanel, fHomNay);
     }//GEN-LAST:event_btnHienTaiActionPerformed
 
     private void btnTheoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTheoGioActionPerformed
         setUpFormTheoGio();
         if (arrayFormTheoGio == null) {
         } else {
-            currentIndex = 0; // Reset chỉ số hiện tại
-            setForm(mainPanel, arrayFormTheoGio.get(currentIndex));
+            currentHfIndex = 0; // Reset chỉ số hiện tại
+            setForm(mainPanel, arrayFormTheoGio.get(currentHfIndex));
         }
     }//GEN-LAST:event_btnTheoGioActionPerformed
 
     private void btnHangNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHangNgayActionPerformed
-        for (DailyForecast forecast : arrayDailyForecast) {
-            System.out.println("City ID: " + forecast.getCity_id());
-            System.out.println("Date: " + forecast.getDf_date());
-            System.out.println("Sunrise: " + forecast.getSunrise());
-            System.out.println("Sunset: " + forecast.getSunset());
-            System.out.println("Moonrise: " + forecast.getMoonrise());
-            System.out.println("Moonset: " + forecast.getMoonset());
-            System.out.println("Temperature (Day): " + forecast.getTemperature_day() + "°C");
-            System.out.println("Temperature (Min): " + forecast.getTemperature_min() + "°C");
-            System.out.println("Temperature (Max): " + forecast.getTemperature_max() + "°C");
-            System.out.println("Temperature (Night): " + forecast.getTemperature_night() + "°C");
-            System.out.println("Temperature (Eve): " + forecast.getTemperature_eve() + "°C");
-            System.out.println("Temperature (Morn): " + forecast.getTemperature_morn() + "°C");
-            System.out.println("Feels Like (Day): " + forecast.getFeels_like_day() + "°C");
-            System.out.println("Feels Like (Night): " + forecast.getFeels_like_night() + "°C");
-            System.out.println("Feels Like (Eve): " + forecast.getFeels_like_eve() + "°C");
-            System.out.println("Feels Like (Morn): " + forecast.getFeels_like_morn() + "°C");
-            System.out.println("Pressure: " + forecast.getPressure() + " hPa");
-            System.out.println("Humidity: " + forecast.getHumidity() + " %");
-            System.out.println("Wind Speed: " + forecast.getWind_speed() + " m/s");
-            System.out.println("Clouds: " + forecast.getClouds() + " %");
-            System.out.println("Precipitation Probability: " + forecast.getPop() + " %");
-            System.out.println("UV Index: " + forecast.getUv());
-            System.out.println("Weather Condition ID: " + forecast.getWeather_condition_id());
-            System.out.println("-----------------------------------------------------");
+        setUpFormTheoNgay();
+        if (arrayFormTheoNgay == null) {
+        } else {
+            currentDfIndex = 0; // Reset chỉ số hiện tại
+            setForm(mainPanel, arrayFormTheoNgay.get(currentDfIndex));
         }
+//        for (DailyForecast forecast : arrayDailyForecast) {
+//            System.out.println("City ID: " + forecast.getCity_id());
+//            System.out.println("Date: " + forecast.getDf_date());
+//            System.out.println("Sunrise: " + forecast.getSunrise());
+//            System.out.println("Sunset: " + forecast.getSunset());
+//            System.out.println("Moonrise: " + forecast.getMoonrise());
+//            System.out.println("Moonset: " + forecast.getMoonset());
+//            System.out.println("Temperature (Day): " + forecast.getTemperature_day() + "°C");
+//            System.out.println("Temperature (Min): " + forecast.getTemperature_min() + "°C");
+//            System.out.println("Temperature (Max): " + forecast.getTemperature_max() + "°C");
+//            System.out.println("Temperature (Night): " + forecast.getTemperature_night() + "°C");
+//            System.out.println("Temperature (Eve): " + forecast.getTemperature_eve() + "°C");
+//            System.out.println("Temperature (Morn): " + forecast.getTemperature_morn() + "°C");
+//            System.out.println("Feels Like (Day): " + forecast.getFeels_like_day() + "°C");
+//            System.out.println("Feels Like (Night): " + forecast.getFeels_like_night() + "°C");
+//            System.out.println("Feels Like (Eve): " + forecast.getFeels_like_eve() + "°C");
+//            System.out.println("Feels Like (Morn): " + forecast.getFeels_like_morn() + "°C");
+//            System.out.println("Pressure: " + forecast.getPressure() + " hPa");
+//            System.out.println("Humidity: " + forecast.getHumidity() + " %");
+//            System.out.println("Wind Speed: " + forecast.getWind_speed() + " m/s");
+//            System.out.println("Clouds: " + forecast.getClouds() + " %");
+//            System.out.println("Precipitation Probability: " + forecast.getPop() + " %");
+//            System.out.println("UV Index: " + forecast.getUv());
+//            System.out.println("Weather Condition ID: " + forecast.getWeather_condition_id());
+//            System.out.println("-----------------------------------------------------");
+//        }
     }//GEN-LAST:event_btnHangNgayActionPerformed
 
 

@@ -11,7 +11,7 @@ public class NguoiDung {
     private String nd_language;
     private String measurement_type;
     private Integer utc;
-
+    
     public NguoiDung(int userID, String username, String email, String password, String verifyCode, Long current_city_fk, String hashSalt, String nd_language, String measurement_type, Integer utc) {
         this.userID = userID;
         this.username = username;

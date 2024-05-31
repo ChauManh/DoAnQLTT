@@ -12,6 +12,7 @@ public class Form_TheoNgay extends javax.swing.JPanel {
     public Form_TheoNgay(List<DailyForecast> arrayDailyForecast, NavigationListener navigationListener) {
         initComponents();
         this.navigationListener = navigationListener;
+        this.navigationListener = navigationListener;
         int limit = Math.min(arrayDailyForecast.size(), 4);
         for (int i = 1; i < limit; i++) {
             DailyForecast dF = arrayDailyForecast.get(i);

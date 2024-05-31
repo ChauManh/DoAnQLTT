@@ -15,13 +15,16 @@ public class MainSystem extends javax.swing.JFrame {
 
     private Form_Weather fWeather;
     private Form_Alert fAlert;
+    private final NguoiDung user;
 
-    public MainSystem() {
+    public MainSystem(NguoiDung user) {
 
         initComponents();
+        this.user = user;
+
         fWeather = new Form_Weather();
         fAlert = new Form_Alert();
-        
+
         menu.initMoving(MainSystem.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -61,7 +64,7 @@ public class MainSystem extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
-        mainPanel.setBackground(new java.awt.Color(204, 204, 204));
+        mainPanel.setBackground(new java.awt.Color(153, 204, 255));
         mainPanel.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -110,7 +113,7 @@ public class MainSystem extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main() {
+    public static void main(NguoiDung user) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -138,7 +141,7 @@ public class MainSystem extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                new MainSystem().setVisible(true);
+                new MainSystem(user).setVisible(true);
             }
         });
     }

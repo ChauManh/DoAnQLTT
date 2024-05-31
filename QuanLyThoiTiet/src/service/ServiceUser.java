@@ -1,13 +1,13 @@
 package service;
 
 import database.JDBCUtil;
-import model.ModelUser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Random;
+import models.NguoiDung;
 
 public class ServiceUser {
 
@@ -17,10 +17,10 @@ public class ServiceUser {
         con = JDBCUtil.getConnection();
     }
 
-    public void insertUser(ModelUser user) throws SQLException {
+    public void insertUser(NguoiDung user) throws SQLException {
         PreparedStatement p = con.prepareStatement("insert into `nguoidung` (UserName, Email, `Password`, VerifyCode) values (?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
         String code = generateVerifyCode();
-        p.setString(1, user.getUserName());
+        p.setString(1, user.getUsername());
         p.setString(2, user.getEmail());
         p.setString(3, user.getPassword());
         p.setString(4, code);

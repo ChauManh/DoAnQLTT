@@ -6,8 +6,8 @@ import component.PanelLoading;
 import component.PanelLoginAndRegister;
 import component.PanelVerifyCode;
 import database.JDBCUtil;
-//import dao.ServiceMail;
-//import dao.NguoiDungDAO;
+import service.ServiceMail;
+import dao.NguoiDungDAO;
 import models.ModelLogin;
 import model.ModelMessage;
 import models.NguoiDung;
@@ -36,7 +36,7 @@ public class MainLogin extends javax.swing.JFrame {
     private final double coverSize = 40;
     private final double loginSize = 60;
     private PanelLoading loading;
-//    private NguoiDungDAO service;
+    private NguoiDungDAO service;
 
     public MainLogin() {
         initComponents();
@@ -44,7 +44,7 @@ public class MainLogin extends javax.swing.JFrame {
     }
 
     private void init() {
-//        service = new NguoiDungDAO();
+        service = new NguoiDungDAO();
         layout = new MigLayout("fill, insets 0");
         cover = new PanelCover();
         loading = new PanelLoading();
@@ -59,8 +59,9 @@ public class MainLogin extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 login();
+                NguoiDung user = new NguoiDung(1, "m", "m", "m");
                 setVisible(false);
-                new MainSystem().setVisible(true);
+                new MainSystem(user).setVisible(true);
             }
         };
         loginAndRegister = new PanelLoginAndRegister(eventRegister, eventLogin);
@@ -129,63 +130,63 @@ public class MainLogin extends javax.swing.JFrame {
                 }
             }
         });
-//        verifyCode.addEventButtonOK(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent ae) {
-//                try {
-//                    TaiKhoan user = loginAndRegister.getUser();
-//                    if (service.verifyCodeWithUser(user.getUserID(), verifyCode.getInputCode())) {
-//                        service.doneVerify(user.getUserID());
-//                        showMessage(Message.MessageType.SUCCESS, "Register sucess");
-//                        verifyCode.setVisible(false);
-//                    } else {
-//                        showMessage(Message.MessageType.ERROR, "Verify code incorrect");
-//                    }
-//                } catch (SQLException e) {
-//                    showMessage(Message.MessageType.ERROR, "Error");
-//                }
-//            }
-//        });
+        verifyCode.addEventButtonOK(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    NguoiDung user = loginAndRegister.getUser();
+                    if (service.verifyCodeWithUser(user.getUserID(), verifyCode.getInputCode())) {
+                        service.doneVerify(user.getUserID());
+                        showMessage(Message.MessageType.SUCCESS, "Register sucess");
+                        verifyCode.setVisible(false);
+                    } else {
+                        showMessage(Message.MessageType.ERROR, "Verify code incorrect");
+                    }
+                } catch (SQLException e) {
+                    showMessage(Message.MessageType.ERROR, "Error");
+                }
+            }
+        });
     }
 
     private void register() {
-//        TaiKhoan user = loginAndRegister.getUser();
-//        try {
-//            if (service.checkDuplicateUser(user.getUserName())) {
-//                showMessage(Message.MessageType.ERROR, "User name already exit");
-//            } else if (service.checkDuplicateEmail(user.getEmail())) {
-//                showMessage(Message.MessageType.ERROR, "Email already exit");
-//            } else {
-//                service.insert(user);
-//                sendMain(user);
-//            }
-//        } catch (SQLException e) {
-//            System.err.println("SQLException occurred: " + e.getMessage());
-//            showMessage(Message.MessageType.ERROR, "Error Register");
-//        }
+        NguoiDung user = loginAndRegister.getUser();
+        try {
+            if (service.checkDuplicateUser(user.getUsername())) {
+                showMessage(Message.MessageType.ERROR, "User name already exit");
+            } else if (service.checkDuplicateEmail(user.getEmail())) {
+                showMessage(Message.MessageType.ERROR, "Email already exit");
+            } else {
+                service.insert(user);
+                sendMain(user);
+            }
+        } catch (SQLException e) {
+            System.err.println("SQLException occurred: " + e.getMessage());
+            showMessage(Message.MessageType.ERROR, "Error Register");
+        }
     }
 
     private void login() {
-//    try {
-//        // Lấy dữ liệu đăng nhập từ giao diện
-//        ModelLogin data = loginAndRegister.getDataLogin();
-//        
-//        // Thực hiện đăng nhập
-//        TaiKhoan user = service.login(data);
-//        
-//        // Kiểm tra kết quả đăng nhập và xử lý tương ứng
-//        if (user != null) {
-//            // Đăng nhập thành công, mở cửa sổ chính và đóng cửa sổ đăng nhập
-//            this.dispose();
-//            Main.main(user);
-//        } else {
-//            // Đăng nhập không thành công, hiển thị thông báo lỗi
-//            showMessage(Message.MessageType.ERROR, "Email or Password incorrect");
-//        }
-//    } catch (SQLException e) {
-//        // Xử lý ngoại lệ SQL
-//        showMessage(Message.MessageType.ERROR, "Error Login: " + e.getMessage());
-//    }
+        try {
+            // Lấy dữ liệu đăng nhập từ giao diện
+            ModelLogin data = loginAndRegister.getDataLogin();
+
+            // Thực hiện đăng nhập
+            NguoiDung user = service.login(data);
+
+            // Kiểm tra kết quả đăng nhập và xử lý tương ứng
+            if (user != null) {
+                // Đăng nhập thành công, mở cửa sổ chính và đóng cửa sổ đăng nhập
+                this.dispose();
+                MainSystem.main(user);
+            } else {
+                // Đăng nhập không thành công, hiển thị thông báo lỗi
+                showMessage(Message.MessageType.ERROR, "Email or Password incorrect");
+            }
+        } catch (SQLException e) {
+            // Xử lý ngoại lệ SQL
+            showMessage(Message.MessageType.ERROR, "Error Login: " + e.getMessage());
+        }
     }
 
     private void sendMain(NguoiDung user) {
@@ -330,7 +331,6 @@ public class MainLogin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JDBCUtil.getConnection();
-                System.out.println(JDBCUtil.getConnection());
                 new MainLogin().setVisible(true);
             }
         });

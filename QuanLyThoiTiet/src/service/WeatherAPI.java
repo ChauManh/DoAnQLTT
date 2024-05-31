@@ -144,7 +144,7 @@ public class WeatherAPI {
             JSONArray weatherArray = (JSONArray) dailyData.get("weather");
             JSONObject weatherObject = (JSONObject) weatherArray.get(0);
             dailyForecast.setWeather_condition_id(Integer.parseInt(weatherObject.get("id").toString()));
-
+            dailyForecast.setIcon(weatherObject.get("icon").toString());
             dailyForecasts.add(dailyForecast);
         }
         return dailyForecasts;

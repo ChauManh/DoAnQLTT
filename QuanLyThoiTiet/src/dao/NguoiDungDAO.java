@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import database.JDBCUtil;
+import java.text.DecimalFormat;
+import java.util.Random;
+import models.ModelLogin;
 
 public class NguoiDungDAO implements DAOInterface<NguoiDung> {
 
@@ -17,22 +20,34 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
         return new NguoiDungDAO();
     }
 
+    public NguoiDung login(ModelLogin login) throws SQLException {
+        NguoiDung data = null;
+        PreparedStatement p = connection.prepareStatement("select UserID, Username, Email from `nguoidung` where BINARY(Email)=? and BINARY(`password`)=? and `Status`='Verified' limit 1");
+        p.setString(1, login.getEmail());
+        p.setString(2, login.getPassword());
+        ResultSet r = p.executeQuery();
+        if (r.next()) {
+            int userID = r.getInt(1);
+            String userName = r.getString(2);
+            String email = r.getString(3);
+            data = new NguoiDung(userID, userName, email, "");
+}
+        r.close();
+        p.close();
+        return data;
+    }
+    
     @Override
     public int insert(NguoiDung t) {
         int result = -1;
         try {
-            String sql = "INSERT INTO NguoiDung (UserID, Username, Email, Password, VerifyCode, current_city_fk, hashSalt, nd_language, measurement_type, utc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO NguoiDung (UserID, Username, Email, Password, VerifyCode) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, t.getUserID());
             pre.setString(2, t.getUsername());
             pre.setString(3, t.getEmail());
             pre.setString(4, t.getPassword());
             pre.setString(5, t.getVerifyCode());
-            pre.setLong(6, t.getCurrent_city_fk());
-            pre.setString(7, t.getHashSalt());
-            pre.setString(8, t.getNd_language());
-            pre.setString(9, t.getMeasurement_type());
-            pre.setInt(10, t.getUtc());
             result = pre.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -131,6 +146,76 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
             e.printStackTrace();
         }
         return nd;
+    }
+    
+    private String generateVerifyCode() throws SQLException {
+        DecimalFormat df = new DecimalFormat("000000");
+        Random ran = new Random();
+        String code = df.format(ran.nextInt(1000000));  // Random from 0 to 999999
+        while (checkDuplicateCode(code)) {
+            code = df.format(ran.nextInt(1000000));
+        }
+        return code;
+    }
+
+    private boolean checkDuplicateCode(String code) throws SQLException {
+        boolean duplicate = false;
+        PreparedStatement p = connection.prepareStatement("select UserID from `nguoidung` where VerifyCode=? limit 1");
+        p.setString(1, code);
+        ResultSet r = p.executeQuery();
+        if (r.next()) {
+            duplicate = true;
+        }
+        r.close();
+        p.close();
+        return duplicate;
+    }
+
+    public boolean checkDuplicateUser(String user) throws SQLException {
+        boolean duplicate = false;
+        PreparedStatement p = connection.prepareStatement("select UserID from `nguoidung` where Username=? and `Status`='Verified' limit 1");
+        p.setString(1, user);
+        ResultSet r = p.executeQuery();
+        if (r.next()) {
+            duplicate = true;
+        }
+        r.close();
+        p.close();
+        return duplicate;
+    }
+
+    public boolean checkDuplicateEmail(String email) throws SQLException {
+        boolean duplicate = false;
+        PreparedStatement p = connection.prepareStatement("select UserID from `nguoidung` where Email=? and `Status`='Verified' limit 1");
+        p.setString(1, email);
+        ResultSet r = p.executeQuery();
+        if (r.next()) {
+            duplicate = true;
+        }
+        r.close();
+        p.close();
+        return duplicate;
+    }
+
+    public void doneVerify(int userID) throws SQLException {
+        PreparedStatement p = connection.prepareStatement("update `nguoidung` set VerifyCode='', `Status`='Verified' where UserID=? limit 1");
+        p.setInt(1, userID);
+        p.execute();
+        p.close();
+    }
+
+    public boolean verifyCodeWithUser(int userID, String code) throws SQLException {
+        boolean verify = false;
+        PreparedStatement p = connection.prepareStatement("select UserID from `nguoidung` where UserID=? and VerifyCode=? limit 1");
+        p.setInt(1, userID);
+        p.setString(2, code);
+        ResultSet r = p.executeQuery();
+        if (r.next()) {
+            verify = true;
+        }
+        r.close();
+        p.close();
+        return verify;
     }
     
 }
