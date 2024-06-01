@@ -59,9 +59,6 @@ public class MainLogin extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 login();
-                NguoiDung user = new NguoiDung(1, "m", "m", "m");
-                setVisible(false);
-                new MainSystem(user).setVisible(true);
             }
         };
         loginAndRegister = new PanelLoginAndRegister(eventRegister, eventLogin);
@@ -117,7 +114,6 @@ public class MainLogin extends javax.swing.JFrame {
         bg.setLayer(verifyCode, JLayeredPane.POPUP_LAYER);
         bg.add(loading, "pos 0 0 100% 100%");
         bg.add(verifyCode, "pos 0 0 100% 100%");
-
         bg.add(cover, "width " + coverSize + "%, pos " + (isLogin ? "1al" : "0al") + " 0 n 100%");
         bg.add(loginAndRegister, "width " + loginSize + "%, pos " + (isLogin ? "0al" : "1al") + " 0 n 100%"); //  1al as 100%
         loginAndRegister.showRegister(!isLogin);
@@ -143,6 +139,7 @@ public class MainLogin extends javax.swing.JFrame {
                         showMessage(Message.MessageType.ERROR, "Verify code incorrect");
                     }
                 } catch (SQLException e) {
+                    System.out.println(e);
                     showMessage(Message.MessageType.ERROR, "Error");
                 }
             }
@@ -170,7 +167,7 @@ public class MainLogin extends javax.swing.JFrame {
         try {
             // Lấy dữ liệu đăng nhập từ giao diện
             ModelLogin data = loginAndRegister.getDataLogin();
-
+            
             // Thực hiện đăng nhập
             NguoiDung user = service.login(data);
 

@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 public class ServiceMail {
 
-    public ModelMessage sendMail(String toEmail, String code) {
+    public static ModelMessage sendMail(String toEmail, String code) {
         ModelMessage ms = new ModelMessage(false, "");
         String from = "22520846@gm.uit.edu.vn";
         Properties prop = new Properties();

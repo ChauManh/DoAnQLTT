@@ -31,24 +31,33 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
             String userName = r.getString(2);
             String email = r.getString(3);
             data = new NguoiDung(userID, userName, email, "");
-}
+        }
         r.close();
         p.close();
         return data;
     }
-    
+
     @Override
     public int insert(NguoiDung t) {
         int result = -1;
         try {
-            String sql = "INSERT INTO NguoiDung (UserID, Username, Email, Password, VerifyCode) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, t.getUserID());
-            pre.setString(2, t.getUsername());
-            pre.setString(3, t.getEmail());
-            pre.setString(4, t.getPassword());
-            pre.setString(5, t.getVerifyCode());
+            String sql = "INSERT INTO NguoiDung (Username, Email, Password, VerifyCode) VALUES (?, ?, ?, ?)";
+            PreparedStatement pre = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            String code = generateVerifyCode();
+            pre.setString(1, t.getUsername());
+            pre.setString(2, t.getEmail());
+            pre.setString(3, t.getPassword());
+            pre.setString(4, code);
             result = pre.executeUpdate();
+
+            ResultSet r = pre.getGeneratedKeys();
+            if (r.next()) {
+                int userID = r.getInt(1);
+                t.setUserID(userID);
+                t.setVerifyCode(code);
+            }
+            r.close();
+            pre.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -101,16 +110,16 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
             ResultSet result = statement.executeQuery(sql);
             while (result.next()) {
                 NguoiDung nd = new NguoiDung(
-                    result.getInt("UserID"),
-                    result.getString("Username"),
-                    result.getString("Email"),
-                    result.getString("Password"),
-                    result.getString("VerifyCode"),
-                    result.getLong("current_city_fk"),
-                    result.getString("hashSalt"),
-                    result.getString("nd_language"),
-                    result.getString("measurement_type"),
-                    result.getInt("utc")
+                        result.getInt("UserID"),
+                        result.getString("Username"),
+                        result.getString("Email"),
+                        result.getString("Password"),
+                        result.getString("VerifyCode"),
+                        result.getLong("current_city_fk"),
+                        result.getString("hashSalt"),
+                        result.getString("nd_language"),
+                        result.getString("measurement_type"),
+                        result.getInt("utc")
                 );
                 dsNguoiDung.add(nd);
             }
@@ -130,16 +139,16 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
             ResultSet result = pre.executeQuery();
             if (result.next()) {
                 nd = new NguoiDung(
-                    result.getInt("UserID"),
-                    result.getString("Username"),
-                    result.getString("Email"),
-                    result.getString("Password"),
-                    result.getString("VerifyCode"),
-                    result.getLong("current_city_fk"),
-                    result.getString("hashSalt"),
-                    result.getString("nd_language"),
-                    result.getString("measurement_type"),
-                    result.getInt("utc")
+                        result.getInt("UserID"),
+                        result.getString("Username"),
+                        result.getString("Email"),
+                        result.getString("Password"),
+                        result.getString("VerifyCode"),
+                        result.getLong("current_city_fk"),
+                        result.getString("hashSalt"),
+                        result.getString("nd_language"),
+                        result.getString("measurement_type"),
+                        result.getInt("utc")
                 );
             }
         } catch (SQLException e) {
@@ -147,7 +156,7 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
         }
         return nd;
     }
-    
+
     private String generateVerifyCode() throws SQLException {
         DecimalFormat df = new DecimalFormat("000000");
         Random ran = new Random();
@@ -217,5 +226,5 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
         p.close();
         return verify;
     }
-    
+
 }

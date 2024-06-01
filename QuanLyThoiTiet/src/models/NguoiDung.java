@@ -120,8 +120,6 @@ public class NguoiDung {
 
     public void setUtc(Integer utc) {
         this.utc = utc;
-    }
-
-    
+    }   
     
 }
