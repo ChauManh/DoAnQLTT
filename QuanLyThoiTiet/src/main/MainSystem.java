@@ -17,12 +17,11 @@ public class MainSystem extends javax.swing.JFrame {
     private Form_Alert fAlert;
     private final NguoiDung user;
 
-    public MainSystem(NguoiDung user) {
-
+    public MainSystem(NguoiDung user) {      
         initComponents();
         this.user = user;
 
-        fWeather = new Form_Weather();
+        fWeather = new Form_Weather(user);
         fAlert = new Form_Alert();
 
         menu.initMoving(MainSystem.this);
@@ -61,6 +60,7 @@ public class MainSystem extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 

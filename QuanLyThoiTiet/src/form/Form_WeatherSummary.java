@@ -1,12 +1,18 @@
 package form;
 
+import dao.CityDAO;
+import dao.WeatherConditionDAO;
+import models.City;
+import models.CurrentWeather;
+import models.NguoiDung;
 import service.ServiceGetCurrentTime;
 
 public class Form_WeatherSummary extends javax.swing.JPanel {
 
-    public Form_WeatherSummary() {
+    public Form_WeatherSummary(CurrentWeather cw_user, City city_user) {
         initComponents();
         setVisible(true);
+        setInfo(cw_user, city_user);
     }
 
     @SuppressWarnings("unchecked")
@@ -202,39 +208,38 @@ public class Form_WeatherSummary extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(textTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3)
-                                .addGap(20, 20, 20))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(textHumidity1)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(59, 59, 59))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textDate)
-                            .addComponent(textCity))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textDescription)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(textTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel3)))
+                                .addGap(20, 20, 20)))
+                        .addGap(59, 59, 59))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(114, 114, 114)
-                .addComponent(textDescription)
+                .addGap(15, 15, 15)
+                .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textDate)
+                    .addComponent(textCity))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(textCity)
                         .addGap(0, 0, 0)
                         .addComponent(textDate))
                     .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(textTemp)
                     .addComponent(jLabel3))
@@ -268,18 +273,19 @@ public class Form_WeatherSummary extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setInfo(String city, float temp, String description ,int visibility, float wind, float feelLike, int Humidity, int Clound, float UV){
-        Float temperature = Math.round(temp * 100.0f) / 100.0f;
-        Float tempFeelLike = Math.round(feelLike * 100.0f) / 100.0f;
-        textCity.setText(city);
+    public void setInfo(CurrentWeather cw_user, City city_user){
+        Float temperature = Math.round(cw_user.getTemperature() * 100.0f) / 100.0f;
+        Float tempFeelLike = Math.round(cw_user.getFeels_like() * 100.0f) / 100.0f;
+        String description = WeatherConditionDAO.getDescription(cw_user.getWeatherCondition());
+        textCity.setText(city_user.getCity_name());
         textTemp.setText(temperature+"");
         textDescription.setText(description);
-        textVisibility.setText(visibility+"");
-        textWind.setText(wind+"");
+        textVisibility.setText(cw_user.getVisibility()+"");
+        textWind.setText(cw_user.getWindSpeed()+"");
         textFeelLike.setText(tempFeelLike+"");
-        textHumidity.setText(Humidity+"");
-        textClound.setText(Clound+"");
-        textUV.setText(UV+"");
+        textHumidity.setText(cw_user.getHumidity()+"");
+        textClound.setText(cw_user.getClouds()+"");
+        textUV.setText(cw_user.getUv()+"");
         textDate.setText(ServiceGetCurrentTime.getDate());
     }
 

@@ -60,8 +60,8 @@ public class SearchBar extends javax.swing.JPanel {
         });
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
-        btnSearch.setColorClick(new java.awt.Color(153, 255, 255));
-        btnSearch.setColorOver(new java.awt.Color(102, 204, 255));
+        btnSearch.setColorClick(new java.awt.Color(153, 204, 255));
+        btnSearch.setColorOver(new java.awt.Color(255, 255, 51));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

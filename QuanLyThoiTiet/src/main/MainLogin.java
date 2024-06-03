@@ -37,7 +37,8 @@ public class MainLogin extends javax.swing.JFrame {
     private final double loginSize = 60;
     private PanelLoading loading;
     private NguoiDungDAO service;
-
+    private NguoiDung user_login;
+    
     public MainLogin() {
         initComponents();
         init();
@@ -169,13 +170,13 @@ public class MainLogin extends javax.swing.JFrame {
             ModelLogin data = loginAndRegister.getDataLogin();
             
             // Thực hiện đăng nhập
-            NguoiDung user = service.login(data);
+            user_login = service.login(data);
 
             // Kiểm tra kết quả đăng nhập và xử lý tương ứng
-            if (user != null) {
+            if (user_login != null) {
                 // Đăng nhập thành công, mở cửa sổ chính và đóng cửa sổ đăng nhập
                 this.dispose();
-                MainSystem.main(user);
+                MainSystem.main(user_login);
             } else {
                 // Đăng nhập không thành công, hiển thị thông báo lỗi
                 showMessage(Message.MessageType.ERROR, "Email or Password incorrect");
@@ -267,6 +268,7 @@ public class MainLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        setResizable(false);
 
         bg.setBackground(new java.awt.Color(250, 250, 250));
         bg.setOpaque(true);

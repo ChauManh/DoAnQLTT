@@ -24,6 +24,7 @@ import models.City;
 import models.CurrentWeather;
 import models.DailyForecast;
 import models.HourlyForecast;
+import models.NguoiDung;
 import org.json.simple.JSONObject;
 import service.ServiceConvertIcon;
 import service.UnixConvertTime;
@@ -40,14 +41,14 @@ public class Form_Weather extends javax.swing.JPanel {
     private boolean check;
     private int currentHfIndex = 0;
     private int currentDfIndex = 0;
+    private Form_SetLocation fSetLocation;
+    private NguoiDung user;
 
-    public Form_Weather() {
+    public Form_Weather(NguoiDung user) {
         initComponents();
+        this.user = user;
         setVisible(true);
-
-        fWeatherSummary = new Form_WeatherSummary();
-
-        setForm(panelWeatherSummary, fWeatherSummary);
+        setDefaultMyWeather();
         searchBar.btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,6 +74,24 @@ public class Form_Weather extends javax.swing.JPanel {
         panel.revalidate();
     }
 
+    public void setDefaultMyWeather() {
+        if (user.getCurrent_city_fk() != 0) {
+            City city_user = CityDAO.getInstance().selectByIdR(user.getCurrent_city_fk());
+            CurrentWeather cw = WeatherAPI.getCurrentWeather(city_user.getLatitude(), city_user.getLongitude(), city_user.getCity_id());
+            fWeatherSummary = new Form_WeatherSummary(cw, city_user);
+            setForm(myLocationPanel, fWeatherSummary);
+        }
+    }
+
+     public void setMyWeatherWhenChanged(int currentCityChanged) {
+        if (user.getCurrent_city_fk() != 0) {
+            City city_user = CityDAO.getInstance().selectByIdR(currentCityChanged);
+            CurrentWeather cw = WeatherAPI.getCurrentWeather(city_user.getLatitude(), city_user.getLongitude(), city_user.getCity_id());
+            fWeatherSummary = new Form_WeatherSummary(cw, city_user);
+            setForm(myLocationPanel, fWeatherSummary);
+        }
+    }
+    
     public void showFormHomNay(City city) {
         fHomNay = new Form_HomNay();
         CurrentWeather currentWeather = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
@@ -201,6 +220,9 @@ public class Form_Weather extends javax.swing.JPanel {
         btnHangNgay = new swing.MyButton();
         mainPanel = new javax.swing.JPanel();
         panelWeatherSummary = new swing.PanelBorder();
+        myLocationPanel = new swing.PanelBorder();
+        btnSetLocation = new swing.MyButton();
+        jLabel2 = new javax.swing.JLabel();
         panelAlert = new swing.PanelBorder();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -213,8 +235,8 @@ public class Form_Weather extends javax.swing.JPanel {
         panelWeatherDetail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
         btnHienTai.setText("CURRENT");
-        btnHienTai.setColorClick(new java.awt.Color(204, 255, 255));
-        btnHienTai.setColorOver(new java.awt.Color(0, 204, 255));
+        btnHienTai.setColorClick(new java.awt.Color(153, 204, 255));
+        btnHienTai.setColorOver(new java.awt.Color(255, 255, 51));
         btnHienTai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnHienTai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,8 +245,8 @@ public class Form_Weather extends javax.swing.JPanel {
         });
 
         btnTheoGio.setText("HOURLY");
-        btnTheoGio.setColorClick(new java.awt.Color(204, 255, 255));
-        btnTheoGio.setColorOver(new java.awt.Color(0, 204, 255));
+        btnTheoGio.setColorClick(new java.awt.Color(153, 204, 255));
+        btnTheoGio.setColorOver(new java.awt.Color(255, 255, 51));
         btnTheoGio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnTheoGio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,8 +255,8 @@ public class Form_Weather extends javax.swing.JPanel {
         });
 
         btnHangNgay.setText("DAILY");
-        btnHangNgay.setColorClick(new java.awt.Color(204, 255, 255));
-        btnHangNgay.setColorOver(new java.awt.Color(0, 204, 255));
+        btnHangNgay.setColorClick(new java.awt.Color(153, 204, 255));
+        btnHangNgay.setColorOver(new java.awt.Color(255, 255, 51));
         btnHangNgay.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnHangNgay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -277,7 +299,47 @@ public class Form_Weather extends javax.swing.JPanel {
 
         panelWeatherSummary.setBackground(new java.awt.Color(153, 204, 255));
         panelWeatherSummary.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        panelWeatherSummary.setLayout(new java.awt.BorderLayout());
+
+        myLocationPanel.setBackground(new java.awt.Color(153, 204, 255));
+        myLocationPanel.setLayout(new java.awt.BorderLayout());
+
+        btnSetLocation.setBackground(new java.awt.Color(153, 204, 255));
+        btnSetLocation.setBorder(null);
+        btnSetLocation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/myLocation.png"))); // NOI18N
+        btnSetLocation.setColor(new java.awt.Color(153, 204, 255));
+        btnSetLocation.setColorClick(new java.awt.Color(153, 204, 255));
+        btnSetLocation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetLocationActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Set your location");
+
+        javax.swing.GroupLayout panelWeatherSummaryLayout = new javax.swing.GroupLayout(panelWeatherSummary);
+        panelWeatherSummary.setLayout(panelWeatherSummaryLayout);
+        panelWeatherSummaryLayout.setHorizontalGroup(
+            panelWeatherSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(myLocationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelWeatherSummaryLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSetLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelWeatherSummaryLayout.setVerticalGroup(
+            panelWeatherSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelWeatherSummaryLayout.createSequentialGroup()
+                .addGroup(panelWeatherSummaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSetLocation, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addGroup(panelWeatherSummaryLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)))
+                .addComponent(myLocationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         panelAlert.setBackground(new java.awt.Color(153, 204, 255));
         panelAlert.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -297,7 +359,7 @@ public class Form_Weather extends javax.swing.JPanel {
         panelAlertLayout.setHorizontalGroup(
             panelAlertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
         );
         panelAlertLayout.setVerticalGroup(
             panelAlertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,7 +378,7 @@ public class Form_Weather extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelWeatherDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchBar, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE))
+                    .addComponent(searchBar, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelWeatherSummary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -333,9 +395,9 @@ public class Form_Weather extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(panelWeatherDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelWeatherSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panelWeatherSummary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(panelAlert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(panelAlert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -361,42 +423,23 @@ public class Form_Weather extends javax.swing.JPanel {
             currentDfIndex = 0; // Reset chỉ số hiện tại
             setForm(mainPanel, arrayFormTheoNgay.get(currentDfIndex));
         }
-//        for (DailyForecast forecast : arrayDailyForecast) {
-//            System.out.println("City ID: " + forecast.getCity_id());
-//            System.out.println("Date: " + forecast.getDf_date());
-//            System.out.println("Sunrise: " + forecast.getSunrise());
-//            System.out.println("Sunset: " + forecast.getSunset());
-//            System.out.println("Moonrise: " + forecast.getMoonrise());
-//            System.out.println("Moonset: " + forecast.getMoonset());
-//            System.out.println("Temperature (Day): " + forecast.getTemperature_day() + "°C");
-//            System.out.println("Temperature (Min): " + forecast.getTemperature_min() + "°C");
-//            System.out.println("Temperature (Max): " + forecast.getTemperature_max() + "°C");
-//            System.out.println("Temperature (Night): " + forecast.getTemperature_night() + "°C");
-//            System.out.println("Temperature (Eve): " + forecast.getTemperature_eve() + "°C");
-//            System.out.println("Temperature (Morn): " + forecast.getTemperature_morn() + "°C");
-//            System.out.println("Feels Like (Day): " + forecast.getFeels_like_day() + "°C");
-//            System.out.println("Feels Like (Night): " + forecast.getFeels_like_night() + "°C");
-//            System.out.println("Feels Like (Eve): " + forecast.getFeels_like_eve() + "°C");
-//            System.out.println("Feels Like (Morn): " + forecast.getFeels_like_morn() + "°C");
-//            System.out.println("Pressure: " + forecast.getPressure() + " hPa");
-//            System.out.println("Humidity: " + forecast.getHumidity() + " %");
-//            System.out.println("Wind Speed: " + forecast.getWind_speed() + " m/s");
-//            System.out.println("Clouds: " + forecast.getClouds() + " %");
-//            System.out.println("Precipitation Probability: " + forecast.getPop() + " %");
-//            System.out.println("UV Index: " + forecast.getUv());
-//            System.out.println("Weather Condition ID: " + forecast.getWeather_condition_id());
-//            System.out.println("-----------------------------------------------------");
-//        }
     }//GEN-LAST:event_btnHangNgayActionPerformed
+
+    private void btnSetLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetLocationActionPerformed
+        fSetLocation = new Form_SetLocation(user, Form_Weather.this);
+    }//GEN-LAST:event_btnSetLocationActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.MyButton btnHangNgay;
     private swing.MyButton btnHienTai;
+    private swing.MyButton btnSetLocation;
     private swing.MyButton btnTheoGio;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel mainPanel;
+    private swing.PanelBorder myLocationPanel;
     private swing.PanelBorder panelAlert;
     private swing.PanelBorder panelWeatherDetail;
     public swing.PanelBorder panelWeatherSummary;

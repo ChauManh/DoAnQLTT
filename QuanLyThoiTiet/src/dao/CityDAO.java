@@ -109,6 +109,26 @@ public class CityDAO implements DAOInterface<City> {
         return ketQua;
     }   
     
+    public City selectByIdR(int city_id) {
+        City ketQua = null;
+        try {
+            String sql = "SELECT * FROM city WHERE city_id = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, city_id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                String city_name = rs.getString("city_name");
+                String country_id = rs.getString("country_id");
+                float latitude = rs.getFloat("latitude");
+                float longitude = rs.getFloat("longitude");             
+                ketQua = new City(city_id, city_name, country_id, latitude, longitude);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }   
+    
     public ArrayList<City> findTopCities(String searchString) {
         ArrayList<City> ketQua = new ArrayList<>();
         try {

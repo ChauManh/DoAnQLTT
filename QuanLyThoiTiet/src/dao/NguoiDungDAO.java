@@ -22,7 +22,7 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
 
     public NguoiDung login(ModelLogin login) throws SQLException {
         NguoiDung data = null;
-        PreparedStatement p = connection.prepareStatement("select UserID, Username, Email from `nguoidung` where BINARY(Email)=? and BINARY(`password`)=? and `Status`='Verified' limit 1");
+        PreparedStatement p = connection.prepareStatement("select UserID, Username, Email, current_city_fk from `nguoidung` where BINARY(Email)=? and BINARY(`password`)=? and `Status`='Verified' limit 1");
         p.setString(1, login.getEmail());
         p.setString(2, login.getPassword());
         ResultSet r = p.executeQuery();
@@ -30,7 +30,8 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
             int userID = r.getInt(1);
             String userName = r.getString(2);
             String email = r.getString(3);
-            data = new NguoiDung(userID, userName, email, "");
+            int user_cityId = r.getInt(4);
+            data = new NguoiDung(userID, userName, email, user_cityId, "");
         }
         r.close();
         p.close();
@@ -68,18 +69,10 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
     public int update(NguoiDung t) {
         int result = -1;
         try {
-            String sql = "UPDATE NguoiDung SET Username = ?, Email = ?, Password = ?, VerifyCode = ?, current_city_fk = ?, hashSalt = ?, nd_language = ?, measurement_type = ?, utc = ? WHERE UserID = ?";
+            String sql = "UPDATE NguoiDung SET current_city_fk = ? WHERE UserID = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setString(1, t.getUsername());
-            pre.setString(2, t.getEmail());
-            pre.setString(3, t.getPassword());
-            pre.setString(4, t.getVerifyCode());
-            pre.setLong(5, t.getCurrent_city_fk());
-            pre.setString(6, t.getHashSalt());
-            pre.setString(7, t.getNd_language());
-            pre.setString(8, t.getMeasurement_type());
-            pre.setInt(9, t.getUtc());
-            pre.setInt(10, t.getUserID());
+            pre.setInt(1, t.getCurrent_city_fk());
+            pre.setInt(2, t.getUserID());
             result = pre.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -115,7 +108,7 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
                         result.getString("Email"),
                         result.getString("Password"),
                         result.getString("VerifyCode"),
-                        result.getLong("current_city_fk"),
+                        result.getInt("current_city_fk"),
                         result.getString("hashSalt"),
                         result.getString("nd_language"),
                         result.getString("measurement_type"),
@@ -144,7 +137,7 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
                         result.getString("Email"),
                         result.getString("Password"),
                         result.getString("VerifyCode"),
-                        result.getLong("current_city_fk"),
+                        result.getInt("current_city_fk"),
                         result.getString("hashSalt"),
                         result.getString("nd_language"),
                         result.getString("measurement_type"),
