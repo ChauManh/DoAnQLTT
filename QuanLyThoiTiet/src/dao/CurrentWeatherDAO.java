@@ -17,15 +17,15 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
 
    @Override
     public int insert(CurrentWeather t) {
+        Connection con = JDBCUtil.getConnection();
         int ketQua = 0;
         try {
-            Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO currentweather (city_id, weather_condition_id, cur_timestamp, icon, temperature, feels_like, pressure, humidity, clouds, uv, visibility, wind_speed, aqi) "
-                       + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "{CALL InsertOrUpdateCurrentWeather(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+            
             PreparedStatement pst = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pst.setInt(1, t.getCityId());
-            pst.setInt(2, t.getWeatherCondition());
-            pst.setInt(3, t.getCurTimestamp());
+            pst.setInt(2, t.getCurTimestamp());            
+            pst.setInt(3, t.getWeatherCondition());
             pst.setString(4, t.getIcon());
             pst.setFloat(5, t.getTemperature());
             pst.setFloat(6, t.getFeels_like());
@@ -36,6 +36,8 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
             pst.setInt(11, t.getVisibility());
             pst.setFloat(12, t.getWindSpeed());
             pst.setInt(13, t.getAqi());
+            
+            //System.out.println(t.getCurTimestamp());
 
             pst.execute();
             ResultSet r = pst.getGeneratedKeys();
@@ -46,7 +48,7 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
             r.close();
             pst.close();
             ketQua = 1; // Số dòng bị thay đổi là 1 sau khi thêm dữ liệu thành công
-            JDBCUtil.closeConnection(con);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,10 +58,10 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
 
     @Override
     public int update(CurrentWeather t) {
+        Connection con = JDBCUtil.getConnection();
         int ketQua = 0;
         try {
-            Connection con = JDBCUtil.getConnection();
-            String sql = "UPDATE current_weather SET cityId = ?, weatherCondition = ?, curTimestamp = ?, icon = ?, temperature = ?, feels_like = ?, pressure = ?, humidity = ?, clouds = ?, uv = ?, visibility = ?, windSpeed = ?, aqi = ? WHERE currenWeatherId = ?";
+            String sql = "{CALL UpdateCurrentWeather(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, t.getCityId());
             pst.setInt(2, t.getWeatherCondition());
@@ -79,7 +81,7 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
             ketQua = pst.executeUpdate();
             System.out.println("Da thuc thi: " + sql);
             System.out.println("Co " + ketQua + " dong bi thay doi.");
-            JDBCUtil.closeConnection(con);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -88,9 +90,9 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
 
     @Override
     public int delete(CurrentWeather t) {
+        Connection con = JDBCUtil.getConnection();
         int ketQua = 0;
         try {
-            Connection con = JDBCUtil.getConnection();
             String sql = "DELETE FROM current_weather WHERE currenWeatherId = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, t.getCurrenWeatherId());
@@ -98,7 +100,7 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
             ketQua = pst.executeUpdate();
             System.out.println("Da thuc thi: " + sql);
             System.out.println("Co " + ketQua + " dong bi thay doi.");
-            JDBCUtil.closeConnection(con);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -133,7 +135,7 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
 
                 ketQua.add(currentWeather);
             }
-            JDBCUtil.closeConnection(con);
+            // JDBCUtil.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -167,7 +169,7 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
                 currentWeather.setWindSpeed(rs.getFloat("wind_speed"));
                 currentWeather.setAqi(rs.getInt("aqi"));
             }
-            JDBCUtil.closeConnection(con);
+            // JDBCUtil.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }

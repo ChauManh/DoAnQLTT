@@ -10,14 +10,13 @@ import models.City;
 
 public class CityDAO implements DAOInterface<City> {
 
-    private Connection connection = JDBCUtil.getConnection();
-
     public static CityDAO getInstance() {
         return new CityDAO();
     }
 
     @Override
     public int insert(City t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "INSERT INTO city (city_id, city_name, country_id, latitude, longitude) VALUES (?, ?, ?, ?, ?)";
@@ -36,6 +35,7 @@ public class CityDAO implements DAOInterface<City> {
 
     @Override
     public int update(City t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "UPDATE city SET city_name = ?, country_id = ?, latitude = ?, longitude = ? WHERE city_id = ?";
@@ -54,6 +54,7 @@ public class CityDAO implements DAOInterface<City> {
 
     @Override
     public int delete(City t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "DELETE FROM city WHERE city_id = ?";
@@ -68,6 +69,7 @@ public class CityDAO implements DAOInterface<City> {
 
     @Override
     public ArrayList<City> selectAll() {
+        Connection connection = JDBCUtil.getConnection();
         ArrayList<City> ketQua = new ArrayList<>();
         try {
             String sql = "SELECT * FROM city";
@@ -90,6 +92,7 @@ public class CityDAO implements DAOInterface<City> {
 
     @Override
     public City selectById(String city_name) {
+        Connection connection = JDBCUtil.getConnection();
         City ketQua = null;
         try {
             String sql = "SELECT * FROM city WHERE city_name = ?";
@@ -110,6 +113,7 @@ public class CityDAO implements DAOInterface<City> {
     }   
     
     public City selectByIdR(int city_id) {
+        Connection connection = JDBCUtil.getConnection();
         City ketQua = null;
         try {
             String sql = "SELECT * FROM city WHERE city_id = ?";
@@ -130,6 +134,7 @@ public class CityDAO implements DAOInterface<City> {
     }   
     
     public ArrayList<City> findTopCities(String searchString) {
+        Connection connection = JDBCUtil.getConnection();
         ArrayList<City> ketQua = new ArrayList<>();
         try {
             String sql = "{CALL FindTopCities(?)}";

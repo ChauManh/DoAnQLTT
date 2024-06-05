@@ -10,14 +10,13 @@ import database.JDBCUtil;
 
 public class WeatherConditionDAO implements DAOInterface<WeatherCondition> {
 
-    private Connection connection = JDBCUtil.getConnection();
-
     public static WeatherConditionDAO getInstance() {
         return new WeatherConditionDAO();
     }
 
     @Override
     public int insert(WeatherCondition t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "INSERT INTO WeatherCondition (weather_condition_id, main, weather_description) VALUES (?, ?, ?)";
@@ -34,6 +33,7 @@ public class WeatherConditionDAO implements DAOInterface<WeatherCondition> {
 
     @Override
     public int update(WeatherCondition t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "UPDATE WeatherCondition SET main = ?, weather_description = ? WHERE weather_condition_id = ?";
@@ -50,6 +50,7 @@ public class WeatherConditionDAO implements DAOInterface<WeatherCondition> {
 
     @Override
     public int delete(WeatherCondition t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "DELETE FROM WeatherCondition WHERE weather_condition_id = ?";
@@ -64,6 +65,7 @@ public class WeatherConditionDAO implements DAOInterface<WeatherCondition> {
 
     @Override
     public ArrayList<WeatherCondition> selectAll() {
+        Connection connection = JDBCUtil.getConnection();
         ArrayList<WeatherCondition> dsWeatherCondition = new ArrayList<>();
         try {
             String sql = "SELECT * FROM WeatherCondition";
@@ -85,6 +87,7 @@ public class WeatherConditionDAO implements DAOInterface<WeatherCondition> {
 
     @Override
     public WeatherCondition selectById(String t) {
+        Connection connection = JDBCUtil.getConnection();
         WeatherCondition wc = null;
         try {
             String sql = "SELECT * FROM WeatherCondition WHERE weather_condition_id = ?";

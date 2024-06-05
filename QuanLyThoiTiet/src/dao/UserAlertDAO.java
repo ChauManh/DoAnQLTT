@@ -12,7 +12,7 @@ import database.JDBCUtil;
 
 public class UserAlertDAO implements DAOInterface<UserAlert> {
     
-    Connection connection = JDBCUtil.getConnection();
+
     
     public static UserAlertDAO getInstance() {
         return new UserAlertDAO();
@@ -20,6 +20,7 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
    
     @Override
     public ArrayList<UserAlert> selectAll () {
+        Connection connection = JDBCUtil.getConnection();
         ArrayList<UserAlert> dsUserAlert = new ArrayList<>();
         try {
             String sql = "SELECT * FROM UserAlert";
@@ -45,6 +46,7 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
 
     @Override
     public UserAlert selectById(String userAlertId) {
+        Connection connection = JDBCUtil.getConnection();
         UserAlert ua = null;
         try {
             String sql = "SELECT * FROM UserAlert WHERE user_alert_id = ?";
@@ -70,6 +72,7 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
 
     @Override
     public int insert(UserAlert ua) {
+        Connection connection = JDBCUtil.getConnection();
         try {
             String sql = "INSERT INTO UserAlert (nd_id, alert_type_id, city_id, condition_type, alert_value, comment, activated) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -90,6 +93,7 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
     
     @Override
     public int delete (UserAlert df) {
+        Connection connection = JDBCUtil.getConnection();
         try {
             String sql = "DELETE FROM UserAlert WHERE user_alert_id = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -104,6 +108,7 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
     
     @Override
     public int update(UserAlert ua) {
+        Connection connection = JDBCUtil.getConnection();
         try {
             String sql = "UPDATE UserAlert SET nd_id = ?, alert_type_id = ?, city_id = ?, condition_type = ?, alert_value = ?, comment = ?, timeframe = ?, activated = ? WHERE user_alert_id = ?";
             PreparedStatement pre = connection.prepareStatement(sql);

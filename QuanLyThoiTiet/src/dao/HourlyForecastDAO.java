@@ -13,8 +13,6 @@ import database.JDBCUtil;
 
 public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
 
-    Connection connection = JDBCUtil.getConnection();
-    
     public static HourlyForecastDAO getInstance() {
         return new HourlyForecastDAO();
     }
@@ -22,12 +20,13 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
     @Override
     public int insert(HourlyForecast hf) {
         try {
-            String sql = "INSERT INTO HourlyForecast (hourly_forecast_id, weather_condition_id, city_id, hf_timestamp, icon, temperature, feels_like, pressure, humidity, clouds, uv, visibility, wind_speed, pop, aqi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Connection connection = JDBCUtil.getConnection();
+            String sql = "{CALL InsertOrUpdateHourlyForecast(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, hf.getHourly_forecast_id());
-            pre.setInt(2, hf.getWeather_condition_id());
-            pre.setLong(3, hf.getCity_id());
-            pre.setLong(4, hf.getHf_timestamp());
+            pre.setLong(2, hf.getCity_id());
+            pre.setLong(3, hf.getHf_timestamp());
+            pre.setInt(4, hf.getWeather_condition_id());            
             pre.setString(5, hf.getIcon());
             pre.setFloat(6, hf.getTemperature());
             pre.setFloat(7, hf.getFeels_like());
@@ -48,13 +47,14 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
 
     @Override
     public int update(HourlyForecast hf) {
+        Connection connection = JDBCUtil.getConnection();
         try {
-            String sql = "UPDATE HourlyForecast SET weather_condition_id = ?, city_id = ?, hf_timestamp = ?, icon = ?, temperature = ?, feels_like = ?, pressure = ?, humidity = ?, clouds = ?, uv = ?, visibility = ?, wind_speed = ?, pop = ?, aqi = ? WHERE hourly_forecast_id = ?";
+            String sql = "{CALL UpdateHourlyForecast(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, hf.getHourly_forecast_id());
-            pre.setInt(2, hf.getWeather_condition_id());
-            pre.setLong(3, hf.getCity_id());
-            pre.setLong(4, hf.getHf_timestamp());
+            pre.setInt(1, hf.getHourly_forecast_id());              
+            pre.setLong(2, hf.getCity_id());            
+            pre.setLong(3, hf.getHf_timestamp());
+            pre.setInt(4, hf.getWeather_condition_id());
             pre.setString(5, hf.getIcon());
             pre.setFloat(6, hf.getTemperature());
             pre.setFloat(7, hf.getFeels_like());
@@ -76,6 +76,7 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
 
     @Override
     public int delete(HourlyForecast t) {
+        Connection connection = JDBCUtil.getConnection();
         try {
             String sql = "DELETE FROM HourlyForecast WHERE hourly_forecast_id = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -89,6 +90,7 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
 
     @Override
     public ArrayList<HourlyForecast> selectAll() {
+        Connection connection = JDBCUtil.getConnection();
         ArrayList<HourlyForecast> dsHourlyForecast = new ArrayList<>();
         try {
             String sql = "SELECT * FROM HourlyForecast";
@@ -121,6 +123,7 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
 
     @Override
     public HourlyForecast selectById(String t) {
+        Connection connection = JDBCUtil.getConnection();
         HourlyForecast hf = null;
         try {
             String sql = "SELECT * FROM HourlyForecast WHERE hourly_forecast_id = ?";
@@ -152,6 +155,7 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
     }
     
     public double getAverageTemperatureNextXHours(long cityID, int X) {
+        Connection connection = JDBCUtil.getConnection();
         double avgTemperature = -1;
         try {
             String sql = "{CALL AverageTemperatureNextXHours(?, ?)}";
@@ -169,6 +173,7 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
     }
 
     public double getAverageRainProbabilityNextXHours(long cityID, int X) {
+        Connection connection = JDBCUtil.getConnection();
         double avgRainProbability = -1;
         try {
             String sql = "{CALL AverageRainProbabilityNextXHours(?, ?)}";
@@ -186,6 +191,7 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
     }
 
     public double getAverageAQINextXHours(long cityID, int X) {
+        Connection connection = JDBCUtil.getConnection();
         double avgAQI = -1;
         try {
             String sql = "{CALL AverageAQINextXHours(?, ?)}";
@@ -203,6 +209,7 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
     }
 
     public double getAverageHumidityNextXHours(long cityID, int X) {
+        Connection connection = JDBCUtil.getConnection();
         double avgHumidity = -1;
         try {
             String sql = "{CALL AverageHumidityNextXHours(?, ?)}";

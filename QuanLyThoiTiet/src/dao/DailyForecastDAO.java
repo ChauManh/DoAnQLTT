@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import database.JDBCUtil;
 
 public class DailyForecastDAO implements DAOInterface<DailyForecast> {
-
-    Connection connection = JDBCUtil.getConnection();
     
     public static DailyForecastDAO getInstance() {
         return new DailyForecastDAO();
@@ -18,13 +16,14 @@ public class DailyForecastDAO implements DAOInterface<DailyForecast> {
 
     @Override
     public int insert(DailyForecast df) {
+        Connection connection = JDBCUtil.getConnection();
         try {
-            String sql = "INSERT INTO DailyForecast (daily_forecast_id, weather_condition_id, city_id, df_date, icon, sunrise, sunset, moonrise, moonset, summary, temperature_max, temperature_min, temperature_morn, temperature_day, temperature_eve, temperature_night, feels_like_morn, feels_like_day, feels_like_eve, feels_like_night, pressure, humidity, wind_speed, clouds, uv, pop, aqi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "{CALL InsertOrUpdateDailyForecast(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, df.getDaily_forecast_id());
-            pre.setInt(2, df.getWeather_condition_id());
-            pre.setLong(3, df.getCity_id());
-            pre.setLong(4, df.getDf_date());
+            pre.setLong(2, df.getCity_id());
+            pre.setLong(3, df.getDf_date());
+            pre.setInt(4, df.getWeather_condition_id());            
             pre.setString(5, df.getIcon());
             pre.setLong(6, df.getSunrise());
             pre.setLong(7, df.getSunset());
@@ -57,12 +56,13 @@ public class DailyForecastDAO implements DAOInterface<DailyForecast> {
 
     @Override
     public int update(DailyForecast df) {
+        Connection connection = JDBCUtil.getConnection();
         try {
-            String sql = "UPDATE DailyForecast SET weather_condition_id = ?, city_id = ?, df_date = ?, icon = ?, sunrise = ?, sunset = ?, moonrise = ?, moonset = ?, summary = ?, temperature_max = ?, temperature_min = ?, temperature_morn = ?, temperature_day = ?, temperature_eve = ?, temperature_night = ?, feels_like_morn = ?, feels_like_day = ?, feels_like_eve = ?, feels_like_night = ?, pressure = ?, humidity = ?, wind_speed = ?, clouds = ?, uv = ?, pop = ?, aqi = ? WHERE daily_forecast_id = ?";
+            String sql = "{CALL UpdateDailyForecast(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, df.getWeather_condition_id());
-            pre.setLong(2, df.getCity_id());
-            pre.setLong(3, df.getDf_date());
+            pre.setLong(1, df.getCity_id());
+            pre.setLong(2, df.getDf_date());
+            pre.setInt(3, df.getWeather_condition_id());            
             pre.setString(4, df.getIcon());
             pre.setLong(5, df.getSunrise());
             pre.setLong(6, df.getSunset());
@@ -96,6 +96,7 @@ public class DailyForecastDAO implements DAOInterface<DailyForecast> {
 
     @Override
     public int delete(DailyForecast df) {
+        Connection connection = JDBCUtil.getConnection();
         try {
             String sql = "DELETE FROM DailyForecast WHERE daily_forecast_id = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -109,6 +110,7 @@ public class DailyForecastDAO implements DAOInterface<DailyForecast> {
 
     @Override
     public ArrayList<DailyForecast> selectAll() {
+        Connection connection = JDBCUtil.getConnection();
         ArrayList<DailyForecast> dsDailyForecast = new ArrayList<>();
         try {
             String sql = "SELECT * FROM DailyForecast";
@@ -153,6 +155,7 @@ public class DailyForecastDAO implements DAOInterface<DailyForecast> {
 
     @Override
     public DailyForecast selectById(String id) {
+        Connection connection = JDBCUtil.getConnection();
         DailyForecast df = null;
         try {
             String sql = "SELECT * FROM DailyForecast WHERE daily_forecast_id = ?";

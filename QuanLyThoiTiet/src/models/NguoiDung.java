@@ -8,9 +8,9 @@ public class NguoiDung {
     private String verifyCode;
     private int current_city_fk;
     private String hashSalt;
-    private String nd_language;
-    private String measurement_type;
-    private Integer utc;
+    private String nd_language = "en";
+    private String measurement_type = "metric";
+    private Integer utc = 0;
     
     public NguoiDung(int userID, String username, String email, String password, String verifyCode, int current_city_fk, String hashSalt, String nd_language, String measurement_type, Integer utc) {
         this.userID = userID;
@@ -33,6 +33,15 @@ public class NguoiDung {
         this.verifyCode = verifyCode;
     }
 
+    public NguoiDung(int userID, String username, String email, int current_city_fk, String password, String hashSalt) {
+        this.userID = userID;
+        this.username = username;
+        this.email = email;
+        this.current_city_fk = current_city_fk;
+        this.password = password;
+        this.hashSalt = hashSalt;
+    }
+
     public NguoiDung(int userID, String username, String email, int current_city_fk, String password) {
         this.userID = userID;
         this.username = username;
@@ -40,7 +49,7 @@ public class NguoiDung {
         this.current_city_fk = current_city_fk;
         this.password = password;
     }
-
+    
     public NguoiDung(int userID, String username, String email, String password) {
         this.userID = userID;
         this.username = username;
@@ -127,5 +136,10 @@ public class NguoiDung {
     public void setUtc(Integer utc) {
         this.utc = utc;
     }   
+
+    @Override
+    public String toString() {
+        return "NguoiDung{" + "userID=" + userID + ", username=" + username + ", email=" + email + ", password=" + password + ", verifyCode=" + verifyCode + ", current_city_fk=" + current_city_fk + ", hashSalt=" + hashSalt + ", nd_language=" + nd_language + ", measurement_type=" + measurement_type + ", utc=" + utc + '}';
+    }
     
 }

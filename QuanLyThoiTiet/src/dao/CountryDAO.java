@@ -10,14 +10,13 @@ import database.JDBCUtil;
 
 public class CountryDAO implements DAOInterface<Country> {
 
-    private Connection connection = JDBCUtil.getConnection();
-
     public static CountryDAO getInstance() {
         return new CountryDAO();
     }
 
     @Override
     public int insert(Country t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "INSERT INTO Country (county_id, county_name) VALUES (?, ?)";
@@ -33,6 +32,7 @@ public class CountryDAO implements DAOInterface<Country> {
 
     @Override
     public int update(Country t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "UPDATE Country SET county_name = ? WHERE county_id = ?";
@@ -48,6 +48,7 @@ public class CountryDAO implements DAOInterface<Country> {
 
     @Override
     public int delete(Country t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "DELETE FROM Country WHERE county_id = ?";
@@ -62,6 +63,7 @@ public class CountryDAO implements DAOInterface<Country> {
 
     @Override
     public ArrayList<Country> selectAll() {
+        Connection connection = JDBCUtil.getConnection();
         ArrayList<Country> dsCountry = new ArrayList<>();
         try {
             String sql = "SELECT * FROM Country";
@@ -82,6 +84,7 @@ public class CountryDAO implements DAOInterface<Country> {
 
     @Override
     public Country selectById(String t) {
+        Connection connection = JDBCUtil.getConnection();
         Country country = null;
         try {
             String sql = "SELECT * FROM Country WHERE county_id = ?";

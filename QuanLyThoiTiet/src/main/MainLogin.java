@@ -175,6 +175,10 @@ public class MainLogin extends javax.swing.JFrame {
             // Kiểm tra kết quả đăng nhập và xử lý tương ứng
             if (user_login != null) {
                 // Đăng nhập thành công, mở cửa sổ chính và đóng cửa sổ đăng nhập
+                
+                JDBCUtil.closeConnection();
+                JDBCUtil.getUserConnection();
+                
                 this.dispose();
                 MainSystem.main(user_login);
             } else {
@@ -329,7 +333,7 @@ public class MainLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JDBCUtil.getConnection();
+                JDBCUtil.getLoginConnection();
                 new MainLogin().setVisible(true);
             }
         });

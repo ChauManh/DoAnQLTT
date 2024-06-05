@@ -4,6 +4,7 @@ import dao.CityDAO;
 import dao.CurrentWeatherDAO;
 import dao.DailyForecastDAO;
 import dao.HourlyForecastDAO;
+import dao.NguoiDungDAO;
 import dao.WeatherConditionDAO;
 import event.EventClick;
 import event.NavigationListener;
@@ -75,6 +76,10 @@ public class Form_Weather extends javax.swing.JPanel {
     }
 
     public void setDefaultMyWeather() {
+        System.out.println(user.getEmail());
+        System.out.println(user.getCurrent_city_fk());
+        NguoiDung nd = NguoiDungDAO.getInstance().selectAll().get(0);
+        System.out.println(nd.getCurrent_city_fk());
         if (user.getCurrent_city_fk() != 0) {
             City city_user = CityDAO.getInstance().selectByIdR(user.getCurrent_city_fk());
             CurrentWeather cw = WeatherAPI.getCurrentWeather(city_user.getLatitude(), city_user.getLongitude(), city_user.getCity_id());

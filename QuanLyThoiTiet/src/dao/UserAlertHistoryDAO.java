@@ -12,7 +12,6 @@ import models.UserAlertHistory;
 
 public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
     
-    Connection connection = JDBCUtil.getConnection();
     
     public static UserAlertHistoryDAO getInstance() {
         return new UserAlertHistoryDAO();
@@ -20,6 +19,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
     
     @Override
     public int insert(UserAlertHistory uah) {
+        Connection connection = JDBCUtil.getConnection();
         try {
             String sql = "INSERT INTO UserAlertHistory (user_alert_id, nd_id, city_id, condition_type, alert_value, comment, timeframe, activation_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -40,6 +40,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
     
     @Override
     public int update(UserAlertHistory uah) {
+        Connection connection = JDBCUtil.getConnection();
         try {
             String sql = "UPDATE UserAlertHistory SET user_alert_id = ?, nd_id = ?, city_id = ?, condition_type = ?, alert_value = ?, comment = ?, timeframe = ?, activation_time = ? WHERE history_id = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -61,6 +62,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
     
     @Override
     public int delete(UserAlertHistory uah) {
+        Connection connection = JDBCUtil.getConnection();
         try {
             String sql = "DELETE FROM UserAlertHistory WHERE history_id = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
@@ -74,6 +76,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
     
     @Override
     public ArrayList<UserAlertHistory> selectAll() {
+        Connection connection = JDBCUtil.getConnection();
         ArrayList<UserAlertHistory> dsUserAlertHistory = new ArrayList<>();
         try {
             String sql = "SELECT * FROM UserAlertHistory";
@@ -101,6 +104,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
     
     @Override
     public UserAlertHistory selectById(String t) {
+        Connection connection = JDBCUtil.getConnection();
         UserAlertHistory uah = null;
         try {
             String sql = "SELECT * FROM UserAlertHistory WHERE history_id = ?";

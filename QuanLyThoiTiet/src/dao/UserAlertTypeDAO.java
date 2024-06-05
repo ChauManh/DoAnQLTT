@@ -10,14 +10,13 @@ import database.JDBCUtil;
 
 public class UserAlertTypeDAO implements DAOInterface<UserAlertType> {
 
-    private Connection connection = JDBCUtil.getConnection();
-
     public static UserAlertTypeDAO getInstance() {
         return new UserAlertTypeDAO();
     }
 
     @Override
     public int insert(UserAlertType t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "INSERT INTO UserAlertType (alert_type_id, alert_description) VALUES (?, ?)";
@@ -33,6 +32,7 @@ public class UserAlertTypeDAO implements DAOInterface<UserAlertType> {
 
     @Override
     public int update(UserAlertType t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "UPDATE UserAlertType SET alert_description = ? WHERE alert_type_id = ?";
@@ -48,6 +48,7 @@ public class UserAlertTypeDAO implements DAOInterface<UserAlertType> {
 
     @Override
     public int delete(UserAlertType t) {
+        Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
             String sql = "DELETE FROM UserAlertType WHERE alert_type_id = ?";
@@ -62,6 +63,7 @@ public class UserAlertTypeDAO implements DAOInterface<UserAlertType> {
 
     @Override
     public ArrayList<UserAlertType> selectAll() {
+        Connection connection = JDBCUtil.getConnection();
         ArrayList<UserAlertType> dsUserAlertType = new ArrayList<>();
         try {
             String sql = "SELECT * FROM UserAlertType";
@@ -82,6 +84,7 @@ public class UserAlertTypeDAO implements DAOInterface<UserAlertType> {
 
     @Override
     public UserAlertType selectById(String t) {
+        Connection connection = JDBCUtil.getConnection();
         UserAlertType uat = null;
         try {
             String sql = "SELECT * FROM UserAlertType WHERE alert_description = ?";
@@ -101,6 +104,7 @@ public class UserAlertTypeDAO implements DAOInterface<UserAlertType> {
     }
     
     public String selectByIdR(int id) {
+        Connection connection = JDBCUtil.getConnection();
         String alert_description = null;
         try {
             String sql = "SELECT * FROM UserAlertType WHERE alert_type_id = ?";
