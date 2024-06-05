@@ -84,9 +84,9 @@ public class UserAlertTypeDAO implements DAOInterface<UserAlertType> {
     public UserAlertType selectById(String t) {
         UserAlertType uat = null;
         try {
-            String sql = "SELECT * FROM UserAlertType WHERE alert_type_id = ?";
+            String sql = "SELECT * FROM UserAlertType WHERE alert_description = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, Integer.parseInt(t));
+            pre.setString(1, t);
             ResultSet result = pre.executeQuery();
             if (result.next()) {
                 uat = new UserAlertType(
@@ -99,4 +99,21 @@ public class UserAlertTypeDAO implements DAOInterface<UserAlertType> {
         }
         return uat;
     }
+    
+    public String selectByIdR(int id) {
+        String alert_description = null;
+        try {
+            String sql = "SELECT * FROM UserAlertType WHERE alert_type_id = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, id);
+            ResultSet result = pre.executeQuery();
+            if (result.next()) {
+            alert_description = result.getString("alert_description");      
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return alert_description;
+    }
+    
 }

@@ -22,7 +22,7 @@ public class MainSystem extends javax.swing.JFrame {
         this.user = user;
 
         fWeather = new Form_Weather(user);
-        fAlert = new Form_Alert();
+        fAlert = new Form_Alert(user);
 
         menu.initMoving(MainSystem.this);
         menu.addEventMenuSelected(new EventMenuSelected() {

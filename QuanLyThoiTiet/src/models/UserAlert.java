@@ -4,18 +4,17 @@ public class UserAlert {
     private int user_alert_id;
     private int nd_id;
     private int alert_type_id;
-    private long city_id;
+    private int city_id;
     private char condition_type;
     private float alert_value;
     private String comment;
-    private String timeframe;
     private boolean activated;
 
     public UserAlert(){
         
     }
     
-    public UserAlert(int user_alert_id, int nd_id, int alert_type_id, long city_id, char condition_type, float alert_value, String comment, String timeframe, boolean activated) {
+    public UserAlert(int user_alert_id, int nd_id, int alert_type_id, int city_id, char condition_type, float alert_value, String comment, boolean activated) {
         this.user_alert_id = user_alert_id;
         this.nd_id = nd_id;
         this.alert_type_id = alert_type_id;
@@ -23,7 +22,6 @@ public class UserAlert {
         this.condition_type = condition_type;
         this.alert_value = alert_value;
         this.comment = comment;
-        this.timeframe = timeframe;
         this.activated = activated;
     }
 
@@ -40,7 +38,7 @@ public class UserAlert {
         return alert_type_id;
     }
 
-    public long getCityId() {
+    public int getCityId() {
         return city_id;
     }
 
@@ -54,10 +52,6 @@ public class UserAlert {
 
     public String getComment() {
         return comment;
-    }
-
-    public String getTimeframe() {
-        return timeframe;
     }
 
     public boolean isActivated() {
@@ -77,7 +71,7 @@ public class UserAlert {
         this.alert_type_id = alert_type_id;
     }
 
-    public void setCityId(long city_id) {
+    public void setCityId(int city_id) {
         this.city_id = city_id;
     }
 
@@ -91,10 +85,6 @@ public class UserAlert {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public void setTimeframe(String timeframe) {
-        this.timeframe = timeframe;
     }
 
     public void setActivated(boolean activated) {

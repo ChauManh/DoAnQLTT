@@ -30,11 +30,10 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
                 ua.setUserAlertId(result.getInt("user_alert_id"));
                 ua.setNdId(result.getInt("nd_id"));
                 ua.setAlertTypeId(result.getInt("alert_type_id"));
-                ua.setCityId(result.getLong("city_id"));
+                ua.setCityId(result.getInt("city_id"));
                 ua.setConditionType(result.getString("condition_type").charAt(0));
                 ua.setAlertValue(result.getFloat("alert_value"));
                 ua.setComment(result.getString("comment"));
-                ua.setTimeframe(result.getString("timeframe"));
                 ua.setActivated(result.getBoolean("activated"));
                 dsUserAlert.add(ua);
             }
@@ -57,11 +56,10 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
                 ua.setUserAlertId(result.getInt("user_alert_id"));
                 ua.setNdId(result.getInt("nd_id"));
                 ua.setAlertTypeId(result.getInt("alert_type_id"));
-                ua.setCityId(result.getLong("city_id"));
+                ua.setCityId(result.getInt("city_id"));
                 ua.setConditionType(result.getString("condition_type").charAt(0));
                 ua.setAlertValue(result.getFloat("alert_value"));
                 ua.setComment(result.getString("comment"));
-                ua.setTimeframe(result.getString("timeframe"));
                 ua.setActivated(result.getBoolean("activated"));
             }
         } catch (SQLException e) {
@@ -73,17 +71,15 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
     @Override
     public int insert(UserAlert ua) {
         try {
-            String sql = "INSERT INTO UserAlert (user_alert_id, nd_id, alert_type_id, city_id, condition_type, alert_value, comment, timeframe, activated) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO UserAlert (nd_id, alert_type_id, city_id, condition_type, alert_value, comment, activated) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, ua.getUserAlertId());
-            pre.setInt(2, ua.getNdId());
-            pre.setInt(3, ua.getAlertTypeId());
-            pre.setLong(4, ua.getCityId());
-            pre.setString(5, String.valueOf(ua.getConditionType()));
-            pre.setFloat(6, ua.getAlertValue());
-            pre.setString(7, ua.getComment());
-            pre.setString(8, ua.getTimeframe());
-            pre.setBoolean(9, ua.isActivated());
+            pre.setInt(1, ua.getNdId());
+            pre.setInt(2, ua.getAlertTypeId());
+            pre.setInt(3, ua.getCityId());
+            pre.setString(4, String.valueOf(ua.getConditionType()));
+            pre.setFloat(5, ua.getAlertValue());
+            pre.setString(6, ua.getComment());
+            pre.setBoolean(7, ua.isActivated());
             return pre.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,13 +109,12 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, ua.getNdId());
             pre.setInt(2, ua.getAlertTypeId());
-            pre.setLong(3, ua.getCityId());
+            pre.setInt(3, ua.getCityId());
             pre.setString(4, String.valueOf(ua.getConditionType()));
             pre.setFloat(5, ua.getAlertValue());
             pre.setString(6, ua.getComment());
-            pre.setString(7, ua.getTimeframe());
-            pre.setBoolean(8, ua.isActivated());
-            pre.setInt(9, ua.getUserAlertId());
+            pre.setBoolean(7, ua.isActivated());
+            pre.setInt(8, ua.getUserAlertId());
             return pre.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
