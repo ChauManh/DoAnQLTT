@@ -28,13 +28,13 @@ public class Menu extends javax.swing.JPanel {
     }
 
     private void init() {
-        listMenu1.addItem(new ModelMenu("home", "Home", ModelMenu.MenuType.MENU));
-        listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
         listMenu1.addItem(new ModelMenu("weather", "Weather", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
         listMenu1.addItem(new ModelMenu("ring", "Alert", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
         listMenu1.addItem(new ModelMenu("setting", "Setting", ModelMenu.MenuType.MENU));
+        listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
+        listMenu1.addItem(new ModelMenu("admin", "Admin", ModelMenu.MenuType.MENU));
     }
 
     @SuppressWarnings("unchecked")

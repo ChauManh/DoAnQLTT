@@ -31,13 +31,13 @@ public class MainSystem extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 if (index == 0) {
-                    System.out.println("Form User");
-                } else if (index == 2) {
                     setForm(fWeather);
-                } else if (index == 4) {
+                } else if (index == 2) {
                     setForm(fAlert);
-                } else if (index == 6) {
+                } else if (index == 4) {
                     System.out.println("Form Setting");
+                } else if (index == 6) {
+                    System.out.println("Form Admin Setting");
                 }
             }
         });
