@@ -119,9 +119,9 @@ public class Form_SetLocation extends javax.swing.JFrame {
         if (response == JOptionPane.OK_OPTION) {
             dispose();            
             City city = CityDAO.getInstance().selectById(nameCity);
-            fWeather.setMyWeatherWhenChanged(city.getCity_id());
             user.setCurrent_city_fk(city.getCity_id());
             NguoiDungDAO.getInstance().updateCurrentCity(user);
+            fWeather.setMyWeatherWhenChanged(city.getCity_id());
         }
     }//GEN-LAST:event_btnFinishActionPerformed
 

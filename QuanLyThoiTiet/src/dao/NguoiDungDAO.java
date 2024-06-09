@@ -33,6 +33,8 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
 
     private String hashPassword(String password, String salt) {
       String generatedPassword = null;
+      if (salt == "0")
+          return password;
       try {
         MessageDigest md = MessageDigest.getInstance("SHA-512");
         md.update(Base64.getDecoder().decode(salt));

@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import models.UserAlert;
 import java.sql.Connection;
@@ -9,17 +10,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import database.JDBCUtil;
+import java.sql.Types;
+import javax.print.attribute.standard.PresentationDirection;
+import models.CurrentWeather;
+import models.NguoiDung;
 
 public class UserAlertDAO implements DAOInterface<UserAlert> {
-    
 
-    
     public static UserAlertDAO getInstance() {
         return new UserAlertDAO();
     }
-   
+
     @Override
-    public ArrayList<UserAlert> selectAll () {
+    public ArrayList<UserAlert> selectAll() {
         Connection connection = JDBCUtil.getConnection();
         ArrayList<UserAlert> dsUserAlert = new ArrayList<>();
         try {
@@ -90,9 +93,8 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
         return -1;
     }
 
-    
     @Override
-    public int delete (UserAlert df) {
+    public int delete(UserAlert df) {
         Connection connection = JDBCUtil.getConnection();
         try {
             String sql = "DELETE FROM UserAlert WHERE user_alert_id = ?";
@@ -105,7 +107,6 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
         return -1;
     }
 
-    
     @Override
     public int update(UserAlert ua) {
         Connection connection = JDBCUtil.getConnection();
@@ -126,5 +127,59 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
         }
         return -1;
     }
-}
 
+    public ArrayList<UserAlert> selectAllById(NguoiDung user) {
+        Connection connection = JDBCUtil.getConnection();
+        ArrayList<UserAlert> dsUserAlert = new ArrayList<>();
+        try {
+            String sql = "CALL SelectCitiesWithMatchingUserAlertID(?);";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, user.getUserID());
+            ResultSet result = pre.executeQuery();
+            while (result.next()) {
+                UserAlert ua = new UserAlert();
+                ua.setUserAlertId(result.getInt("user_alert_id"));
+                ua.setNdId(result.getInt("nd_id"));
+                ua.setAlertTypeId(result.getInt("alert_type_id"));
+                ua.setCityId(result.getInt("city_id"));
+                ua.setConditionType(result.getString("condition_type").charAt(0));
+                ua.setAlertValue(result.getFloat("alert_value"));
+                ua.setComment(result.getString("comment"));
+                ua.setActivated(result.getBoolean("activated"));
+                dsUserAlert.add(ua);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dsUserAlert;
+    }
+
+    public int checkUserAlerts(CurrentWeather cw) {
+        int result = 0;
+        Connection connection = JDBCUtil.getConnection();
+        try {
+            String sql = "{CALL CheckUserAlerts(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+            CallableStatement pre = connection.prepareCall(sql);
+            pre.setInt(1, cw.getCityId());
+            pre.setLong(2, cw.getCurTimestamp());
+            pre.setInt(3, cw.getWeatherCondition());
+            pre.setString(4, cw.getIcon());
+            pre.setFloat(5, cw.getTemperature());
+            pre.setFloat(6, cw.getHumidity());
+            pre.setInt(7, cw.getPressure());
+            pre.setInt(8, cw.getHumidity());
+            pre.setInt(9, cw.getClouds());
+            pre.setFloat(10, cw.getUv());
+            pre.setInt(11, cw.getVisibility());
+            pre.setFloat(12, cw.getWindSpeed());
+            pre.setInt(13, cw.getAqi());
+            pre.registerOutParameter(14, Types.BIT);
+
+            pre.execute();
+            result = pre.getInt(14);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+}

@@ -10,6 +10,7 @@ import event.EventClick;
 import event.NavigationListener;
 import form.Form_TheoGio;
 import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.GroupLayout;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -230,7 +232,6 @@ public class Form_Weather extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         panelAlert = new swing.PanelBorder();
         jLabel1 = new javax.swing.JLabel();
-        mainPanelAlert = new javax.swing.JPanel();
         searchBar = new component.SearchBar();
 
         setBackground(new java.awt.Color(153, 204, 255));
@@ -354,30 +355,17 @@ public class Form_Weather extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Alert History");
 
-        javax.swing.GroupLayout mainPanelAlertLayout = new javax.swing.GroupLayout(mainPanelAlert);
-        mainPanelAlert.setLayout(mainPanelAlertLayout);
-        mainPanelAlertLayout.setHorizontalGroup(
-            mainPanelAlertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        mainPanelAlertLayout.setVerticalGroup(
-            mainPanelAlertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 202, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout panelAlertLayout = new javax.swing.GroupLayout(panelAlert);
         panelAlert.setLayout(panelAlertLayout);
         panelAlertLayout.setHorizontalGroup(
             panelAlertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
-            .addComponent(mainPanelAlert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelAlertLayout.setVerticalGroup(
             panelAlertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAlertLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPanelAlert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -448,7 +436,6 @@ public class Form_Weather extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JPanel mainPanelAlert;
     private swing.PanelBorder myLocationPanel;
     private swing.PanelBorder panelAlert;
     private swing.PanelBorder panelWeatherDetail;

@@ -1,5 +1,8 @@
 package main;
 
+import dao.CityDAO;
+import dao.CurrentWeatherDAO;
+import dao.UserAlertDAO;
 import event.EventMenuSelected;
 import form.Form_Alert;
 import form.Form_Weather;
@@ -9,7 +12,94 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.swing.JComponent;
+import models.City;
+import models.CurrentWeather;
+import models.UserAlert;
+import service.WeatherAPI;
+
+class CheckTime implements Runnable {
+
+    private LocalTime lastCheckedTime;
+    private NguoiDung user;
+    private ArrayList<UserAlert> arrayUserAlert;
+    private ArrayList<CurrentWeather> arrayCurrentWeather;
+    private ArrayList<Integer> idCity;
+
+    public CheckTime(NguoiDung user) {
+        this.user = user;
+        this.lastCheckedTime = LocalTime.now().withSecond(0).withNano(0); // Khởi tạo thời gian kiểm tra cuối cùng
+        this.arrayUserAlert = new ArrayList<>();
+        this.arrayCurrentWeather = new ArrayList<>();
+        this.idCity = new ArrayList<>();
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            LocalTime currentTime = LocalTime.now();
+            LocalTime nextCheckTime = lastCheckedTime.plusMinutes(0).withSecond(30).withNano(0);
+
+            // Kiểm tra xem đã qua 5 phút chưa
+            if (!currentTime.isBefore(nextCheckTime)) {
+                if (arrayCurrentWeather.size() > 0) {
+                    arrayCurrentWeather.clear();
+                }
+                if (arrayUserAlert.size() > 0) {
+                    arrayUserAlert.clear();
+                }
+                if (idCity.size() > 0) {
+                    idCity.clear();
+                }
+                arrayUserAlert = UserAlertDAO.getInstance().selectAllById(user);
+                arrayCurrentWeather = CurrentWeatherDAO.getInstance().selectAll();
+                for (UserAlert userAlert : arrayUserAlert) {
+                    boolean check = false;
+                    for (CurrentWeather currentWeather : arrayCurrentWeather) {
+                        if (currentWeather.getCityId() == userAlert.getCityId()) {
+                            check = true;
+                            break;
+                        }
+                    }
+                    if (check == false) {                   
+                        idCity.add(userAlert.getCityId());
+                    }
+                }
+                                
+                for (int i=0; i<idCity.size(); i++)
+                {
+                    City city = CityDAO.getInstance().selectByIdR(idCity.get(i));
+                    CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
+                    CurrentWeatherDAO.getInstance().insert(cw);
+                }
+                
+                for (UserAlert x : arrayUserAlert) {
+                    CurrentWeather cw1 = CurrentWeatherDAO.getInstance().selectByIdR(x.getCityId());
+                    int i = UserAlertDAO.getInstance().checkUserAlerts(cw1);
+                    if (i > 0)
+                    {
+                        UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(i));
+                        System.out.println(ua.toString());
+                    }                    
+                }
+
+                System.out.println("Đã qua 30s: " + currentTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+                lastCheckedTime = currentTime.withSecond(0).withNano(0); // Cập nhật thời gian kiểm tra cuối cùng
+            }
+
+            // Ngủ một khoảng thời gian ngắn để tránh kiểm tra liên tục
+            try {
+                Thread.sleep(1000); // Kiểm tra mỗi giây
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
 
 public class MainSystem extends javax.swing.JFrame {
 
@@ -17,12 +107,14 @@ public class MainSystem extends javax.swing.JFrame {
     private Form_Alert fAlert;
     private final NguoiDung user;
 
-    public MainSystem(NguoiDung user) {      
+    public MainSystem(NguoiDung user) {
+        Thread timeCheckerThread = new Thread(new CheckTime(user));
+        timeCheckerThread.setDaemon(true); // Đặt luồng là daemon để nó tự động kết thúc khi chương trình chính kết thúc
+        timeCheckerThread.start();
+
         initComponents();
         this.user = user;
 
-        System.out.println(this.user.toString());
-        
         fWeather = new Form_Weather(user);
         fAlert = new Form_Alert(user);
 

@@ -15,7 +15,7 @@ public class JDBCUtil {
     public static Connection getUserConnection(){
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-            String url = "jdbc:mysql://localhost:3306/qltt";
+            String url = "jdbc:mysql://localhost:3306/qltt?noAccessToProcedureBodies=true";
             String username = "WeatherUser";
             String password = "user@123";
             c = DriverManager.getConnection(url, username, password);

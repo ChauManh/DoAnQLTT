@@ -147,9 +147,42 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
         CurrentWeather currentWeather = null;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT * FROM currentweather WHERE curren_Weather_id = ?";
+            String sql = "SELECT * FROM currentweather WHERE current_weather_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, id);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                currentWeather = new CurrentWeather();
+                currentWeather.setCurrenWeatherId(rs.getInt("current_weather_id"));
+                currentWeather.setCityId(rs.getInt("city_id"));
+                currentWeather.setWeatherCondition(rs.getInt("weather_condition_id"));
+                currentWeather.setCurTimestamp(rs.getInt("cur_Timestamp"));
+                currentWeather.setIcon(rs.getString("icon"));
+                currentWeather.setTemperature(rs.getFloat("temperature"));
+                currentWeather.setFeels_like(rs.getFloat("feels_like"));
+                currentWeather.setPressure(rs.getInt("pressure"));
+                currentWeather.setHumidity(rs.getInt("humidity"));
+                currentWeather.setClouds(rs.getInt("clouds"));
+                currentWeather.setUv(rs.getFloat("uv"));
+                currentWeather.setVisibility(rs.getInt("visibility"));
+                currentWeather.setWindSpeed(rs.getFloat("wind_speed"));
+                currentWeather.setAqi(rs.getInt("aqi"));
+            }
+            // JDBCUtil.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return currentWeather;
+    }
+    
+    public CurrentWeather selectByIdR(int id) {
+        CurrentWeather currentWeather = null;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM currentweather WHERE city_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {

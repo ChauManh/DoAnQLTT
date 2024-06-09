@@ -1,5 +1,7 @@
 package models;
 
+import dao.CityDAO;
+
 public class UserAlert {
     private int user_alert_id;
     private int nd_id;
@@ -90,4 +92,11 @@ public class UserAlert {
     public void setActivated(boolean activated) {
         this.activated = activated;
     }
+
+    @Override
+    public String toString() {
+        return alert_type_id + " at " + CityDAO.getInstance().selectByIdR(city_id).getCity_name() + " " + condition_type + " " + alert_value + " [" + comment + "]";
+    }
+    
+    
 }
