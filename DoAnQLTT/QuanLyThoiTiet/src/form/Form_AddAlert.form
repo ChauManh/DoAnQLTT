@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="undecorated" type="boolean" value="true"/>
+    <Property name="resizable" type="boolean" value="false"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="panelBorder1" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="panelBorder1" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="swing.PanelBorder" name="panelBorder1">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="cc" red="99" type="rgb"/>
+        </Property>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder thickness="4"/>
+          </Border>
+        </Property>
+        <Property name="opaque" type="boolean" value="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="comboBoxType" min="-2" pref="163" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="textValue" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="comboBoxComparison" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="comboBoxLocation" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="textAlertContent" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+                          <Component id="btnFinish" min="-2" pref="105" max="-2" attributes="0"/>
+                          <EmptySpace pref="145" max="32767" attributes="0"/>
+                          <Component id="btnCancel" min="-2" pref="105" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="jLabel1" min="-2" pref="45" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="comboBoxType" alignment="3" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="comboBoxLocation" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="comboBoxComparison" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel4" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="textValue" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="28" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jLabel6" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="textAlertContent" min="-2" pref="32" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="17" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnFinish" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Component id="btnCancel" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="swing.MyButton" name="btnFinish">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Finish"/>
+            <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="ff" red="33" type="rgb"/>
+            </Property>
+            <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="ff" red="cc" type="rgb"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFinishActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="swing.MyButton" name="btnCancel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cancel"/>
+            <Property name="color" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="colorClick" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="colorOver" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="cc" red="ff" type="rgb"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="Setting Alert by your way"/>
+          </Properties>
+        </Component>
+        <Component class="swing.ComboBoxSuggestion" name="comboBoxType">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="7">
+                <StringItem index="0" value="Air quality index"/>
+                <StringItem index="1" value="Clouds"/>
+                <StringItem index="2" value="Feels like"/>
+                <StringItem index="3" value="Humidity"/>
+                <StringItem index="4" value="Temperature"/>
+                <StringItem index="5" value="UV&#x9;"/>
+                <StringItem index="6" value="Visibility"/>
+              </StringArray>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="swing.ComboBoxSuggestion" name="comboBoxComparison">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="&gt;"/>
+                <StringItem index="1" value="&lt;"/>
+                <StringItem index="2" value="="/>
+              </StringArray>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="swing.ComboBoxSuggestion" name="comboBoxLocation">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="183">
+                <StringItem index="0" value="A Yun Pa"/>
+                <StringItem index="1" value="An Chau"/>
+                <StringItem index="2" value="An Khe"/>
+                <StringItem index="3" value="An Nhon"/>
+                <StringItem index="4" value="An Phu"/>
+                <StringItem index="5" value="An Thanh B"/>
+                <StringItem index="6" value="Ap Binh Thanh"/>
+                <StringItem index="7" value="Ap Da Loi"/>
+                <StringItem index="8" value="Ap Khanh Hoa"/>
+                <StringItem index="9" value="Ap Khanh Hung"/>
+                <StringItem index="10" value="Ap Phu Hai"/>
+                <StringItem index="11" value="Ap Phu My"/>
+                <StringItem index="12" value="Ap Tan Ngai"/>
+                <StringItem index="13" value="Ba Chuc"/>
+                <StringItem index="14" value="Ba Don"/>
+                <StringItem index="15" value="Ba Ria"/>
+                <StringItem index="16" value="Bac Giang"/>
+                <StringItem index="17" value="Bac Kan"/>
+                <StringItem index="18" value="Bac Lieu"/>
+                <StringItem index="19" value="Bac Ninh"/>
+                <StringItem index="20" value="Bai Chay"/>
+                <StringItem index="21" value="Bao Loc"/>
+                <StringItem index="22" value="Ben Tre"/>
+                <StringItem index="23" value="Bien Hoa"/>
+                <StringItem index="24" value="Bim Son"/>
+                <StringItem index="25" value="Binh Hoa"/>
+                <StringItem index="26" value="Binh Hoa"/>
+                <StringItem index="27" value="Binh Long"/>
+                <StringItem index="28" value="Binh Minh"/>
+                <StringItem index="29" value="Bo"/>
+                <StringItem index="30" value="Buon Ho"/>
+                <StringItem index="31" value="Buon Ma Thuot"/>
+                <StringItem index="32" value="Buon Trap"/>
+                <StringItem index="33" value="Buu Long"/>
+                <StringItem index="34" value="Ca Mau"/>
+                <StringItem index="35" value="Cai Lay"/>
+                <StringItem index="36" value="Cam Pha"/>
+                <StringItem index="37" value="Cam Ranh"/>
+                <StringItem index="38" value="Cam Ranh"/>
+                <StringItem index="39" value="Can Tho"/>
+                <StringItem index="40" value="Cao Bang"/>
+                <StringItem index="41" value="Cao Lanh"/>
+                <StringItem index="42" value="Chau Doc"/>
+                <StringItem index="43" value="Chi Linh"/>
+                <StringItem index="44" value="Cho Lach"/>
+                <StringItem index="45" value="Cho Moi"/>
+                <StringItem index="46" value="Cho Phuoc Hai"/>
+                <StringItem index="47" value="Chon Thanh"/>
+                <StringItem index="48" value="Con Dao"/>
+                <StringItem index="49" value="Cua Lo"/>
+                <StringItem index="50" value="Da Lat"/>
+                <StringItem index="51" value="Da Nang"/>
+                <StringItem index="52" value="Di An"/>
+                <StringItem index="53" value="Di Linh"/>
+                <StringItem index="54" value="Dien Bien Phu"/>
+                <StringItem index="55" value="Dong Ha"/>
+                <StringItem index="56" value="Dong Hoa"/>
+                <StringItem index="57" value="Dong Hoi"/>
+                <StringItem index="58" value="Dong Xoai"/>
+                <StringItem index="59" value="Duc Pho"/>
+                <StringItem index="60" value="Duyen Hai"/>
+                <StringItem index="61" value="Gia Nghia"/>
+                <StringItem index="62" value="Gia Rai"/>
+                <StringItem index="63" value="Go Cong"/>
+                <StringItem index="64" value="Ha Giang"/>
+                <StringItem index="65" value="Ha Long"/>
+                <StringItem index="66" value="Ha Tien"/>
+                <StringItem index="67" value="Ha Tinh"/>
+                <StringItem index="68" value="Hai Duong"/>
+                <StringItem index="69" value="Haiphong"/>
+                <StringItem index="70" value="Hang Tram"/>
+                <StringItem index="71" value="Hanoi"/>
+                <StringItem index="72" value="Hiep Hoa"/>
+                <StringItem index="73" value="Ho Chi Minh City"/>
+                <StringItem index="74" value="Ho Nai"/>
+                <StringItem index="75" value="Hoa Binh"/>
+                <StringItem index="76" value="Hoa Thanh"/>
+                <StringItem index="77" value="Hoa Thuong"/>
+                <StringItem index="78" value="Hoi An"/>
+                <StringItem index="79" value="Hong Ngu"/>
+                <StringItem index="80" value="Hue"/>
+                <StringItem index="81" value="Hung Yen"/>
+                <StringItem index="82" value="Huong Canh"/>
+                <StringItem index="83" value="Huong Thuy"/>
+                <StringItem index="84" value="Huong Tra"/>
+                <StringItem index="85" value="Khe Sanh"/>
+                <StringItem index="86" value="Kien Giang"/>
+                <StringItem index="87" value="Kien Luong"/>
+                <StringItem index="88" value="Kinh Mon"/>
+                <StringItem index="89" value="Kon Tum"/>
+                <StringItem index="90" value="Ky Anh"/>
+                <StringItem index="91" value="La Gi"/>
+                <StringItem index="92" value="Lai Chau"/>
+                <StringItem index="93" value="Lang Son"/>
+                <StringItem index="94" value="Lao Cai"/>
+                <StringItem index="95" value="Long Binh"/>
+                <StringItem index="96" value="Long Khanh"/>
+                <StringItem index="97" value="Long My"/>
+                <StringItem index="98" value="Long Thanh"/>
+                <StringItem index="99" value="Long Xuyen"/>
+                <StringItem index="100" value="Luan Chau"/>
+                <StringItem index="101" value="Mang La"/>
+                <StringItem index="102" value="Mong Cai"/>
+                <StringItem index="103" value="Mong Duong"/>
+                <StringItem index="104" value="Muong Lay"/>
+                <StringItem index="105" value="Muong Theng"/>
+                <StringItem index="106" value="My Hoa"/>
+                <StringItem index="107" value="My Luong"/>
+                <StringItem index="108" value="My Tho"/>
+                <StringItem index="109" value="Nam Dinh"/>
+                <StringItem index="110" value="Nga Bay"/>
+                <StringItem index="111" value="Nghi Son"/>
+                <StringItem index="112" value="Nghia Lo"/>
+                <StringItem index="113" value="Ngoc Son"/>
+                <StringItem index="114" value="Nha Trang"/>
+                <StringItem index="115" value="Nhan Trach"/>
+                <StringItem index="116" value="Ninh Binh"/>
+                <StringItem index="117" value="Ninh Hoa"/>
+                <StringItem index="118" value="Phan Rang-Thap Cham"/>
+                <StringItem index="119" value="Phan Ri Cua"/>
+                <StringItem index="120" value="Phan Thiet"/>
+                <StringItem index="121" value="Phu Ly"/>
+                <StringItem index="122" value="Phu My"/>
+                <StringItem index="123" value="Phu Quoc"/>
+                <StringItem index="124" value="Phu Tho"/>
+                <StringItem index="125" value="Phu Tu Son"/>
+                <StringItem index="126" value="Phu Yen"/>
+                <StringItem index="127" value="Phuc Yen"/>
+                <StringItem index="128" value="Phuoc Long"/>
+                <StringItem index="129" value="Pleiku"/>
+                <StringItem index="130" value="Quang Ha"/>
+                <StringItem index="131" value="Quang Ngai"/>
+                <StringItem index="132" value="Quang Tri"/>
+                <StringItem index="133" value="Quang Yen"/>
+                <StringItem index="134" value="Quy Nhon"/>
+                <StringItem index="135" value="Rach Gia"/>
+                <StringItem index="136" value="Sa Dec"/>
+                <StringItem index="137" value="Sa Pa"/>
+                <StringItem index="138" value="Sam Son"/>
+                <StringItem index="139" value="Soc Trang"/>
+                <StringItem index="140" value="Son La"/>
+                <StringItem index="141" value="Son Tay"/>
+                <StringItem index="142" value="Song Cau"/>
+                <StringItem index="143" value="Song Doc"/>
+                <StringItem index="144" value="Tam Diep"/>
+                <StringItem index="145" value="Tam Hiep"/>
+                <StringItem index="146" value="Tam Ky"/>
+                <StringItem index="147" value="Tan An"/>
+                <StringItem index="148" value="Tan An"/>
+                <StringItem index="149" value="Tan Chau"/>
+                <StringItem index="150" value="Tan Phong"/>
+                <StringItem index="151" value="Tan Phu"/>
+                <StringItem index="152" value="Tan Phuoc Khanh"/>
+                <StringItem index="153" value="Tan Son"/>
+                <StringItem index="154" value="Tan Uyen"/>
+                <StringItem index="155" value="Tan Van"/>
+                <StringItem index="156" value="Tay Ninh"/>
+                <StringItem index="157" value="Thai Binh"/>
+                <StringItem index="158" value="Thai Nguyen"/>
+                <StringItem index="159" value="Thanh Hoa"/>
+                <StringItem index="160" value="Thanh Pho Uong Bi"/>
+                <StringItem index="161" value="Thanh Phu"/>
+                <StringItem index="162" value="Thanh Xuan"/>
+                <StringItem index="163" value="Thi Tran Dong Dang"/>
+                <StringItem index="164" value="Thi Tran Mau A"/>
+                <StringItem index="165" value="Thi Tran Ngai Giao"/>
+                <StringItem index="166" value="Thu Dau Mot"/>
+                <StringItem index="167" value="Thu Duc"/>
+                <StringItem index="168" value="Thuan An"/>
+                <StringItem index="169" value="Thuan Tien"/>
+                <StringItem index="170" value="Tra Vinh"/>
+                <StringItem index="171" value="Trang Bang"/>
+                <StringItem index="172" value="Tuy Hoa"/>
+                <StringItem index="173" value="Tuyen Quang"/>
+                <StringItem index="174" value="Vi Thanh"/>
+                <StringItem index="175" value="Viet Tri"/>
+                <StringItem index="176" value="Vinh"/>
+                <StringItem index="177" value="Vinh Chau"/>
+                <StringItem index="178" value="Vinh Long"/>
+                <StringItem index="179" value="Vinh Yen"/>
+                <StringItem index="180" value="Vung Tau"/>
+                <StringItem index="181" value="Xuan Trung"/>
+                <StringItem index="182" value="Yen Bai"/>
+              </StringArray>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Alert type"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel3">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Location"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel4">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Comparison"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel5">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Value"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel6">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Alert Content"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="textValue">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="textAlertContent">
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>
