@@ -4,8 +4,10 @@ import models.DailyForecast;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import models.City;
 import database.JDBCUtil;
 
 public class DailyForecastDAO implements DAOInterface<DailyForecast> {
@@ -196,5 +198,23 @@ public class DailyForecastDAO implements DAOInterface<DailyForecast> {
             e.printStackTrace();
         }
         return df;
+    }
+    
+    public void CSVexport(City city, String path){
+        
+        String query = "SELECT * INTO OUTFILE '" + path + "'" +  
+                       " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
+                       " WHERE city_id = " + city +
+                       " FROM DailyForecast";
+        
+        Connection connection = JDBCUtil.getConnection();
+        try{
+            Statement stmt = connection.createStatement();
+            
+            stmt.execute(query);
+            System.out.println("Data exported to CSV successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

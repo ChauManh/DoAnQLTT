@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import database.JDBCUtil;
+import models.City;
 
 
 public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
@@ -224,5 +225,23 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
             e.printStackTrace();
         }
         return avgHumidity;
+    }
+    
+    public void CSVexport(City city, String path){
+        
+        String query = "SELECT * INTO OUTFILE '" + path + "'" +  
+                       " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
+                       " WHERE city_id = " + city +
+                       " FROM HourlyForecast";
+        
+        Connection connection = JDBCUtil.getConnection();
+        try{
+            Statement stmt = connection.createStatement();
+            
+            stmt.execute(query);
+            System.out.println("Data exported to CSV successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
