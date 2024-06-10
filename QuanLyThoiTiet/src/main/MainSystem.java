@@ -6,6 +6,8 @@ import dao.UserAlertDAO;
 import event.EventMenuSelected;
 import form.Form_Admin;
 import form.Form_Alert;
+import form.Form_DisplayAlert;
+import form.Form_Setting;
 import form.Form_Weather;
 import models.NguoiDung;
 import java.awt.Color;
@@ -32,7 +34,8 @@ class CheckTime implements Runnable {
     private ArrayList<Integer> idCity;
     private Form_Weather fWeather;
     private Form_Alert fAlert;
-
+    private Form_DisplayAlert fDisplayAlert;
+    
     public CheckTime(NguoiDung user, Form_Weather fWeather, Form_Alert fAlert) {
         this.user = user;
         this.fAlert = fAlert;
@@ -83,10 +86,11 @@ class CheckTime implements Runnable {
 
                 for (UserAlert x : arrayUserAlert) {
                     CurrentWeather cw1 = CurrentWeatherDAO.getInstance().selectByIdR(x.getCityId());
-                    int i = UserAlertDAO.getInstance().checkUserAlerts(cw1);
-                    if (i > 0) {
-                        UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(i));
-                        System.out.println(ua.toString());
+                    int user_alert_id = UserAlertDAO.getInstance().checkUserAlerts(cw1);
+                    if (user_alert_id > 0) {
+                        UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(user_alert_id));
+                        if (ua.getNdId() == user.getUserID())
+                        fDisplayAlert = new Form_DisplayAlert(ua);
                     }
                 }
 
@@ -112,6 +116,7 @@ public class MainSystem extends javax.swing.JFrame {
     private Form_Alert fAlert;
     private final NguoiDung user;
     private Form_Admin fAdmin;
+    private Form_Setting fSetting;
 
     public MainSystem(NguoiDung user) {
         initComponents();
@@ -123,6 +128,7 @@ public class MainSystem extends javax.swing.JFrame {
         }
         fWeather = new Form_Weather(user);
         fAlert = new Form_Alert(user, fWeather);
+        fSetting = new Form_Setting(user);
         Thread timeCheckerThread = new Thread(new CheckTime(user, fWeather, fAlert));
         timeCheckerThread.setDaemon(true); // Đặt luồng là daemon để nó tự động kết thúc khi chương trình chính kết thúc
         timeCheckerThread.start();
@@ -136,7 +142,7 @@ public class MainSystem extends javax.swing.JFrame {
                 } else if (index == 2) {
                     setForm(fAlert);
                 } else if (index == 4) {
-                    System.out.println("Form Setting");
+                    setForm(fSetting);
                 } else if (index == 6) {
                     setForm(fAdmin);
                 }
