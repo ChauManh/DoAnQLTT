@@ -242,10 +242,19 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
         }
     }
     
+    private String GetTruePath(String path){
+        if (path == null) {
+            return null;
+        }
+        return path.replace("\\", "/");
+    }
+    
     public void CSVexport(City city, String path){
         
+        path = GetTruePath(path);
+        
         String query = "SELECT * INTO OUTFILE '" + path + "'" +  
-                       " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
+                       " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' " +
                        " FROM CurrentWeather";
         
         Connection connection = JDBCUtil.getConnection();

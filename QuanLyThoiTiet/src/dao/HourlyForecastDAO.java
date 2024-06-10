@@ -227,10 +227,19 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
         return avgHumidity;
     }
     
+    private String GetTruePath(String path){
+        if (path == null) {
+            return null;
+        }
+        return path.replace("\\", "/");
+    }
+    
     public void CSVexport(City city, String path){
         
+        path = GetTruePath(path);
+        
         String query = "SELECT * INTO OUTFILE '" + path + "'" +  
-                       " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
+                       " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' " +
                        " WHERE city_id = " + city.getCity_id() +
                        " FROM HourlyForecast";
         
