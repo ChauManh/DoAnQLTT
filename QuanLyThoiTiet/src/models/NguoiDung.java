@@ -11,6 +11,7 @@ public class NguoiDung {
     private String nd_language = "en";
     private String measurement_type = "metric";
     private Integer utc = 0;
+    private String status;
     
     public NguoiDung(int userID, String username, String email, String password, String verifyCode, int current_city_fk, String hashSalt, String nd_language, String measurement_type, Integer utc) {
         this.userID = userID;
@@ -25,6 +26,13 @@ public class NguoiDung {
         this.utc = utc;
     }
 
+    public NguoiDung(String username, String email, int current_city_fk, String status) {
+        this.username = username;
+        this.email = email;
+        this.current_city_fk = current_city_fk;
+        this.status = status;
+    }
+    
     public NguoiDung(int userID, String username, String email, String password, String verifyCode) {
         this.userID = userID;
         this.username = username;
@@ -137,6 +145,16 @@ public class NguoiDung {
         this.utc = utc;
     }   
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "NguoiDung{" + "userID=" + userID + ", username=" + username + ", email=" + email + ", password=" + password + ", verifyCode=" + verifyCode + ", current_city_fk=" + current_city_fk + ", hashSalt=" + hashSalt + ", nd_language=" + nd_language + ", measurement_type=" + measurement_type + ", utc=" + utc + '}';

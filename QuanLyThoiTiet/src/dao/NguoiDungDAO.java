@@ -174,21 +174,15 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
         Connection connection = JDBCUtil.getConnection();
         ArrayList<NguoiDung> dsNguoiDung = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM NguoiDung";
+            String sql = "SELECT * FROM nguoidung";
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
             while (result.next()) {
                 NguoiDung nd = new NguoiDung(
-                        result.getInt("UserID"),
                         result.getString("Username"),
                         result.getString("Email"),
-                        result.getString("Password"),
-                        result.getString("VerifyCode"),
                         result.getInt("current_city_fk"),
-                        result.getString("hashSalt"),
-                        result.getString("nd_language"),
-                        result.getString("measurement_type"),
-                        result.getInt("utc")
+                        result.getString("Status")
                 );
                 dsNguoiDung.add(nd);
             }

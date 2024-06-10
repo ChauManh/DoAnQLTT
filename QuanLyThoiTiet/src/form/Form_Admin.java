@@ -1,6 +1,7 @@
 package form;
 
 import dao.CityDAO;
+import dao.NguoiDungDAO;
 import dao.UserAlertDAO;
 import dao.UserAlertTypeDAO;
 import java.awt.Color;
@@ -16,7 +17,7 @@ import swing.TableActionCellRender;
 public class Form_Admin extends javax.swing.JPanel {
 
     private NguoiDung user;
-
+    
     public Form_Admin() {
         initComponents();
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -38,44 +39,46 @@ public class Form_Admin extends javax.swing.JPanel {
                         JOptionPane.WARNING_MESSAGE
                 );
                 if (response == JOptionPane.OK_OPTION) {
-                    
-                    if (table.isEditing()) {
-                        table.getCellEditor().stopCellEditing();
-                    }
-                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-                    model.removeRow(row);
+                   
+//                    if (table.isEditing()) {
+//                        table.getCellEditor().stopCellEditing();
+//                    }
+//                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+//                    model.removeRow(row);
                     
                 }
             }
 
             @Override
             public void onSetActive(int row) {
+                
             }
         };
         
-        table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
-        table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
+        table.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(event));
         setUpTable();
 
     }
 
-    public void setUpTable() {
-        String alert_description;
+    public void setUpTable() {   
         String location_name;
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         
-//        for (UserAlert u : UserAlertDAO.getInstance().selectAllById(user)) {
-//            alert_description = UserAlertTypeDAO.getInstance().selectByIdR(u.getUserAlertId());
-//            location_name = CityDAO.getInstance().selectByIdR(u.getCityId()).getCity_name();
-//            model.addRow(new Object[]{
-//                alert_description,
-//                location_name,
-//                u.getConditionType(),
-//                u.getAlertValue(),
-//                u.getComment()
-//            });
-//        }
+        for (NguoiDung user : NguoiDungDAO.getInstance().selectAll()) {
+            if (user.getCurrent_city_fk() == 0) {
+                location_name = "";
+            } else location_name = CityDAO.getInstance().selectByIdR(user.getCurrent_city_fk()).getCity_name();           
+            model.addRow(new Object[]{
+                user.getUsername(),
+                user.getEmail(),
+                location_name,
+                user.getNd_language(),
+                user.getMeasurement_type(),
+                user.getStatus()
+            });
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -94,11 +97,11 @@ public class Form_Admin extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Alert Type", "Location", "Comparison", "Value", "Alert Content", "Action"
+                "UserName", "Email", "Current City", "Language", "Measurement Type", "Status", "Action"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
