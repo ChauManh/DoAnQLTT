@@ -231,7 +231,7 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
         
         String query = "SELECT * INTO OUTFILE '" + path + "'" +  
                        " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
-                       " WHERE city_id = " + city +
+                       " WHERE city_id = " + city.getCity_id() +
                        " FROM HourlyForecast";
         
         Connection connection = JDBCUtil.getConnection();

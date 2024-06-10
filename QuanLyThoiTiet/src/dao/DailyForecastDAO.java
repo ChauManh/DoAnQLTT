@@ -204,7 +204,7 @@ public class DailyForecastDAO implements DAOInterface<DailyForecast> {
         
         String query = "SELECT * INTO OUTFILE '" + path + "'" +  
                        " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' " +
-                       " WHERE city_id = " + city +
+                       " WHERE city_id = " + city.getCity_id() +
                        " FROM DailyForecast";
         
         Connection connection = JDBCUtil.getConnection();
