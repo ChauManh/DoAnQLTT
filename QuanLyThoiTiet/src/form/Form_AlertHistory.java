@@ -2,16 +2,17 @@ package form;
 
 import java.util.List;
 import models.UserAlert;
+import models.UserAlertHistory;
 
 public class Form_AlertHistory extends javax.swing.JPanel {
 
 
-    public Form_AlertHistory(List<UserAlert> arrayUserAlert) {
+    public Form_AlertHistory(List<UserAlertHistory> arrayUserAlertHistory) {
         initComponents();
-        int startIndex = Math.max(arrayUserAlert.size() - 5, 0); // lấy 5 phần tử cuối, hoặc tất cả nếu mảng có ít hơn 5 phần tử
-        for (int i = arrayUserAlert.size() - 1; i >= startIndex; i--) {
-            UserAlert ua = arrayUserAlert.get(i);
-            add(new Form_SingleAlert(ua));
+        int startIndex = Math.max(arrayUserAlertHistory.size() - 5, 0); // lấy 5 phần tử cuối, hoặc tất cả nếu mảng có ít hơn 5 phần tử
+        for (int i = arrayUserAlertHistory.size() - 1; i >= startIndex; i--) {
+            UserAlertHistory uah = arrayUserAlertHistory.get(i);
+            add(new Form_SingleAlert(uah));
         }
     }
 

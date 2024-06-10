@@ -1,16 +1,16 @@
 package form;
 
-import models.UserAlert;
+import models.UserAlertHistory;
 
 public class Form_SingleAlert extends javax.swing.JPanel {
 
-    public Form_SingleAlert(UserAlert ua) {
+    public Form_SingleAlert(UserAlertHistory uah) {
         initComponents();
-        setData(ua);
+        setData(uah);
     }
 
-    void setData(UserAlert ua) {
-        jLabel1.setText(ua.toString());
+    void setData(UserAlertHistory uah) {
+        jLabel1.setText(uah.toString());
     }
     
     @SuppressWarnings("unchecked")

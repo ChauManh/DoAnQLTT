@@ -41,7 +41,6 @@ class CheckTime implements Runnable {
         this.arrayUserAlert = new ArrayList<>();
         this.arrayCurrentWeather = new ArrayList<>();
         this.idCity = new ArrayList<>();
-
     }
 
     @Override
@@ -93,7 +92,7 @@ class CheckTime implements Runnable {
 
                 System.out.println("Đã qua 1p: " + currentTime.format(DateTimeFormatter.ofPattern("HH:mm")));
                 lastCheckedTime = currentTime.withSecond(0).withNano(0); // Cập nhật thời gian kiểm tra cuối cùng
-                this.fWeather.setAlert();
+                this.fWeather.setAlertHistory();
                 this.fAlert.setUpTable();
             }
 

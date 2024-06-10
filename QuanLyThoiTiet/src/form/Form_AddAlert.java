@@ -216,7 +216,7 @@ public class Form_AddAlert extends javax.swing.JFrame {
             alert.setActivated(true);
             
             UserAlertDAO.getInstance().insert(alert);
-            fWeather.setAlert();
+            fWeather.setAlertHistory();
             dispose();
             fAlert.setUpTable();
         }

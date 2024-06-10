@@ -74,7 +74,7 @@ public class Form_Alert extends javax.swing.JPanel {
         model.setRowCount(0);
         
         for (UserAlert u : UserAlertDAO.getInstance().selectAllById(user)) {
-            alert_description = UserAlertTypeDAO.getInstance().selectByIdR(u.getUserAlertId());
+            alert_description = UserAlertTypeDAO.getInstance().selectByIdR(u.getAlertTypeId());
             location_name = CityDAO.getInstance().selectByIdR(u.getCityId()).getCity_name();
             model.addRow(new Object[]{
                 alert_description,

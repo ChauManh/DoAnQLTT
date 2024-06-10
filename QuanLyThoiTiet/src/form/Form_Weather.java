@@ -6,6 +6,7 @@ import dao.DailyForecastDAO;
 import dao.HourlyForecastDAO;
 import dao.NguoiDungDAO;
 import dao.UserAlertDAO;
+import dao.UserAlertHistoryDAO;
 import dao.WeatherConditionDAO;
 import event.EventClick;
 import event.NavigationListener;
@@ -29,6 +30,7 @@ import models.DailyForecast;
 import models.HourlyForecast;
 import models.NguoiDung;
 import models.UserAlert;
+import models.UserAlertHistory;
 import org.json.simple.JSONObject;
 import service.ServiceConvertIcon;
 import service.UnixConvertTime;
@@ -42,7 +44,7 @@ public class Form_Weather extends javax.swing.JPanel {
     private List<Form_TheoGio> arrayFormTheoGio;
     private List<DailyForecast> arrayDailyForecast;
     private List<Form_TheoNgay> arrayFormTheoNgay;
-    private List<UserAlert> arrayUserAlert;
+    private List<UserAlertHistory> arrayUserAlertHistory;
     private boolean check;
     private int currentHfIndex = 0;
     private int currentDfIndex = 0;
@@ -55,7 +57,7 @@ public class Form_Weather extends javax.swing.JPanel {
         this.user = user;
         setVisible(true);
         setDefaultMyWeather();
-        setAlert();
+        setAlertHistory();
         searchBar.btnSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,10 +101,10 @@ public class Form_Weather extends javax.swing.JPanel {
         }
     }
 
-    public void setAlert() {
-        arrayUserAlert = UserAlertDAO.getInstance().selectAllById(user);
-        if (arrayUserAlert.size() != 0) {
-            fAlertHistory = new Form_AlertHistory(arrayUserAlert);
+    public void setAlertHistory() {
+        arrayUserAlertHistory = UserAlertHistoryDAO.getInstance().selectAllById(user);
+        if (arrayUserAlertHistory.size() != 0) {
+            fAlertHistory = new Form_AlertHistory(arrayUserAlertHistory);
             setForm(mainPanelAlert, fAlertHistory);
         }
     }
@@ -363,7 +365,7 @@ public class Form_Weather extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ALERT");
+        jLabel1.setText("ALERT HISTORY");
 
         mainPanelAlert.setBackground(new java.awt.Color(0, 0, 0));
         mainPanelAlert.setOpaque(false);

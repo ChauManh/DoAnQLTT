@@ -222,7 +222,7 @@ public class Form_UpdateAlert extends javax.swing.JFrame {
             
             UserAlertDAO.getInstance().update(alert);
             fAlert.setUpTable();
-            fWeather.setAlert();
+            fWeather.setAlertHistory();
             dispose();
         }
     }//GEN-LAST:event_btnFinishActionPerformed

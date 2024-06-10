@@ -1,12 +1,15 @@
 package models;
 
+import dao.CityDAO;
+import dao.UserAlertTypeDAO;
 import java.util.Date;
 
 public class UserAlertHistory {
+    private int alert_type_id;
     private int history_id;
     private int user_alert_id;
     private int nd_id;
-    private long city_id;
+    private int city_id;
     private char condition_type;
     private float alert_value;
     private String comment;
@@ -17,7 +20,7 @@ public class UserAlertHistory {
         
     }
     
-    public UserAlertHistory(int history_id, int user_alert_id, int nd_id, long city_id, char condition_type, float alert_value, String comment, String timeframe, Date activation_time) {
+    public UserAlertHistory(int history_id, int user_alert_id, int nd_id, int city_id, char condition_type, float alert_value, String comment, String timeframe, Date activation_time) {
         this.history_id = history_id;
         this.user_alert_id = user_alert_id;
         this.nd_id = nd_id;
@@ -30,6 +33,16 @@ public class UserAlertHistory {
     }
 
     // Getters
+
+    public int getAlert_type_id() {
+        return alert_type_id;
+    }
+
+    public void setAlert_type_id(int alert_type_id) {
+        this.alert_type_id = alert_type_id;
+    }
+    
+    
     public int getHistoryId() {
         return history_id;
     }
@@ -42,7 +55,7 @@ public class UserAlertHistory {
         return nd_id;
     }
 
-    public long getCityId() {
+    public int getCityId() {
         return city_id;
     }
 
@@ -79,7 +92,7 @@ public class UserAlertHistory {
         this.nd_id = nd_id;
     }
 
-    public void setCityId(long city_id) {
+    public void setCityId(int city_id) {
         this.city_id = city_id;
     }
 
@@ -102,4 +115,11 @@ public class UserAlertHistory {
     public void setActivationTime(Date activation_time) {
         this.activation_time = activation_time;
     }
+
+    @Override
+    public String toString() {
+        return UserAlertTypeDAO.getInstance().selectByIdR(alert_type_id) + " at " + CityDAO.getInstance().selectByIdR(city_id).getCity_name() + " " + condition_type + " " + alert_value + " [" + comment + "]";
+    }
+    
+    
 }

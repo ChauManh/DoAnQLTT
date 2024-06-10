@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import database.JDBCUtil;
+import models.NguoiDung;
+import models.UserAlert;
 import models.UserAlertHistory;
 
 public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
@@ -25,7 +27,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, uah.getUserAlertId());
             pre.setInt(2, uah.getNdId());
-            pre.setLong(3, uah.getCityId());
+            pre.setInt(3, uah.getCityId());
             pre.setString(4, String.valueOf(uah.getConditionType()));
             pre.setFloat(5, uah.getAlertValue());
             pre.setString(6, uah.getComment());
@@ -87,7 +89,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
                 uah.setHistoryId(result.getInt("history_id"));
                 uah.setUserAlertId(result.getInt("user_alert_id"));
                 uah.setNdId(result.getInt("nd_id"));
-                uah.setCityId(result.getLong("city_id"));
+                uah.setCityId(result.getInt("city_id"));
                 uah.setConditionType(result.getString("condition_type").charAt(0));
                 uah.setAlertValue(result.getFloat("alert_value"));
                 uah.setComment(result.getString("comment"));
@@ -101,6 +103,31 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
         return dsUserAlertHistory;
     }
 
+    public ArrayList<UserAlertHistory> selectAllById(NguoiDung user) {
+        Connection connection = JDBCUtil.getConnection();
+        ArrayList<UserAlertHistory> dsUserAlertHistory = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM useralerthistory WHERE nd_id = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, user.getUserID());
+            ResultSet result = pre.executeQuery();
+            while (result.next()) {
+                UserAlertHistory uah = new UserAlertHistory();
+                uah.setHistoryId(result.getInt("history_id"));
+                uah.setAlert_type_id(result.getInt("alert_type_id"));
+                uah.setNdId(result.getInt("nd_id"));
+                uah.setCityId(result.getInt("city_id"));
+                uah.setConditionType(result.getString("condition_type").charAt(0));
+                uah.setAlertValue(result.getFloat("alert_value"));
+                uah.setComment(result.getString("comment"));
+                uah.setActivationTime(result.getDate("activation_time"));
+                dsUserAlertHistory.add(uah);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dsUserAlertHistory;
+    }
     
     @Override
     public UserAlertHistory selectById(String t) {
@@ -116,7 +143,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
                 uah.setHistoryId(result.getInt("history_id"));
                 uah.setUserAlertId(result.getInt("user_alert_id"));
                 uah.setNdId(result.getInt("nd_id"));
-                uah.setCityId(result.getLong("city_id"));
+                uah.setCityId(result.getInt("city_id"));
                 uah.setConditionType(result.getString("condition_type").charAt(0));
                 uah.setAlertValue(result.getFloat("alert_value"));
                 uah.setComment(result.getString("comment"));
