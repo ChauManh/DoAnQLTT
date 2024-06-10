@@ -38,7 +38,7 @@ public class MainLogin extends javax.swing.JFrame {
     private PanelLoading loading;
     private NguoiDungDAO service;
     private NguoiDung user_login;
-    
+
     public MainLogin() {
         initComponents();
         init();
@@ -168,17 +168,20 @@ public class MainLogin extends javax.swing.JFrame {
         try {
             // Lấy dữ liệu đăng nhập từ giao diện
             ModelLogin data = loginAndRegister.getDataLogin();
-            
+
             // Thực hiện đăng nhập
             user_login = service.login(data);
 
             // Kiểm tra kết quả đăng nhập và xử lý tương ứng
             if (user_login != null) {
                 // Đăng nhập thành công, mở cửa sổ chính và đóng cửa sổ đăng nhập
-                
-                JDBCUtil.closeConnection();
-                JDBCUtil.getUserConnection();
-                
+                if (user_login.getRole() == 1) {
+                    JDBCUtil.closeConnection();
+                    JDBCUtil.getAdminConnection();
+                } else {
+                    JDBCUtil.closeConnection();
+                    JDBCUtil.getUserConnection();
+                }
                 this.dispose();
                 MainSystem.main(user_login);
             } else {

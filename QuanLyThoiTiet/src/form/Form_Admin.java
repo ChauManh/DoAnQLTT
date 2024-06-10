@@ -27,6 +27,12 @@ public class Form_Admin extends javax.swing.JPanel {
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Nothing new!",
+                        "ALERT",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
 
             @Override
@@ -60,7 +66,12 @@ public class Form_Admin extends javax.swing.JPanel {
 
             @Override
             public void onSetActive(int row) {
-
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Nothing new!",
+                        "ALERT",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         };
 

@@ -12,6 +12,7 @@ public class NguoiDung {
     private String measurement_type = "metric";
     private Integer utc = 0;
     private String status;
+    private int Role;
     
     public NguoiDung(int userID, String username, String email, String password, String verifyCode, int current_city_fk, String hashSalt, String nd_language, String measurement_type, Integer utc) {
         this.userID = userID;
@@ -50,12 +51,13 @@ public class NguoiDung {
         this.hashSalt = hashSalt;
     }
 
-    public NguoiDung(int userID, String username, String email, int current_city_fk, String password) {
+    public NguoiDung(int userID, String username, String email, int current_city_fk, String password, int Role) {
         this.userID = userID;
         this.username = username;
         this.email = email;
         this.current_city_fk = current_city_fk;
         this.password = password;
+        this.Role = Role;
     }
     
     public NguoiDung(int userID, String username, String email, String password) {
@@ -153,7 +155,13 @@ public class NguoiDung {
         this.status = status;
     }
 
-    
+    public int getRole() {
+        return Role;
+    }
+
+    public void setRole(int Role) {
+        this.Role = Role;
+    }
     
     @Override
     public String toString() {
