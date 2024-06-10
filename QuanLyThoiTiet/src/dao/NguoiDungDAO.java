@@ -23,33 +23,37 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
     public static NguoiDungDAO getInstance() {
         return new NguoiDungDAO();
     }
-    
+
     private String generateSalt() {
-      SecureRandom sr = new SecureRandom();
-      byte[] salt = new byte[16];
-      sr.nextBytes(salt);
-      return Base64.getEncoder().encodeToString(salt);
+        SecureRandom sr = new SecureRandom();
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
     }
 
     private String hashPassword(String password, String salt) {
-      String generatedPassword = null;
-      if (salt == "0")
-          return password;
-      try {
-        MessageDigest md = MessageDigest.getInstance("SHA-512");
-        md.update(Base64.getDecoder().decode(salt));
-        byte[] bytes = md.digest(password.getBytes());
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bytes.length; i++) {
-          sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+        if ("0".equals(salt)) {
+            return password;
         }
-        generatedPassword = sb.toString();
-      } catch (NoSuchAlgorithmException e) {
-        e.printStackTrace();
-      }
-      return generatedPassword;
+        String generatedPassword = null;
+        try {
+            byte[] decodedSalt = Base64.getDecoder().decode(salt);
+            if (decodedSalt.length < 2) {
+                throw new IllegalArgumentException("Salt is too short");
+            }
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(decodedSalt);
+            byte[] bytes = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        } catch (NoSuchAlgorithmException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return generatedPassword;
     }
-
 
     public NguoiDung login(ModelLogin login) throws SQLException {
         Connection connection = JDBCUtil.getConnection();
@@ -68,7 +72,7 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
 
             if (storedPassword.equals(hashedPassword)) {
                 data = new NguoiDung(userID, userName, email, user_cityId, "");
-            }   
+            }
         }
         r.close();
         p.close();
@@ -82,18 +86,17 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
         try {
             String sql = "INSERT INTO NguoiDung (Username, Email, Password, VerifyCode, hashSalt) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pre = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
+
             String code = generateVerifyCode();
             String salt = generateSalt();
             String hashedPassword = hashPassword(t.getPassword(), salt);
-            
+
             pre.setString(1, t.getUsername());
             pre.setString(2, t.getEmail());
             pre.setString(3, hashedPassword);
             pre.setString(4, code);
             pre.setString(5, salt);
 
-            
             result = pre.executeUpdate();
 
             ResultSet r = pre.getGeneratedKeys();
@@ -109,8 +112,8 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
         }
         return result;
     }
-    
-    public int updateCurrentCity(NguoiDung t){
+
+    public int updateCurrentCity(NguoiDung t) {
         Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
@@ -124,7 +127,7 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
         }
         return result;
     }
-    
+
     @Override
     public int update(NguoiDung t) {
         Connection connection = JDBCUtil.getConnection();

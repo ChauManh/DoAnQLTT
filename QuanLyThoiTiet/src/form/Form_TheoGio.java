@@ -7,7 +7,6 @@ import models.HourlyForecast;
 
 public class Form_TheoGio extends javax.swing.JPanel {
 
-    private Form_HourlyWeather fHourlyWeather;
     private NavigationListener navigationListener;
 
     public Form_TheoGio(List<HourlyForecast> arrayHourlyForecast, NavigationListener navigationListener) {

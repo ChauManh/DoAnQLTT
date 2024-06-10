@@ -4,6 +4,7 @@ import dao.CityDAO;
 import dao.CurrentWeatherDAO;
 import dao.UserAlertDAO;
 import event.EventMenuSelected;
+import form.Form_Admin;
 import form.Form_Alert;
 import form.Form_Weather;
 import models.NguoiDung;
@@ -16,6 +17,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JComponent;
+import model.ModelMenu;
 import models.City;
 import models.CurrentWeather;
 import models.UserAlert;
@@ -24,24 +26,29 @@ import service.WeatherAPI;
 class CheckTime implements Runnable {
 
     private LocalTime lastCheckedTime;
-    private NguoiDung user;
+    private final NguoiDung user;
     private ArrayList<UserAlert> arrayUserAlert;
     private ArrayList<CurrentWeather> arrayCurrentWeather;
     private ArrayList<Integer> idCity;
+    private Form_Weather fWeather;
+    private Form_Alert fAlert;
 
-    public CheckTime(NguoiDung user) {
+    public CheckTime(NguoiDung user, Form_Weather fWeather, Form_Alert fAlert) {
         this.user = user;
+        this.fAlert = fAlert;
+        this.fWeather = fWeather;
         this.lastCheckedTime = LocalTime.now().withSecond(0).withNano(0); // Khởi tạo thời gian kiểm tra cuối cùng
         this.arrayUserAlert = new ArrayList<>();
         this.arrayCurrentWeather = new ArrayList<>();
         this.idCity = new ArrayList<>();
+
     }
 
     @Override
     public void run() {
         while (true) {
             LocalTime currentTime = LocalTime.now();
-            LocalTime nextCheckTime = lastCheckedTime.plusMinutes(0).withSecond(30).withNano(0);
+            LocalTime nextCheckTime = lastCheckedTime.plusMinutes(1).withSecond(0).withNano(0);
 
             // Kiểm tra xem đã qua 5 phút chưa
             if (!currentTime.isBefore(nextCheckTime)) {
@@ -64,30 +71,30 @@ class CheckTime implements Runnable {
                             break;
                         }
                     }
-                    if (check == false) {                   
+                    if (check == false) {
                         idCity.add(userAlert.getCityId());
                     }
                 }
-                                
-                for (int i=0; i<idCity.size(); i++)
-                {
+
+                for (int i = 0; i < idCity.size(); i++) {
                     City city = CityDAO.getInstance().selectByIdR(idCity.get(i));
                     CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
                     CurrentWeatherDAO.getInstance().insert(cw);
                 }
-                
+
                 for (UserAlert x : arrayUserAlert) {
                     CurrentWeather cw1 = CurrentWeatherDAO.getInstance().selectByIdR(x.getCityId());
                     int i = UserAlertDAO.getInstance().checkUserAlerts(cw1);
-                    if (i > 0)
-                    {
+                    if (i > 0) {
                         UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(i));
                         System.out.println(ua.toString());
-                    }                    
+                    }
                 }
 
-                System.out.println("Đã qua 30s: " + currentTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+                System.out.println("Đã qua 1p: " + currentTime.format(DateTimeFormatter.ofPattern("HH:mm")));
                 lastCheckedTime = currentTime.withSecond(0).withNano(0); // Cập nhật thời gian kiểm tra cuối cùng
+                this.fWeather.setAlert();
+                this.fAlert.setUpTable();
             }
 
             // Ngủ một khoảng thời gian ngắn để tránh kiểm tra liên tục
@@ -100,23 +107,26 @@ class CheckTime implements Runnable {
     }
 }
 
-
 public class MainSystem extends javax.swing.JFrame {
 
     private Form_Weather fWeather;
     private Form_Alert fAlert;
     private final NguoiDung user;
+    private Form_Admin fAdmin;
 
     public MainSystem(NguoiDung user) {
-        Thread timeCheckerThread = new Thread(new CheckTime(user));
-        timeCheckerThread.setDaemon(true); // Đặt luồng là daemon để nó tự động kết thúc khi chương trình chính kết thúc
-        timeCheckerThread.start();
-
         initComponents();
         this.user = user;
-
+        if (user.getUsername().equals("admin")) {
+            menu.listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
+            menu.listMenu1.addItem(new ModelMenu("admin", "Admin", ModelMenu.MenuType.MENU));
+            fAdmin = new Form_Admin();
+        }
         fWeather = new Form_Weather(user);
-        fAlert = new Form_Alert(user);
+        fAlert = new Form_Alert(user, fWeather);
+        Thread timeCheckerThread = new Thread(new CheckTime(user, fWeather, fAlert));
+        timeCheckerThread.setDaemon(true); // Đặt luồng là daemon để nó tự động kết thúc khi chương trình chính kết thúc
+        timeCheckerThread.start();
 
         menu.initMoving(MainSystem.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
@@ -129,7 +139,7 @@ public class MainSystem extends javax.swing.JFrame {
                 } else if (index == 4) {
                     System.out.println("Form Setting");
                 } else if (index == 6) {
-                    System.out.println("Form Admin Setting");
+                    setForm(fAdmin);
                 }
             }
         });

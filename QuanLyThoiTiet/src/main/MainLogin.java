@@ -114,7 +114,7 @@ public class MainLogin extends javax.swing.JFrame {
         bg.setLayer(loading, JLayeredPane.POPUP_LAYER);
         bg.setLayer(verifyCode, JLayeredPane.POPUP_LAYER);
         bg.add(loading, "pos 0 0 100% 100%");
-        bg.add(verifyCode, "pos 0 0 100% 100%");
+        bg.add(verifyCode, "pos 0.5al 0.5al 50% 50%");
         bg.add(cover, "width " + coverSize + "%, pos " + (isLogin ? "1al" : "0al") + " 0 n 100%");
         bg.add(loginAndRegister, "width " + loginSize + "%, pos " + (isLogin ? "0al" : "1al") + " 0 n 100%"); //  1al as 100%
         loginAndRegister.showRegister(!isLogin);

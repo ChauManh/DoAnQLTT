@@ -111,7 +111,7 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
     public int update(UserAlert ua) {
         Connection connection = JDBCUtil.getConnection();
         try {
-            String sql = "UPDATE UserAlert SET nd_id = ?, alert_type_id = ?, city_id = ?, condition_type = ?, alert_value = ?, comment = ?, timeframe = ?, activated = ? WHERE user_alert_id = ?";
+            String sql = "UPDATE UserAlert SET nd_id = ?, alert_type_id = ?, city_id = ?, condition_type = ?, alert_value = ?, comment = ? WHERE user_alert_id = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setInt(1, ua.getNdId());
             pre.setInt(2, ua.getAlertTypeId());
@@ -119,8 +119,7 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
             pre.setString(4, String.valueOf(ua.getConditionType()));
             pre.setFloat(5, ua.getAlertValue());
             pre.setString(6, ua.getComment());
-            pre.setBoolean(7, ua.isActivated());
-            pre.setInt(8, ua.getUserAlertId());
+            pre.setInt(7, ua.getUserAlertId());
             return pre.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -128,6 +127,25 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
         return -1;
     }
 
+//    public int setActive(UserAlert ua) {
+//        Connection connection = JDBCUtil.getConnection();
+//        try {
+//            String sql = "UPDATE UserAlert SET activated = ? WHERE user_alert_id = ?";
+//            PreparedStatement pre = connection.prepareStatement(sql);
+//            pre.setInt(1, ua.getNdId());
+//            pre.setInt(2, ua.getAlertTypeId());
+//            pre.setInt(3, ua.getCityId());
+//            pre.setString(4, String.valueOf(ua.getConditionType()));
+//            pre.setFloat(5, ua.getAlertValue());
+//            pre.setString(6, ua.getComment());
+//            pre.setInt(7, ua.getUserAlertId());
+//            return pre.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return -1;
+//    }
+    
     public ArrayList<UserAlert> selectAllById(NguoiDung user) {
         Connection connection = JDBCUtil.getConnection();
         ArrayList<UserAlert> dsUserAlert = new ArrayList<>();
@@ -158,7 +176,7 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
         int result = 0;
         Connection connection = JDBCUtil.getConnection();
         try {
-            String sql = "{CALL CheckUserAlerts(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+            String sql = "{CALL CheckUserAlerts(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
             CallableStatement pre = connection.prepareCall(sql);
             pre.setInt(1, cw.getCityId());
             pre.setLong(2, cw.getCurTimestamp());

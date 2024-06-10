@@ -33,8 +33,6 @@ public class Menu extends javax.swing.JPanel {
         listMenu1.addItem(new ModelMenu("ring", "Alert", ModelMenu.MenuType.MENU));
         listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
         listMenu1.addItem(new ModelMenu("setting", "Setting", ModelMenu.MenuType.MENU));
-        listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
-        listMenu1.addItem(new ModelMenu("admin", "Admin", ModelMenu.MenuType.MENU));
     }
 
     @SuppressWarnings("unchecked")
@@ -129,7 +127,7 @@ public class Menu extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private swing.ListMenu<String> listMenu1;
+    public swing.ListMenu<String> listMenu1;
     private javax.swing.JPanel panelMoving;
     // End of variables declaration//GEN-END:variables
 }

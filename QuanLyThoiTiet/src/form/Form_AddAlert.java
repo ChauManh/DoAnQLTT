@@ -12,13 +12,15 @@ import models.UserAlert;
 public class Form_AddAlert extends javax.swing.JFrame {
 
     private Form_Alert fAlert;
-    private NguoiDung user;
+    private final NguoiDung user;
     private UserAlert alert;
+    private Form_Weather fWeather;
     
-    public Form_AddAlert(NguoiDung user, Form_Alert fAlert) {
+    public Form_AddAlert(NguoiDung user, Form_Alert fAlert, Form_Weather fWeather) {
         initComponents();
         this.fAlert = fAlert;
         this.user = user;
+        this.fWeather = fWeather;
         setVisible(true);
     }
 
@@ -79,7 +81,7 @@ public class Form_AddAlert extends javax.swing.JFrame {
 
         comboBoxComparison.setModel(new javax.swing.DefaultComboBoxModel(new String[] { ">", "<", "=" }));
 
-        comboBoxLocation.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A Yun Pa", "An Chau", "An Khe", "An Nhon", "An Phu", "An Thanh B", "Ap Binh Thanh", "Ap Da Loi", "Ap Khanh Hoa", "Ap Khanh Hung", "Ap Phu Hai", "Ap Phu My", "Ap Tan Ngai", "Ba Chuc", "Ba Don", "Ba Ria", "Bac Giang", "Bac Kan", "Bac Lieu", "Bac Ninh", "Bai Chay", "Bao Loc", "Ben Tre", "Bien Hoa", "Bim Son", "Binh Hoa", "Binh Hoa", "Binh Long", "Binh Minh", "Bo", "Buon Ho", "Buon Ma Thuot", "Buon Trap", "Buu Long", "Ca Mau", "Cai Lay", "Cam Pha", "Cam Ranh", "Cam Ranh", "Can Tho", "Cao Bang", "Cao Lanh", "Chau Doc", "Chi Linh", "Cho Lach", "Cho Moi", "Cho Phuoc Hai", "Chon Thanh", "Con Dao", "Cua Lo", "Da Lat", "Da Nang", "Di An", "Di Linh", "Dien Bien Phu", "Dong Ha", "Dong Hoa", "Dong Hoi", "Dong Xoai", "Duc Pho", "Duyen Hai", "Gia Nghia", "Gia Rai", "Go Cong", "Ha Giang", "Ha Long", "Ha Tien", "Ha Tinh", "Hai Duong", "Haiphong", "Hang Tram", "Hanoi", "Hiep Hoa", "Ho Chi Minh City", "Ho Nai", "Hoa Binh", "Hoa Thanh", "Hoa Thuong", "Hoi An", "Hong Ngu", "Hue", "Hung Yen", "Huong Canh", "Huong Thuy", "Huong Tra", "Khe Sanh", "Kien Giang", "Kien Luong", "Kinh Mon", "Kon Tum", "Ky Anh", "La Gi", "Lai Chau", "Lang Son", "Lao Cai", "Long Binh", "Long Khanh", "Long My", "Long Thanh", "Long Xuyen", "Luan Chau", "Mang La", "Mong Cai", "Mong Duong", "Muong Lay", "Muong Theng", "My Hoa", "My Luong", "My Tho", "Nam Dinh", "Nga Bay", "Nghi Son", "Nghia Lo", "Ngoc Son", "Nha Trang", "Nhan Trach", "Ninh Binh", "Ninh Hoa", "Phan Rang-Thap Cham", "Phan Ri Cua", "Phan Thiet", "Phu Ly", "Phu My", "Phu Quoc", "Phu Tho", "Phu Tu Son", "Phu Yen", "Phuc Yen", "Phuoc Long", "Pleiku", "Quang Ha", "Quang Ngai", "Quang Tri", "Quang Yen", "Quy Nhon", "Rach Gia", "Sa Dec", "Sa Pa", "Sam Son", "Soc Trang", "Son La", "Son Tay", "Song Cau", "Song Doc", "Tam Diep", "Tam Hiep", "Tam Ky", "Tan An", "Tan An", "Tan Chau", "Tan Phong", "Tan Phu", "Tan Phuoc Khanh", "Tan Son", "Tan Uyen", "Tan Van", "Tay Ninh", "Thai Binh", "Thai Nguyen", "Thanh Hoa", "Thanh Pho Uong Bi", "Thanh Phu", "Thanh Xuan", "Thi Tran Dong Dang", "Thi Tran Mau A", "Thi Tran Ngai Giao", "Thu Dau Mot", "Thu Duc", "Thuan An", "Thuan Tien", "Tra Vinh", "Trang Bang", "Tuy Hoa", "Tuyen Quang", "Vi Thanh", "Viet Tri", "Vinh", "Vinh Chau", "Vinh Long", "Vinh Yen", "Vung Tau", "Xuan Trung", "Yen Bai" }));
+        comboBoxLocation.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A Yun Pa", "An Chau", "An Khe", "An Nhon", "An Phu", "An Thanh B", "Ap Binh Thanh", "Ap Da Loi", "Ap Khanh Hoa", "Ap Khanh Hung", "Ap Phu Hai", "Ap Phu My", "Ap Tan Ngai", "Ba Chuc", "Ba Don", "Ba Ria", "Bac Giang", "Bac Kan", "Bac Lieu", "Bac Ninh", "Bai Chay", "Bao Loc", "Ben Tre", "Bien Hoa", "Bim Son", "Binh Hoa", "Binh Hoa", "Binh Long", "Binh Minh", "Bo", "Buon Ho", "Buon Ma Thuot", "Buon Trap", "Buu Long", "Ca Mau", "Cai Lay", "Cam Pha", "Cam Ranh", "Cam Ranh", "Can Tho", "Cao Bang", "Cao Lanh", "Chau Doc", "Chi Linh", "Cho Lach", "Cho Moi", "Cho Phuoc Hai", "Chon Thanh", "Con Dao", "Cua Lo", "Da Lat", "Da Nang", "Di An", "Di Linh", "Dien Bien Phu", "Dong Ha", "Dong Hoa", "Dong Hoi", "Dong Xoai", "Duc Pho", "Duyen Hai", "Gia Nghia", "Gia Rai", "Go Cong", "Ha Giang", "Ha Long", "Ha Tien", "Ha Tinh", "Hai Duong", "Hai Phong", "Hang Tram", "Ha Noi", "Hiep Hoa", "Ho Chi Minh City", "Ho Nai", "Hoa Binh", "Hoa Thanh", "Hoa Thuong", "Hoi An", "Hong Ngu", "Hue", "Hung Yen", "Huong Canh", "Huong Thuy", "Huong Tra", "Khe Sanh", "Kien Giang", "Kien Luong", "Kinh Mon", "Kon Tum", "Ky Anh", "La Gi", "Lai Chau", "Lang Son", "Lao Cai", "Long Binh", "Long Khanh", "Long My", "Long Thanh", "Long Xuyen", "Luan Chau", "Mang La", "Mong Cai", "Mong Duong", "Muong Lay", "Muong Theng", "My Hoa", "My Luong", "My Tho", "Nam Dinh", "Nga Bay", "Nghi Son", "Nghia Lo", "Ngoc Son", "Nha Trang", "Nhan Trach", "Ninh Binh", "Ninh Hoa", "Phan Rang-Thap Cham", "Phan Ri Cua", "Phan Thiet", "Phu Ly", "Phu My", "Phu Quoc", "Phu Tho", "Phu Tu Son", "Phu Yen", "Phuc Yen", "Phuoc Long", "Pleiku", "Quang Ha", "Quang Ngai", "Quang Tri", "Quang Yen", "Quy Nhon", "Rach Gia", "Sa Dec", "Sa Pa", "Sam Son", "Soc Trang", "Son La", "Son Tay", "Song Cau", "Song Doc", "Tam Diep", "Tam Hiep", "Tam Ky", "Tan An", "Tan An", "Tan Chau", "Tan Phong", "Tan Phu", "Tan Phuoc Khanh", "Tan Son", "Tan Uyen", "Tan Van", "Tay Ninh", "Thai Binh", "Thai Nguyen", "Thanh Hoa", "Thanh Pho Uong Bi", "Thanh Phu", "Thanh Xuan", "Thi Tran Dong Dang", "Thi Tran Mau A", "Thi Tran Ngai Giao", "Thu Dau Mot", "Thu Duc", "Thuan An", "Thuan Tien", "Tra Vinh", "Trang Bang", "Tuy Hoa", "Tuyen Quang", "Vi Thanh", "Viet Tri", "Vinh", "Vinh Chau", "Vinh Long", "Vinh Yen", "Vung Tau", "Xuan Trung", "Yen Bai" }));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -214,43 +216,12 @@ public class Form_AddAlert extends javax.swing.JFrame {
             alert.setActivated(true);
             
             UserAlertDAO.getInstance().insert(alert);
-            
+            fWeather.setAlert();
             dispose();
             fAlert.setUpTable();
         }
     }//GEN-LAST:event_btnFinishActionPerformed
 
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(Form_SetLocation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(Form_SetLocation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(Form_SetLocation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(Form_SetLocation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Form_SetLocation().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.MyButton btnCancel;
