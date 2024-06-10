@@ -51,7 +51,7 @@ public class Form_Weather extends javax.swing.JPanel {
     private Form_SetLocation fSetLocation;
     private final NguoiDung user;
     private Form_AlertHistory fAlertHistory;
-    
+
     public Form_Weather(NguoiDung user) {
         initComponents();
         this.user = user;
@@ -108,7 +108,7 @@ public class Form_Weather extends javax.swing.JPanel {
             setForm(mainPanelAlert, fAlertHistory);
         }
     }
-    
+
     public void showFormHomNay(City city) {
         fHomNay = new Form_HomNay();
         CurrentWeather currentWeather = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
@@ -419,11 +419,17 @@ public class Form_Weather extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnHienTaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHienTaiActionPerformed
+        btnHienTai.setColor(new Color(255, 255, 51));
+        btnHangNgay.setColor(Color.WHITE);
+        btnTheoGio.setColor(Color.WHITE);
         if (fHomNay != null)
             setForm(mainPanel, fHomNay);
     }//GEN-LAST:event_btnHienTaiActionPerformed
 
     private void btnTheoGioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTheoGioActionPerformed
+        btnTheoGio.setColor(new Color(255, 255, 51));
+        btnHienTai.setColor(Color.WHITE);
+        btnHangNgay.setColor(Color.WHITE);
         setUpFormTheoGio();
         if (arrayFormTheoGio == null) {
         } else {
@@ -433,6 +439,9 @@ public class Form_Weather extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTheoGioActionPerformed
 
     private void btnHangNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHangNgayActionPerformed
+        btnHangNgay.setColor(new Color(255, 255, 51));
+        btnHienTai.setColor(Color.WHITE);
+        btnTheoGio.setColor(Color.WHITE);
         setUpFormTheoNgay();
         if (arrayFormTheoNgay == null) {
         } else {

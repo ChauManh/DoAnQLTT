@@ -17,13 +17,13 @@ import swing.TableActionCellRender;
 public class Form_Admin extends javax.swing.JPanel {
 
     private NguoiDung user;
-    
+
     public Form_Admin() {
         initComponents();
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
-        
+
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
@@ -33,43 +33,54 @@ public class Form_Admin extends javax.swing.JPanel {
             public void onDelete(int row) {
                 int response = JOptionPane.showConfirmDialog(
                         null,
-                        "Are you sure want to delete this row?",
+                        "Are you sure want to delete this user?",
                         "Warning!!!",
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.WARNING_MESSAGE
                 );
                 if (response == JOptionPane.OK_OPTION) {
-                   
-//                    if (table.isEditing()) {
-//                        table.getCellEditor().stopCellEditing();
-//                    }
-//                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-//                    model.removeRow(row);
-                    
+                    NguoiDung user = NguoiDungDAO.getInstance().selectAll().get(row);
+                    if (user.getUsername().equals("admin")) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Cannot delete the admin account!",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    } else {
+                        if (table.isEditing()) {
+                            table.getCellEditor().stopCellEditing();
+                        }
+                        DefaultTableModel model = (DefaultTableModel) table.getModel();
+                        model.removeRow(row);
+                        NguoiDungDAO.getInstance().delete(user);
+                    }
                 }
             }
 
             @Override
             public void onSetActive(int row) {
-                
+
             }
         };
-        
+
         table.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRender());
         table.getColumnModel().getColumn(6).setCellEditor(new TableActionCellEditor(event));
         setUpTable();
 
     }
 
-    public void setUpTable() {   
+    public void setUpTable() {
         String location_name;
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
-        
+
         for (NguoiDung user : NguoiDungDAO.getInstance().selectAll()) {
             if (user.getCurrent_city_fk() == 0) {
                 location_name = "";
-            } else location_name = CityDAO.getInstance().selectByIdR(user.getCurrent_city_fk()).getCity_name();           
+            } else {
+                location_name = CityDAO.getInstance().selectByIdR(user.getCurrent_city_fk()).getCity_name();
+            }
             model.addRow(new Object[]{
                 user.getUsername(),
                 user.getEmail(),
@@ -80,7 +91,7 @@ public class Form_Admin extends javax.swing.JPanel {
             });
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

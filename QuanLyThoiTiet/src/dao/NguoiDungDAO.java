@@ -159,9 +159,9 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
         Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
-            String sql = "DELETE FROM NguoiDung WHERE UserID = ?";
+            String sql = "DELETE FROM NguoiDung WHERE Username = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setInt(1, t.getUserID());
+            pre.setString(1, t.getUsername());
             result = pre.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

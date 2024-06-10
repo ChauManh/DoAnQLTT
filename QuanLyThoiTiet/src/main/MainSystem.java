@@ -35,7 +35,7 @@ class CheckTime implements Runnable {
     private Form_Weather fWeather;
     private Form_Alert fAlert;
     private Form_DisplayAlert fDisplayAlert;
-    
+
     public CheckTime(NguoiDung user, Form_Weather fWeather, Form_Alert fAlert) {
         this.user = user;
         this.fAlert = fAlert;
@@ -46,58 +46,61 @@ class CheckTime implements Runnable {
         this.idCity = new ArrayList<>();
     }
 
+    public void checkAlert() {
+        if (arrayCurrentWeather.size() > 0) {
+            arrayCurrentWeather.clear();
+        }
+        if (arrayUserAlert.size() > 0) {
+            arrayUserAlert.clear();
+        }
+        if (idCity.size() > 0) {
+            idCity.clear();
+        }
+        arrayUserAlert = UserAlertDAO.getInstance().selectAllById(user);
+        arrayCurrentWeather = CurrentWeatherDAO.getInstance().selectAll();
+        for (UserAlert userAlert : arrayUserAlert) {
+            boolean check = false;
+            for (CurrentWeather currentWeather : arrayCurrentWeather) {
+                if (currentWeather.getCityId() == userAlert.getCityId()) {
+                    check = true;
+                    break;
+                }
+            }
+            if (check == false) {
+                idCity.add(userAlert.getCityId());
+            }
+        }
+
+        for (int i = 0; i < idCity.size(); i++) {
+            City city = CityDAO.getInstance().selectByIdR(idCity.get(i));
+            CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
+            CurrentWeatherDAO.getInstance().insert(cw);
+        }
+
+        for (UserAlert x : arrayUserAlert) {
+            CurrentWeather cw1 = CurrentWeatherDAO.getInstance().selectByIdR(x.getCityId());
+            int user_alert_id = UserAlertDAO.getInstance().checkUserAlerts(cw1);
+            if (user_alert_id > 0) {
+                UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(user_alert_id));
+                if (ua.getNdId() == user.getUserID()) {
+                    fDisplayAlert = new Form_DisplayAlert(ua);
+                }
+            }
+        }
+        this.fWeather.setAlertHistory();
+        this.fAlert.setUpTable();
+
+    }
+
     @Override
     public void run() {
         while (true) {
             LocalTime currentTime = LocalTime.now();
-            LocalTime nextCheckTime = lastCheckedTime.plusMinutes(1).withSecond(0).withNano(0);
+            LocalTime nextCheckTime = lastCheckedTime.plusMinutes(60).withSecond(0).withNano(0);
 
-            // Kiểm tra xem đã qua 5 phút chưa
             if (!currentTime.isBefore(nextCheckTime)) {
-                if (arrayCurrentWeather.size() > 0) {
-                    arrayCurrentWeather.clear();
-                }
-                if (arrayUserAlert.size() > 0) {
-                    arrayUserAlert.clear();
-                }
-                if (idCity.size() > 0) {
-                    idCity.clear();
-                }
-                arrayUserAlert = UserAlertDAO.getInstance().selectAllById(user);
-                arrayCurrentWeather = CurrentWeatherDAO.getInstance().selectAll();
-                for (UserAlert userAlert : arrayUserAlert) {
-                    boolean check = false;
-                    for (CurrentWeather currentWeather : arrayCurrentWeather) {
-                        if (currentWeather.getCityId() == userAlert.getCityId()) {
-                            check = true;
-                            break;
-                        }
-                    }
-                    if (check == false) {
-                        idCity.add(userAlert.getCityId());
-                    }
-                }
-
-                for (int i = 0; i < idCity.size(); i++) {
-                    City city = CityDAO.getInstance().selectByIdR(idCity.get(i));
-                    CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
-                    CurrentWeatherDAO.getInstance().insert(cw);
-                }
-
-                for (UserAlert x : arrayUserAlert) {
-                    CurrentWeather cw1 = CurrentWeatherDAO.getInstance().selectByIdR(x.getCityId());
-                    int user_alert_id = UserAlertDAO.getInstance().checkUserAlerts(cw1);
-                    if (user_alert_id > 0) {
-                        UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(user_alert_id));
-                        if (ua.getNdId() == user.getUserID())
-                        fDisplayAlert = new Form_DisplayAlert(ua);
-                    }
-                }
-
-                System.out.println("Đã qua 1p: " + currentTime.format(DateTimeFormatter.ofPattern("HH:mm")));
-                lastCheckedTime = currentTime.withSecond(0).withNano(0); // Cập nhật thời gian kiểm tra cuối cùng
-                this.fWeather.setAlertHistory();
-                this.fAlert.setUpTable();
+                checkAlert();
+                lastCheckedTime = currentTime.withSecond(0).withNano(0); // Cập nhật thời gian kiểm tra cuối cùng              
             }
 
             // Ngủ một khoảng thời gian ngắn để tránh kiểm tra liên tục
@@ -117,10 +120,12 @@ public class MainSystem extends javax.swing.JFrame {
     private final NguoiDung user;
     private Form_Admin fAdmin;
     private Form_Setting fSetting;
+    private Form_DisplayAlert fDisplayAlert;
 
     public MainSystem(NguoiDung user) {
         initComponents();
         this.user = user;
+
         if (user.getUsername().equals("admin")) {
             menu.listMenu1.addItem(new ModelMenu("", " ", ModelMenu.MenuType.EMPTY));
             menu.listMenu1.addItem(new ModelMenu("admin", "Admin", ModelMenu.MenuType.MENU));
@@ -129,7 +134,10 @@ public class MainSystem extends javax.swing.JFrame {
         fWeather = new Form_Weather(user);
         fAlert = new Form_Alert(user, fWeather);
         fSetting = new Form_Setting(user);
-        Thread timeCheckerThread = new Thread(new CheckTime(user, fWeather, fAlert));
+
+        CheckTime checkTime = new CheckTime(user, fWeather, fAlert);
+        checkTime.checkAlert();
+        Thread timeCheckerThread = new Thread(checkTime);
         timeCheckerThread.setDaemon(true); // Đặt luồng là daemon để nó tự động kết thúc khi chương trình chính kết thúc
         timeCheckerThread.start();
 
