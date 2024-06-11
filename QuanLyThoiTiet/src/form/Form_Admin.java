@@ -68,7 +68,7 @@ public class Form_Admin extends javax.swing.JPanel {
             public void onSetActive(int row) {
                 JOptionPane.showMessageDialog(
                         null,
-                        "Nothing new!",
+                        "CANNOT SET ACTIVE FOR USER!",
                         "ALERT",
                         JOptionPane.ERROR_MESSAGE
                 );

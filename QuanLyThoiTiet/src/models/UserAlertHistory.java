@@ -2,9 +2,11 @@ package models;
 
 import dao.CityDAO;
 import dao.UserAlertTypeDAO;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.sql.Date;
 
 public class UserAlertHistory {
+
     private int alert_type_id;
     private int history_id;
     private int user_alert_id;
@@ -14,13 +16,13 @@ public class UserAlertHistory {
     private float alert_value;
     private String comment;
     private String timeframe;
-    private Date activation_time;
+    private Timestamp activation_time;
 
-    public UserAlertHistory(){
-        
+    public UserAlertHistory() {
+
     }
-    
-    public UserAlertHistory(int history_id, int user_alert_id, int nd_id, int city_id, char condition_type, float alert_value, String comment, String timeframe, Date activation_time) {
+
+    public UserAlertHistory(int history_id, int user_alert_id, int nd_id, int city_id, char condition_type, float alert_value, String comment, String timeframe, Timestamp activation_time) {
         this.history_id = history_id;
         this.user_alert_id = user_alert_id;
         this.nd_id = nd_id;
@@ -33,7 +35,6 @@ public class UserAlertHistory {
     }
 
     // Getters
-
     public int getAlert_type_id() {
         return alert_type_id;
     }
@@ -41,8 +42,7 @@ public class UserAlertHistory {
     public void setAlert_type_id(int alert_type_id) {
         this.alert_type_id = alert_type_id;
     }
-    
-    
+
     public int getHistoryId() {
         return history_id;
     }
@@ -73,10 +73,6 @@ public class UserAlertHistory {
 
     public String getTimeframe() {
         return timeframe;
-    }
-
-    public Date getActivationTime() {
-        return activation_time;
     }
 
     // Setters
@@ -112,7 +108,11 @@ public class UserAlertHistory {
         this.timeframe = timeframe;
     }
 
-    public void setActivationTime(Date activation_time) {
+    public Timestamp getActivation_time() {
+        return activation_time;
+    }
+
+    public void setActivation_time(Timestamp activation_time) {
         this.activation_time = activation_time;
     }
 
@@ -120,6 +120,5 @@ public class UserAlertHistory {
     public String toString() {
         return UserAlertTypeDAO.getInstance().selectByIdR(alert_type_id) + " at " + CityDAO.getInstance().selectByIdR(city_id).getCity_name() + " " + condition_type + " " + alert_value + " [" + comment + "]";
     }
-    
-    
+
 }

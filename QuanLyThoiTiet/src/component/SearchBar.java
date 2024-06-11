@@ -121,7 +121,7 @@ public class SearchBar extends javax.swing.JPanel {
         "Lang Son", "Lai Chau", "La Gi", "Ky Anh", "Kon Tum", "Kinh Mon", "Kien Luong", 
         "Kien Giang", "Khe Sanh", "Huong Tra", "Huong Thuy", "Huong Canh", "Hung Yen", "Hue", 
         "Hong Ngu", "Hoi An", "Hoa Thuong", "Hoa Thanh", "Hoa Binh", "Ho Nai", 
-        "Ho Chi Minh City", "Hiep Hoa", "Hanoi", "Hang Tram", "Haiphong", "Hai Duong", 
+        "Ho Chi Minh City", "Hiep Hoa", "Ha noi", "Hang Tram", "Hai phong", "Hai Duong", 
         "Ha Tinh", "Ha Tien", "Ha Long", "Ha Giang", "Go Cong", "Gia Rai", "Gia Nghia", 
         "Duyen Hai", "Duc Pho", "Dong Xoai", "Dong Hoi", "Dong Hoa", "Dong Ha", 
         "Dien Bien Phu", "Di Linh", "Di An", "Da Nang", "Da Lat", "Cua Lo", "Con Dao", 

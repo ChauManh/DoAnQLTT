@@ -221,7 +221,7 @@ public class Form_UpdateAlert extends javax.swing.JFrame {
             alert.setComment(textAlertContent.getText());
             
             UserAlertDAO.getInstance().update(alert);
-            fAlert.setUpTable();
+            fAlert.setUpDataCurrentTable();
             fWeather.setAlertHistory();
             dispose();
         }

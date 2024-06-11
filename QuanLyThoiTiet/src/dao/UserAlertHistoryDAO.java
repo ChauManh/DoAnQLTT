@@ -32,7 +32,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
             pre.setFloat(5, uah.getAlertValue());
             pre.setString(6, uah.getComment());
             pre.setString(7, uah.getTimeframe());
-            pre.setTimestamp(8, new java.sql.Timestamp(uah.getActivationTime().getTime()));
+            pre.setTimestamp(8, new java.sql.Timestamp(uah.getActivation_time().getTime()));
             return pre.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
             pre.setFloat(5, uah.getAlertValue());
             pre.setString(6, uah.getComment());
             pre.setString(7, uah.getTimeframe());
-            pre.setTimestamp(8, new java.sql.Timestamp(uah.getActivationTime().getTime()));
+            pre.setTimestamp(8, new java.sql.Timestamp(uah.getActivation_time().getTime()));
             pre.setInt(9, uah.getHistoryId());
             return pre.executeUpdate();
         } catch (SQLException e) {
@@ -94,7 +94,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
                 uah.setAlertValue(result.getFloat("alert_value"));
                 uah.setComment(result.getString("comment"));
                 uah.setTimeframe(result.getString("timeframe"));
-                uah.setActivationTime(result.getTimestamp("activation_time"));
+                uah.setActivation_time(result.getTimestamp("activation_time"));
                 dsUserAlertHistory.add(uah);
             }
         } catch (SQLException e) {
@@ -120,7 +120,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
                 uah.setConditionType(result.getString("condition_type").charAt(0));
                 uah.setAlertValue(result.getFloat("alert_value"));
                 uah.setComment(result.getString("comment"));
-                uah.setActivationTime(result.getDate("activation_time"));
+                uah.setActivation_time(result.getTimestamp("activation_time"));
                 dsUserAlertHistory.add(uah);
             }
         } catch (SQLException e) {
@@ -148,7 +148,7 @@ public class UserAlertHistoryDAO implements DAOInterface<UserAlertHistory> {
                 uah.setAlertValue(result.getFloat("alert_value"));
                 uah.setComment(result.getString("comment"));
                 uah.setTimeframe(result.getString("timeframe"));
-                uah.setActivationTime(result.getTimestamp("activation_time"));
+                uah.setActivation_time(result.getTimestamp("activation_time"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

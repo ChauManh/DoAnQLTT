@@ -10,13 +10,7 @@ import form.Form_DisplayAlert;
 import form.Form_Setting;
 import form.Form_Weather;
 import models.NguoiDung;
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 import model.ModelMenu;
@@ -88,7 +82,7 @@ class CheckTime implements Runnable {
             }
         }
         this.fWeather.setAlertHistory();
-        this.fAlert.setUpTable();
+        this.fAlert.setUpDataCurrentTable();
 
     }
 
