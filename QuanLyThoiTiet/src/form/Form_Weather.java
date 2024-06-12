@@ -116,33 +116,21 @@ public class Form_Weather extends javax.swing.JPanel {
         fHomNay.setInfo(city.getCity_name(), ServiceConvertIcon.toIcon(currentWeather.getIcon()), currentWeather.getTemperature(), WeatherConditionDAO.getDescription(currentWeather.getWeatherCondition()), currentWeather.getVisibility(), currentWeather.getWindSpeed(), currentWeather.getFeels_like(), currentWeather.getPressure(), currentWeather.getHumidity(), currentWeather.getClouds(), currentWeather.getUv());
         setForm(mainPanel, fHomNay);
         if (currentWeather != null) {
-            for (CurrentWeather cW : CurrentWeatherDAO.getInstance().selectAll()) {
-                if (cW.getCityId() == city.getCity_id()) {
-                    check = true;
-                    break;
-                }
-            }
-            if (!check) {
-                CurrentWeatherDAO.getInstance().insert(currentWeather);
-            }
+            CurrentWeatherDAO.getInstance().insert(currentWeather);
         }
     }
 
     private void InsertDataHourlyWeather() {
-        if (!check) {
-            for (int i = 1; i < gioConLai(); i++) {
-                HourlyForecast hF = arrayHourlyForecast.get(i);
-                HourlyForecastDAO.getInstance().insert(hF);
-            }
+        for (int i = 1; i < gioConLai(); i++) {
+            HourlyForecast hF = arrayHourlyForecast.get(i);
+            HourlyForecastDAO.getInstance().insert(hF);
         }
     }
 
     private void InsertDataDailyWeather() {
-        if (!check) {
-            for (int i = 1; i < 7; i++) {
-                DailyForecast dF = arrayDailyForecast.get(i);
-                DailyForecastDAO.getInstance().insert(dF);
-            }
+        for (int i = 1; i < 7; i++) {
+            DailyForecast dF = arrayDailyForecast.get(i);
+            DailyForecastDAO.getInstance().insert(dF);
         }
     }
 
