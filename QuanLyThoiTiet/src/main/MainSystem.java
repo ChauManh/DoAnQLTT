@@ -56,30 +56,16 @@ class CheckTime implements Runnable {
         if (idCity.size() > 0) {
             idCity.clear();
         }
-        arrayUserAlert = UserAlertDAO.getInstance().selectAllById(user);
+        arrayUserAlert = UserAlertDAO.getInstance().selectAll();
         arrayCurrentWeather = CurrentWeatherDAO.getInstance().selectAll();
-        for (UserAlert userAlert : arrayUserAlert) {
-            boolean check = false;
-            for (CurrentWeather currentWeather : arrayCurrentWeather) {
-                if (currentWeather.getCityId() == userAlert.getCityId()) {
-                    check = true;
-                    break;
-                }
-            }
-            if (check == false) {
-                idCity.add(userAlert.getCityId());
-            }
-        }
-
-        for (int i = 0; i < idCity.size(); i++) {
-            City city = CityDAO.getInstance().selectByIdR(idCity.get(i));
-            CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
-            CurrentWeatherDAO.getInstance().insert(cw);
-        }
 
         for (UserAlert x : arrayUserAlert) {
-            CurrentWeather cw1 = CurrentWeatherDAO.getInstance().selectByIdR(x.getCityId());
-            int user_alert_id = UserAlertDAO.getInstance().checkUserAlerts(cw1);
+            
+            City city = CityDAO.getInstance().selectByIdR(x.getCityId());
+            CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
+            CurrentWeatherDAO.getInstance().insert(cw);
+            
+            int user_alert_id = UserAlertDAO.getInstance().checkUserAlerts(cw);
             if (user_alert_id > 0) {
                 UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(user_alert_id));
                 if (ua.getNdId() == user.getUserID()) {
@@ -96,7 +82,7 @@ class CheckTime implements Runnable {
     public void run() {
         while (true) {
             LocalTime currentTime = LocalTime.now();
-            LocalTime nextCheckTime = lastCheckedTime.plusMinutes(60).withSecond(0).withNano(0);
+            LocalTime nextCheckTime = lastCheckedTime.plusMinutes(0).withSecond(30).withNano(0);
 
             if (!currentTime.isBefore(nextCheckTime)) {
                 checkAlert();
