@@ -255,7 +255,7 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
         
         String query = "SELECT * INTO OUTFILE '" + path + "'" +  
                        " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' " +
-                       " FROM CurrentWeather";
+                       " FROM CurrentWeather WHERE city_id = " + city.getCity_id();
         
         Connection connection = JDBCUtil.getConnection();
         try{

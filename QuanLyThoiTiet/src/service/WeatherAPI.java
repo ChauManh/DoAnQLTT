@@ -17,7 +17,7 @@ public class WeatherAPI {
 
     public static JSONObject getWeatherData(double latitude, double longitude) {
        String url = "https://api.openweathermap.org/data/3.0/onecall?lat=" + latitude +
-                    "&lon=" + longitude + "&appid=cd4158b1848491276e2a4f3647d430af";
+                    "&lon=" + longitude + "&appid=f443d3b3fec99501b4d2ef262a3acdd5";
         try {
             HttpURLConnection apiConnection = fetchApiResponse(url);
             if (apiConnection.getResponseCode() != 200) {

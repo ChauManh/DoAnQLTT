@@ -213,8 +213,7 @@ public class DailyForecastDAO implements DAOInterface<DailyForecast> {
         
         String query = "SELECT * INTO OUTFILE '" + path + "'" +  
                        " FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' " +
-                       " WHERE city_id = " + city.getCity_id() +
-                       " FROM DailyForecast";
+                       " FROM DailyForecast WHERE city_id = " + city.getCity_id();
         
         Connection connection = JDBCUtil.getConnection();
         try{
