@@ -71,6 +71,7 @@ public class Form_Weather extends javax.swing.JPanel {
                     InsertDataHourlyWeather();
                     arrayDailyForecast = WeatherAPI.getDailyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
                     InsertDataDailyWeather();
+                    btnHienTai.setColor(new Color(255, 255, 51));
                 }
             }
         });

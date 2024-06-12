@@ -58,7 +58,7 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
     public NguoiDung login(ModelLogin login) throws SQLException {
         Connection connection = JDBCUtil.getConnection();
         NguoiDung data = null;
-        PreparedStatement p = connection.prepareStatement("select UserID, Username, Email, Password, current_city_fk, hashSalt from `nguoidung` where BINARY(Email)=? and `Status`='Verified' limit 1");
+        PreparedStatement p = connection.prepareStatement("select UserID, Username, Email, Password, current_city_fk, hashSalt, Role from `nguoidung` where BINARY(Email)=? and `Status`='Verified' limit 1");
         p.setString(1, login.getEmail());
         ResultSet r = p.executeQuery();
         if (r.next()) {
@@ -69,9 +69,9 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
             int user_cityId = r.getInt(5);
             String salt = r.getString(6);
             String hashedPassword = hashPassword(login.getPassword(), salt);
-
+            int Role = r.getInt(7);
             if (storedPassword.equals(hashedPassword)) {
-                data = new NguoiDung(userID, userName, email, user_cityId, "");
+                data = new NguoiDung(userID, userName, email, user_cityId, "", Role);
             }
         }
         r.close();
@@ -133,20 +133,13 @@ public class NguoiDungDAO implements DAOInterface<NguoiDung> {
         Connection connection = JDBCUtil.getConnection();
         int result = -1;
         try {
-            String sql = "UPDATE NguoiDung SET Username = ?, Email = ?, Password = ?, VerifyCode = ?, current_city_fk = ?, hashSalt = ?, nd_language = ?, measurement_type = ?, utc = ? WHERE UserID = ?";
+            String sql = "UPDATE NguoiDung SET Password = ?, hashSalt = ? WHERE UserID = ?";
             PreparedStatement pre = connection.prepareStatement(sql);
-            pre.setString(1, t.getUsername());
-            pre.setString(2, t.getEmail());
             String salt = generateSalt();
             String hashedPassword = hashPassword(t.getPassword(), salt);
-            pre.setString(3, hashedPassword);
-            pre.setString(4, t.getVerifyCode());
-            pre.setLong(5, t.getCurrent_city_fk());
-            pre.setString(6, salt);
-            pre.setString(7, t.getNd_language());
-            pre.setString(8, t.getMeasurement_type());
-            pre.setInt(9, t.getUtc());
-            pre.setInt(10, t.getUserID());
+            pre.setString(1, hashedPassword);
+            pre.setString(2, salt);
+            pre.setInt(3, t.getUserID());
             result = pre.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

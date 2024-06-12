@@ -1,13 +1,12 @@
 package form;
 
 import dao.CityDAO;
-import dao.NguoiDungDAO;
 import dao.UserAlertDAO;
 import dao.UserAlertTypeDAO;
 import javax.swing.JOptionPane;
-import models.City;
 import models.NguoiDung;
 import models.UserAlert;
+import java.sql.SQLException;
 
 public class Form_AddAlert extends javax.swing.JFrame {
 
@@ -15,7 +14,7 @@ public class Form_AddAlert extends javax.swing.JFrame {
     private final NguoiDung user;
     private UserAlert alert;
     private Form_Weather fWeather;
-    
+
     public Form_AddAlert(NguoiDung user, Form_Alert fAlert, Form_Weather fWeather) {
         initComponents();
         this.fAlert = fAlert;
@@ -201,12 +200,12 @@ public class Form_AddAlert extends javax.swing.JFrame {
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.WARNING_MESSAGE
         );
-        if (response == JOptionPane.OK_OPTION) {           
+        if (response == JOptionPane.OK_OPTION) {
             alert = new UserAlert();
             alert.setNdId(user.getUserID());
             String alert_Description = (String) comboBoxType.getSelectedItem();
             alert.setAlertTypeId(UserAlertTypeDAO.getInstance().selectById(alert_Description).getAlert_type_id());
-            String locationSelected = (String) comboBoxLocation.getSelectedItem();           
+            String locationSelected = (String) comboBoxLocation.getSelectedItem();
             alert.setCityId(CityDAO.getInstance().selectById(locationSelected).getCity_id());
             String comparisonSelected = (String) comboBoxComparison.getSelectedItem();
             char conditionType = comparisonSelected.charAt(0);
@@ -214,11 +213,10 @@ public class Form_AddAlert extends javax.swing.JFrame {
             alert.setAlertValue(Float.parseFloat(textValue.getText()));
             alert.setComment(textAlertContent.getText());
             alert.setActivated(true);
-            
             UserAlertDAO.getInstance().insert(alert);
             fWeather.setAlertHistory();
             dispose();
-            fAlert.setUpTable();
+            fAlert.setUpDataCurrentTable();
         }
     }//GEN-LAST:event_btnFinishActionPerformed
 
