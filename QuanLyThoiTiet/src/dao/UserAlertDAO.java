@@ -26,7 +26,7 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
         Connection connection = JDBCUtil.getConnection();
         ArrayList<UserAlert> dsUserAlert = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM UserAlert";
+            String sql = "SELECT * FROM UserAlert WHERE activated = 1";
             PreparedStatement pre = connection.prepareStatement(sql);
             ResultSet result = pre.executeQuery();
             while (result.next()) {
