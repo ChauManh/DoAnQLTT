@@ -21,12 +21,39 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
         return new UserAlertDAO();
     }
 
+    public ArrayList<UserAlert> selectAllActivatedUnique() {
+        Connection connection = JDBCUtil.getConnection();
+        ArrayList<UserAlert> dsUserAlert = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM UserAlert WHERE activated = 1";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            ResultSet result = pre.executeQuery();
+            while (result.next()) {
+                UserAlert ua = new UserAlert();
+                ua.setUserAlertId(result.getInt("user_alert_id"));
+                ua.setNdId(result.getInt("nd_id"));
+                ua.setAlertTypeId(result.getInt("alert_type_id"));
+                ua.setCityId(result.getInt("city_id"));
+                ua.setConditionType(result.getString("condition_type").charAt(0));
+                ua.setAlertValue(result.getFloat("alert_value"));
+                ua.setComment(result.getString("comment"));
+                ua.setActivated(result.getBoolean("activated"));
+                dsUserAlert.add(ua);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dsUserAlert;
+    }
+
+    
+    
     @Override
     public ArrayList<UserAlert> selectAll() {
         Connection connection = JDBCUtil.getConnection();
         ArrayList<UserAlert> dsUserAlert = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM UserAlert WHERE activated = 1";
+            String sql = "SELECT * FROM UserAlert";
             PreparedStatement pre = connection.prepareStatement(sql);
             ResultSet result = pre.executeQuery();
             while (result.next()) {

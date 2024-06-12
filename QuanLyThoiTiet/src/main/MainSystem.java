@@ -18,6 +18,9 @@ import models.City;
 import models.CurrentWeather;
 import models.UserAlert;
 import service.WeatherAPI;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 class CheckTime implements Runnable {
 
@@ -50,9 +53,11 @@ class CheckTime implements Runnable {
         if (idCity.size() > 0) {
             idCity.clear();
         }
-        arrayUserAlert = UserAlertDAO.getInstance().selectAll();
+        arrayUserAlert = UserAlertDAO.getInstance().selectAllActivatedUnique();
         arrayCurrentWeather = CurrentWeatherDAO.getInstance().selectAll();
 
+        Map<Integer, Boolean> map = new HashMap<>();
+                
         for (UserAlert x : arrayUserAlert) {
             
             City city = CityDAO.getInstance().selectByIdR(x.getCityId());
@@ -60,7 +65,9 @@ class CheckTime implements Runnable {
             CurrentWeatherDAO.getInstance().insert(cw);
             
             int user_alert_id = UserAlertDAO.getInstance().checkUserAlerts(cw);
-            if (user_alert_id > 0) {
+
+            if (user_alert_id > 0 && map.containsKey(x.getCityId()) == false) {
+                map.put(x.getCityId(),true);
                 UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(user_alert_id));
                 if (ua.getNdId() == user.getUserID()) {
                     fDisplayAlert = new Form_DisplayAlert(ua);
