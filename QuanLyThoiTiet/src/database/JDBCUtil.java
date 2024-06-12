@@ -29,7 +29,7 @@ public class JDBCUtil {
     public static Connection getAdminConnection(){
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-            String url = "jdbc:mysql://localhost:3306/qltt";
+            String url = "jdbc:mysql://localhost:3306/qltt?noAccessToProcedureBodies=true";
             String username = "WeatherAdmin";
             String password = "admin@123";
             c = DriverManager.getConnection(url, username, password);
@@ -43,7 +43,7 @@ public class JDBCUtil {
     public static Connection getLoginConnection() {
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-            String url = "jdbc:mysql://localhost:3306/qltt";
+            String url = "jdbc:mysql://localhost:3306/qltt?noAccessToProcedureBodies=true";
             String username = "WeatherLogin";
             String password = "login@123";
             c = DriverManager.getConnection(url, username, password);

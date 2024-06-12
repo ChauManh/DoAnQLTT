@@ -57,20 +57,24 @@ class CheckTime implements Runnable {
         arrayCurrentWeather = CurrentWeatherDAO.getInstance().selectAll();
 
         Map<Integer, Boolean> map = new HashMap<>();
-                
-        for (UserAlert x : arrayUserAlert) {
-            
-            City city = CityDAO.getInstance().selectByIdR(x.getCityId());
-            CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
-            CurrentWeatherDAO.getInstance().insert(cw);
-            
-            int user_alert_id = UserAlertDAO.getInstance().checkUserAlerts(cw);
 
-            if (user_alert_id > 0 && map.containsKey(x.getCityId()) == false) {
-                map.put(x.getCityId(),true);
-                UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(user_alert_id));
-                if (ua.getNdId() == user.getUserID()) {
-                    fDisplayAlert = new Form_DisplayAlert(ua);
+        for (UserAlert x : arrayUserAlert) {
+
+            City city = CityDAO.getInstance().selectByIdR(x.getCityId());
+
+            if (map.containsKey(x.getCityId()) == false) {
+                CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
+                CurrentWeatherDAO.getInstance().insert(cw);
+                
+                map.put(x.getCityId(), true);
+                
+                int user_alert_id = UserAlertDAO.getInstance().checkUserAlerts(cw);
+
+                if (user_alert_id > 0) {
+                    UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(user_alert_id));
+                    if (ua.getNdId() == user.getUserID()) {
+                        fDisplayAlert = new Form_DisplayAlert(ua);
+                    }
                 }
             }
         }
