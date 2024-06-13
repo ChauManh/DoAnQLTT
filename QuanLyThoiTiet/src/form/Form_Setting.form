@@ -104,7 +104,7 @@
     </Component>
     <Component class="swing.MyButton" name="btnPrintCurrent">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Print current wethear"/>
+        <Property name="text" type="java.lang.String" value="Print current weather"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrintCurrentActionPerformed"/>
@@ -112,7 +112,7 @@
     </Component>
     <Component class="swing.MyButton" name="btnPrintHourly">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Print hourly wethear"/>
+        <Property name="text" type="java.lang.String" value="Print hourly weather"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrintHourlyActionPerformed"/>
@@ -120,7 +120,7 @@
     </Component>
     <Component class="swing.MyButton" name="btnPrintDaily">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Print daily wethear"/>
+        <Property name="text" type="java.lang.String" value="Print daily weather"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrintDailyActionPerformed"/>

@@ -54,21 +54,21 @@ public class Form_Setting extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Support print current, hourly, daily weather of 1 city to file csv");
 
-        btnPrintCurrent.setText("Print current wethear");
+        btnPrintCurrent.setText("Print current weather");
         btnPrintCurrent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrintCurrentActionPerformed(evt);
             }
         });
 
-        btnPrintHourly.setText("Print hourly wethear");
+        btnPrintHourly.setText("Print hourly weather");
         btnPrintHourly.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrintHourlyActionPerformed(evt);
             }
         });
 
-        btnPrintDaily.setText("Print daily wethear");
+        btnPrintDaily.setText("Print daily weather");
         btnPrintDaily.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrintDailyActionPerformed(evt);
