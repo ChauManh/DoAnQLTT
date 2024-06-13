@@ -8,10 +8,13 @@ import service.UnixConvertDate;
 import service.UnixConvertTime;
 
 public class Form_DailyWeather extends javax.swing.JPanel {
-    
-    
+
+    private Form_DetailDailyForecast fDetailDailyForecast;
+    private DailyForecast dF;
+
     public Form_DailyWeather(DailyForecast dF) {
         initComponents();
+        this.dF = dF;
         setVisible(true);
         setInfo(dF);
     }
@@ -20,7 +23,7 @@ public class Form_DailyWeather extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        myButton1 = new swing.MyButton();
+        showDetail = new swing.MyButton();
         icon = new javax.swing.JLabel();
         textTemp = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -55,9 +58,14 @@ public class Form_DailyWeather extends javax.swing.JPanel {
         setEnabled(false);
         setOpaque(false);
 
-        myButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/detailWeather_1.png"))); // NOI18N
-        myButton1.setColorClick(new java.awt.Color(204, 255, 255));
-        myButton1.setColorOver(new java.awt.Color(0, 204, 255));
+        showDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/detailWeather_1.png"))); // NOI18N
+        showDetail.setColorClick(new java.awt.Color(204, 255, 255));
+        showDetail.setColorOver(new java.awt.Color(0, 204, 255));
+        showDetail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDetailActionPerformed(evt);
+            }
+        });
 
         icon.setBackground(new java.awt.Color(255, 255, 255));
         icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -161,11 +169,10 @@ public class Form_DailyWeather extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(textDay)
-                    .addComponent(textDate, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(textDate, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,68 +201,70 @@ public class Form_DailyWeather extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textTemp)
-                .addGap(3, 3, 3)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(textDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textTemp)
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(textFeelLike)))
+                        .addComponent(showDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(textPressure)
-                                .addGap(3, 3, 3)
-                                .addComponent(textCloud3))
+                                .addComponent(textDescription)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(textFeelLike)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(textHumidity)
-                                .addGap(3, 3, 3)
-                                .addComponent(textCloud2)))
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(textCloud)
-                                .addGap(3, 3, 3)
-                                .addComponent(textCloud4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(textPoP)
-                                .addGap(3, 3, 3)
-                                .addComponent(textCloud5)))
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel13)
-                        .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textUV)
-                            .addComponent(textWind))))
-                .addGap(3, 3, 3)
-                .addComponent(textCloud7)
-                .addContainerGap(48, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addComponent(textPressure)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(textCloud3))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(textHumidity)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(textCloud2)))
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(textCloud)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(textCloud4))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(textPoP)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(textCloud5)))
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel13)
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel11))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textUV)
+                                    .addComponent(textWind))))
+                        .addGap(3, 3, 3)
+                        .addComponent(textCloud7)
+                        .addContainerGap(48, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,7 +278,7 @@ public class Form_DailyWeather extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(showDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, 0)
                         .addComponent(textDescription))
                     .addGroup(layout.createSequentialGroup()
@@ -321,20 +330,24 @@ public class Form_DailyWeather extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setInfo(DailyForecast dF){
+    private void showDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDetailActionPerformed
+        fDetailDailyForecast = new Form_DetailDailyForecast(dF);
+    }//GEN-LAST:event_showDetailActionPerformed
+
+    public void setInfo(DailyForecast dF) {
         Float tempDay = Math.round(dF.getTemperature_day() * 100.0f) / 100.0f;
         Float tempFeelLikeDay = Math.round(dF.getFeels_like_day() * 100.0f) / 100.0f;
-        textDay.setText(UnixConvertDate.toDayofWeek(dF.getDf_date())+"");
-        textDate.setText(UnixConvertDate.toFullDate(dF.getDf_date())+"");
+        textDay.setText(UnixConvertDate.toDayofWeek(dF.getDf_date()) + "");
+        textDate.setText(UnixConvertDate.toFullDate(dF.getDf_date()) + "");
         icon.setIcon(ServiceConvertIcon.toIcon(dF.getIcon()));
-        textTemp.setText(tempDay+"");
-        textFeelLike.setText(tempFeelLikeDay+"");
-        textPressure.setText(dF.getPressure()+"");
-        textHumidity.setText(dF.getHumidity()+"");
-        textCloud.setText(dF.getClouds()+"");
-        textPoP.setText(dF.getPop()+"");
-        textWind.setText(dF.getWind_speed()+"");
-        textUV.setText(dF.getUv()+"");
+        textTemp.setText(tempDay + "");
+        textFeelLike.setText(tempFeelLikeDay + "");
+        textPressure.setText(dF.getPressure() + "");
+        textHumidity.setText(dF.getHumidity() + "");
+        textCloud.setText(dF.getClouds() + "");
+        textPoP.setText(dF.getPop() + "");
+        textWind.setText(dF.getWind_speed() + "");
+        textUV.setText(dF.getUv() + "");
         textDescription.setText(WeatherConditionDAO.getDescription(dF.getWeather_condition_id()));
     }
 
@@ -351,7 +364,7 @@ public class Form_DailyWeather extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private swing.MyButton myButton1;
+    private swing.MyButton showDetail;
     private javax.swing.JLabel textCloud;
     private javax.swing.JLabel textCloud2;
     private javax.swing.JLabel textCloud3;

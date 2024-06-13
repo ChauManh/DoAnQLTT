@@ -16,11 +16,13 @@ import models.CurrentWeather;
 import models.DailyForecast;
 import models.HourlyForecast;
 import models.NguoiDung;
+import service.UnixConvertTime;
 import service.WeatherAPI;
 
 public class Form_Setting extends javax.swing.JPanel {
 
     private NguoiDung user;
+    private List<HourlyForecast> arrayHw;
 
     public Form_Setting(NguoiDung user) {
         this.user = user;
@@ -146,13 +148,19 @@ public class Form_Setting extends javax.swing.JPanel {
 
             // Tạo tên file CSV dựa trên ngày/giờ hiện tại
             String timeStamp = new SimpleDateFormat("ddMMYYYY_HHmmss").format(new Date());
-            String fileName = "CurrentWeather_" + timeStamp + ".csv";
+            String fileName = "CurrentWeather_" + city.getCity_name() + "_" + timeStamp + ".csv";
 
             // Tạo đường dẫn tuyệt đối cho file CSV
             String filePath = directoryPath + File.separator + fileName;
-
-            // Xuất dữ liệu thời tiết hiện tại vào file CSV tại đường dẫn đã chọn
-            CurrentWeatherDAO.getInstance().CSVexport(city, filePath);
+            if (checkAvailable(city) == true) {
+                // Xuất dữ liệu thời tiết hiện tại vào file CSV tại đường dẫn đã chọn
+                CurrentWeatherDAO.getInstance().CSVexport(city, filePath);
+            } else {
+                insertData(city);
+                // Xuất dữ liệu thời tiết hiện tại vào file CSV tại đường dẫn đã chọn
+                CurrentWeatherDAO.getInstance().CSVexport(city, filePath);
+            }
+            JOptionPane.showMessageDialog(null, "PRINT FILE CURRENT WEATHER CSV SUCCESS!", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -168,13 +176,20 @@ public class Form_Setting extends javax.swing.JPanel {
 
             // Tạo tên file CSV dựa trên ngày/giờ hiện tại
             String timeStamp = new SimpleDateFormat("ddMMYYYY_HHmmss").format(new Date());
-            String fileName = "HourlyForecast_" + timeStamp + ".csv";
+            String fileName = "HourlyForecast_" + city.getCity_name() + "_" + timeStamp + ".csv";
 
             // Tạo đường dẫn tuyệt đối cho file CSV
             String filePath = directoryPath + File.separator + fileName;
 
-            // Xuất dữ liệu thời tiết hiện tại vào file CSV tại đường dẫn đã chọn
-            HourlyForecastDAO.getInstance().CSVexport(city, filePath);
+            if (checkAvailable(city) == true) {
+                // Xuất dữ liệu thời tiết hiện tại vào file CSV tại đường dẫn đã chọn
+                HourlyForecastDAO.getInstance().CSVexport(city, filePath);
+            } else {
+                insertData(city);
+                HourlyForecastDAO.getInstance().CSVexport(city, filePath);
+            }
+            JOptionPane.showMessageDialog(null, "PRINT FILE HOURLY FORECAST CSV SUCCESS!", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+
         }
     }
 
@@ -183,72 +198,64 @@ public class Form_Setting extends javax.swing.JPanel {
         chooser.setDialogTitle("Choose Directory"); // Đặt tiêu đề cho hộp thoại
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // Chỉ cho phép chọn thư mục
         int option = chooser.showOpenDialog(this); // Mở hộp thoại và đợi người dùng chọn thư mục
-
         if (option == JFileChooser.APPROVE_OPTION) { // Nếu người dùng chọn một thư mục
             File selectedDirectory = chooser.getSelectedFile(); // Lấy thư mục được chọn
             String directoryPath = selectedDirectory.getAbsolutePath(); // Lấy đường dẫn tuyệt đối của thư mục
 
             // Tạo tên file CSV dựa trên ngày/giờ hiện tại
             String timeStamp = new SimpleDateFormat("ddMMYYYY_HHmmss").format(new Date());
-            String fileName = "DailyForecast_" + timeStamp + ".csv";
+            String fileName = "DailyForecast_" + city.getCity_name()+ "_" + timeStamp + ".csv";
 
             // Tạo đường dẫn tuyệt đối cho file CSV
             String filePath = directoryPath + File.separator + fileName;
 
-            // Xuất dữ liệu thời tiết hiện tại vào file CSV tại đường dẫn đã chọn
-            DailyForecastDAO.getInstance().CSVexport(city, filePath);
+            if (checkAvailable(city) == true) {
+                // Xuất dữ liệu thời tiết hiện tại vào file CSV tại đường dẫn đã chọn
+                DailyForecastDAO.getInstance().CSVexport(city, filePath);
+            } else {
+                insertData(city);
+                DailyForecastDAO.getInstance().CSVexport(city, filePath);
+            }
+            JOptionPane.showMessageDialog(null, "PRINT FILE DAILY FORECAST CSV SUCCESS!", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     private void insertData(City city) {
         CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
         CurrentWeatherDAO.getInstance().insert(cw);
-        List<HourlyForecast> arrayHw = WeatherAPI.getHourlyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
-        for (HourlyForecast hw : arrayHw) {
-            HourlyForecastDAO.getInstance().insert(hw);
+        arrayHw = WeatherAPI.getHourlyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
+        for (int i = 1; i < gioConLai(); i++) {
+            HourlyForecast hF = arrayHw.get(i);
+            HourlyForecastDAO.getInstance().insert(hF);
         }
         List<DailyForecast> arrayDw = WeatherAPI.getDailyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
-        for (DailyForecast dw : arrayDw) {
-            DailyForecastDAO.getInstance().insert(dw);
+        for (int i = 1; i < 7; i++) {
+            DailyForecast dF = arrayDw.get(i);
+            DailyForecastDAO.getInstance().insert(dF);
         }
     }
 
     private void btnPrintCurrentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintCurrentActionPerformed
         String cityName = (String) comboBoxCity.getSelectedItem();
         City city = CityDAO.getInstance().selectById(cityName);
-        if (checkAvailable(city) == true) {
-            printCurrentWeatherCSV(city);
-        } else {
-            insertData(city);
-            printCurrentWeatherCSV(city);
-        }
-        JOptionPane.showMessageDialog(null, "PRINT FILE CURRENT WEATHER CSV SUCCESS!", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+        printCurrentWeatherCSV(city);
     }//GEN-LAST:event_btnPrintCurrentActionPerformed
 
     private void btnPrintHourlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintHourlyActionPerformed
         String cityName = (String) comboBoxCity.getSelectedItem();
         City city = CityDAO.getInstance().selectById(cityName);
-        if (checkAvailable(city) == true) {
-            printHourlyForecastCSV(city);
-        } else {
-            insertData(city);
-            printHourlyForecastCSV(city);
-        }
-        JOptionPane.showMessageDialog(null, "PRINT FILE HOURLY FORECAST CSV SUCCESS!", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+        printHourlyForecastCSV(city);
     }//GEN-LAST:event_btnPrintHourlyActionPerformed
 
     private void btnPrintDailyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintDailyActionPerformed
         String cityName = (String) comboBoxCity.getSelectedItem();
         City city = CityDAO.getInstance().selectById(cityName);
-        if (checkAvailable(city) == true) {
-            printHourlyForecastCSV(city);
-        } else {
-            insertData(city);
-            printDailyForecastCSV(city);
-        }
-        JOptionPane.showMessageDialog(null, "PRINT FILE DAILY FORECAST CSV SUCCESS!", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+        printDailyForecastCSV(city);
     }//GEN-LAST:event_btnPrintDailyActionPerformed
 
+    private int gioConLai() {
+        return 24 - UnixConvertTime.toHour(arrayHw.get(0).getHf_timestamp());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.MyButton btnPrintCurrent;

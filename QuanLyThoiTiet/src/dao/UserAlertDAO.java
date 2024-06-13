@@ -46,8 +46,6 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
         return dsUserAlert;
     }
 
-    
-    
     @Override
     public ArrayList<UserAlert> selectAll() {
         Connection connection = JDBCUtil.getConnection();
@@ -154,25 +152,45 @@ public class UserAlertDAO implements DAOInterface<UserAlert> {
         return -1;
     }
 
-//    public int setActive(UserAlert ua) {
-//        Connection connection = JDBCUtil.getConnection();
-//        try {
-//            String sql = "UPDATE UserAlert SET activated = ? WHERE user_alert_id = ?";
-//            PreparedStatement pre = connection.prepareStatement(sql);
-//            pre.setInt(1, ua.getNdId());
-//            pre.setInt(2, ua.getAlertTypeId());
-//            pre.setInt(3, ua.getCityId());
-//            pre.setString(4, String.valueOf(ua.getConditionType()));
-//            pre.setFloat(5, ua.getAlertValue());
-//            pre.setString(6, ua.getComment());
-//            pre.setInt(7, ua.getUserAlertId());
-//            return pre.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return -1;
-//    }
-    
+    public ArrayList<UserAlert> selectAllActivatedById(NguoiDung user) {
+        Connection connection = JDBCUtil.getConnection();
+        ArrayList<UserAlert> dsUserAlertActivated = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM USERALERT WHERE nd_id = ? AND activated = 0";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, user.getUserID());
+            ResultSet result = pre.executeQuery();
+            while (result.next()) {
+                UserAlert ua = new UserAlert();
+                ua.setUserAlertId(result.getInt("user_alert_id"));
+                ua.setNdId(result.getInt("nd_id"));
+                ua.setAlertTypeId(result.getInt("alert_type_id"));
+                ua.setCityId(result.getInt("city_id"));
+                ua.setConditionType(result.getString("condition_type").charAt(0));
+                ua.setAlertValue(result.getFloat("alert_value"));
+                ua.setComment(result.getString("comment"));
+                ua.setActivated(result.getBoolean("activated"));
+                dsUserAlertActivated.add(ua);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dsUserAlertActivated;
+    }
+
+    public int setActive(UserAlert ua) {
+        Connection connection = JDBCUtil.getConnection();
+        try {
+            String sql = "UPDATE UserAlert SET activated = 1 WHERE user_alert_id = ?";
+            PreparedStatement pre = connection.prepareStatement(sql);
+            pre.setInt(1, ua.getUserAlertId());
+            return pre.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public ArrayList<UserAlert> selectAllById(NguoiDung user) {
         Connection connection = JDBCUtil.getConnection();
         ArrayList<UserAlert> dsUserAlert = new ArrayList<>();

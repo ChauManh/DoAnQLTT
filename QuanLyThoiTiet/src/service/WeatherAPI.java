@@ -125,7 +125,7 @@ public class WeatherAPI {
             dailyForecast.setTemperature_min(Float.parseFloat(tempObject.get("min").toString()) - 273.15f);
             dailyForecast.setTemperature_max(Float.parseFloat(tempObject.get("max").toString()) - 273.15f);
             dailyForecast.setTemperature_night(Float.parseFloat(tempObject.get("night").toString()) - 273.15f);
-            dailyForecast.setTemperature_night(Float.parseFloat(tempObject.get("eve").toString()) - 273.15f);
+            dailyForecast.setTemperature_eve(Float.parseFloat(tempObject.get("eve").toString()) - 273.15f);
             dailyForecast.setTemperature_morn(Float.parseFloat(tempObject.get("morn").toString()) - 273.15f);
             
             JSONObject feelsLikeObject = (JSONObject) dailyData.get("feels_like");

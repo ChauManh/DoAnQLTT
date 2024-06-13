@@ -262,7 +262,6 @@ public class CurrentWeatherDAO implements DAOInterface<CurrentWeather> {
             Statement stmt = connection.createStatement();
             
             stmt.execute(query);
-            System.out.println("Data exported to CSV successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }

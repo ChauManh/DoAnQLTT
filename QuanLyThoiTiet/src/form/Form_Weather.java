@@ -66,12 +66,16 @@ public class Form_Weather extends javax.swing.JPanel {
                 } else {
                     boolean check = false;
                     City city = CityDAO.getInstance().selectById(city_name);
-                    showFormHomNay(city);
-                    arrayHourlyForecast = WeatherAPI.getHourlyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
-                    InsertDataHourlyWeather();
-                    arrayDailyForecast = WeatherAPI.getDailyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
-                    InsertDataDailyWeather();
-                    btnHienTai.setColor(new Color(255, 255, 51));
+                    if (city == null) {
+                        JOptionPane.showMessageDialog(null, "NAME CITY IS NOT CORRECT!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        showFormHomNay(city);
+                        arrayHourlyForecast = WeatherAPI.getHourlyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
+                        InsertDataHourlyWeather();
+                        arrayDailyForecast = WeatherAPI.getDailyForecast(city.getLatitude(), city.getLongitude(), city.getCity_id());
+                        InsertDataDailyWeather();
+                        btnHienTai.setColor(new Color(255, 255, 51));
+                    }
                 }
             }
         });
@@ -240,6 +244,7 @@ public class Form_Weather extends javax.swing.JPanel {
         panelWeatherDetail.setBackground(new java.awt.Color(153, 204, 255));
         panelWeatherDetail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
+        btnHienTai.setForeground(new java.awt.Color(0, 0, 0));
         btnHienTai.setText("CURRENT");
         btnHienTai.setColorClick(new java.awt.Color(153, 204, 255));
         btnHienTai.setColorOver(new java.awt.Color(255, 255, 51));

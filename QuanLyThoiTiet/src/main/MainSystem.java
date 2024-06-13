@@ -65,21 +65,22 @@ class CheckTime implements Runnable {
             if (map.containsKey(x.getCityId()) == false) {
                 CurrentWeather cw = WeatherAPI.getCurrentWeather(city.getLatitude(), city.getLongitude(), city.getCity_id());
                 CurrentWeatherDAO.getInstance().insert(cw);
-                
+
                 map.put(x.getCityId(), true);
-                
+
                 int user_alert_id = UserAlertDAO.getInstance().checkUserAlerts(cw);
 
                 if (user_alert_id > 0) {
+                    this.fWeather.setAlertHistory();
+                    this.fAlert.setUpDataCurrentTable();
                     UserAlert ua = UserAlertDAO.getInstance().selectById(Integer.toString(user_alert_id));
                     if (ua.getNdId() == user.getUserID()) {
                         fDisplayAlert = new Form_DisplayAlert(ua);
+
                     }
                 }
             }
         }
-        this.fWeather.setAlertHistory();
-        this.fAlert.setUpDataCurrentTable();
 
     }
 
@@ -87,7 +88,7 @@ class CheckTime implements Runnable {
     public void run() {
         while (true) {
             LocalTime currentTime = LocalTime.now();
-            LocalTime nextCheckTime = lastCheckedTime.plusMinutes(0).withSecond(30).withNano(0);
+            LocalTime nextCheckTime = lastCheckedTime.plusMinutes(60).withSecond(0).withNano(0);
 
             if (!currentTime.isBefore(nextCheckTime)) {
                 checkAlert();

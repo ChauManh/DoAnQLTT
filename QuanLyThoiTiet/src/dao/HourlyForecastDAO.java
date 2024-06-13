@@ -247,7 +247,6 @@ public class HourlyForecastDAO implements DAOInterface<HourlyForecast> {
             Statement stmt = connection.createStatement();
             
             stmt.execute(query);
-            System.out.println("Data exported to CSV successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }

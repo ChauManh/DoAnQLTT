@@ -220,7 +220,6 @@ public class DailyForecastDAO implements DAOInterface<DailyForecast> {
             Statement stmt = connection.createStatement();
             
             stmt.execute(query);
-            System.out.println("Data exported to CSV successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,18 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group>
-            <file>file:/E:/Documents%20(D)/Daigaku/UIT/IE103/CK/GIT/QuanLyThoiTiet/src/dao/CurrentWeatherDAO.java</file>
-            <file>file:/E:/Documents%20(D)/Daigaku/UIT/IE103/CK/GIT/QuanLyThoiTiet/src/dao/DailyForecastDAO.java</file>
-            <file>file:/E:/Documents%20(D)/Daigaku/UIT/IE103/CK/GIT/QuanLyThoiTiet/src/dao/UserAlertDAO.java</file>
-            <file>file:/E:/Documents%20(D)/Daigaku/UIT/IE103/CK/GIT/QuanLyThoiTiet/src/main/MainSystem.java</file>
-            <file>file:/E:/Documents%20(D)/Daigaku/UIT/IE103/CK/GIT/QuanLyThoiTiet/src/dao/NguoiDungDAO.java</file>
-            <file>file:/E:/Documents%20(D)/Daigaku/UIT/IE103/CK/GIT/QuanLyThoiTiet/src/form/Form_Weather.java</file>
-            <file>file:/E:/Documents%20(D)/Daigaku/UIT/IE103/CK/GIT/QuanLyThoiTiet/src/dao/HourlyForecastDAO.java</file>
+            <file>file:/E:/Study/Quản%20lý%20thông%20tin/DoAnQLTT/QuanLyThoiTiet/src/main/MainSystem.java</file>
+            <file>file:/E:/Study/Quản%20lý%20thông%20tin/DoAnQLTT/QuanLyThoiTiet/src/form/Form_Alert.java</file>
         </group>
-=======
-        <group/>
->>>>>>> 9e0b48e880ee8d076d5b7d1567fb9f4bebb17ab7
     </open-files>
 </project-private>
