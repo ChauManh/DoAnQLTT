@@ -10,6 +10,7 @@ public class Form_SetLocation extends javax.swing.JFrame {
 
     private NguoiDung user;
     private Form_Weather fWeather;
+
     public Form_SetLocation(NguoiDung user, Form_Weather fWeather) {
         initComponents();
         this.fWeather = fWeather;
@@ -117,11 +118,15 @@ public class Form_SetLocation extends javax.swing.JFrame {
                 JOptionPane.WARNING_MESSAGE
         );
         if (response == JOptionPane.OK_OPTION) {
-            dispose();            
             City city = CityDAO.getInstance().selectById(nameCity);
-            user.setCurrent_city_fk(city.getCity_id());
-            NguoiDungDAO.getInstance().updateCurrentCity(user);
-            fWeather.setMyWeatherWhenChanged(city.getCity_id());
+            if (city == null) {
+                JOptionPane.showMessageDialog(null, "NAME CITY IS NOT CORRECT!", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                dispose();
+                user.setCurrent_city_fk(city.getCity_id());
+                NguoiDungDAO.getInstance().updateCurrentCity(user);
+                fWeather.setMyWeatherWhenChanged(city.getCity_id());
+            }
         }
     }//GEN-LAST:event_btnFinishActionPerformed
 
